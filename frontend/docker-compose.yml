@@ -1,0 +1,18 @@
+services:
+  react-app:
+    build: .
+    image: opensw:latest
+    container_name: opensw
+    expose:
+      - 80
+    environment:
+      TZ: Asia/Seoul
+      REACT_APP_API_BASE_URL: ${REACT_APP_API_BASE_URL}
+    restart: unless-stopped
+    networks:
+      net:
+        ipv4_address: 172.22.22.107
+
+networks:
+  net:
+    external: true

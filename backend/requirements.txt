@@ -1,0 +1,8 @@
+requests
+pandas~=2.2.3
+fastapi
+uvicorn[standard]
+mysql-connector-python
+pytest
+httpx
+redis

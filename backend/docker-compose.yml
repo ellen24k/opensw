@@ -1,0 +1,18 @@
+services:
+  app:
+    build: .
+    image: opensw-api:latest
+    container_name: opensw-api
+    expose:
+      - 8000
+    environment:
+      TZ: "Asia/Seoul"
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    restart: unless-stopped
+    networks:
+      net:
+        ipv4_address: 172.22.22.106
+
+networks:
+  net:
+    external: true

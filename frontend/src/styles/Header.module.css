@@ -1,0 +1,10 @@
+.Header {
+    font-size: calc(1rem * 1.14);
+    /* 올바른 calc 사용 */
+    font-weight: bold;
+    /* 두께 설정 */
+    font-family: "Roboto", sans-serif;
+    /* 폰트 지정 */
+
+    display: flex;
+}

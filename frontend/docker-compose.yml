@@ -1,0 +1,21 @@
+services:
+  opensw-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: opensw-dev:latest
+    container_name: opensw-dev
+    expose:
+      - 3000
+    ports:
+      - 13000:3000
+    environment:
+      TZ: Asia/Seoul
+    restart: unless-stopped
+    networks:
+      net:
+        ipv4_address: 172.22.22.107
+
+networks:
+  net:
+    external: true

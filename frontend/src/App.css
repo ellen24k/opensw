@@ -1,0 +1,109 @@
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.search-container {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.search-container input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.search-container button {
+  padding: 10px 20px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.error-message {
+  color: #e74c3c;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #fadbd8;
+  border-radius: 4px;
+}
+
+.timetable {
+  margin-bottom: 30px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.days-header {
+  display: flex;
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.time-column, .day-column {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  border-right: 1px solid #ddd;
+}
+
+.time-row {
+  display: flex;
+  border-top: 1px solid #ddd;
+}
+
+.time-label {
+  width: 80px;
+  padding: 10px;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-right: 1px solid #ddd;
+}
+
+.time-cell {
+  flex: 1;
+  padding: 5px;
+  min-height: 40px;
+  border-right: 1px solid #eee;
+  position: relative;
+}
+
+.course-item {
+  background-color: #4a90e2;
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+  font-size: 0.8rem;
+}
+
+.course-name {
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+.schedule-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.schedule-list th, .schedule-list td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.schedule-list th {
+  background-color: #f5f5f5;
+}
+
+.schedule-list tr:nth-child(even) {
+  background-color: #f9f9f9;
+}

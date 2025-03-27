@@ -6,5 +6,7 @@
     font-family: "Roboto", sans-serif;
     /* 폰트 지정 */
 
+    width: 100%;
     display: flex;
+    justify-content: space-between;
 }

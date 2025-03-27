@@ -6,7 +6,7 @@ function Header() {
     return (
         <div className={styles.Header}>
             <div>DKU Class Room Schedule<img src={checkIcon} alt="check image"></img></div>
-            <img src={nightIcon}></img>
+            <img src={nightIcon} alt="night image"></img>
         </div>
     )
 }

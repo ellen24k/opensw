@@ -30,3 +30,8 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 /UML
 test_main.http
+
+/__pycache__/
+/func/__pycache__/
+/test/__pycache__/
+

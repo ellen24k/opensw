@@ -8,9 +8,7 @@ function MainFrame({ children }) {
     return (
         <div className={styles.MainFrame}>
             <Header></Header>
-            <hr></hr>
             <Main> {children} </Main>
-            <hr></hr>
             <Footer></Footer>
         </div>
     )

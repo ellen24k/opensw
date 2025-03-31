@@ -43,13 +43,13 @@ def fetch_and_convert():
         create_params(yy, semCd, '1', '', '1', '', '', '', ''),
         create_params(yy, semCd, '2', '', '1', '', '', '', ''),
         create_params(yy, semCd, '3', '', '1', '', '', '', ''),
-        create_params(yy, semCd, '1', '', '2', '', '', '', ''),
-        create_params(yy, semCd, '2', '', '2', '', '', '', ''),
-        create_params(yy, semCd, '3', '', '2', '', '', '', '')
+        # create_params(yy, semCd, '1', '', '2', '', '', '', ''),
+        # create_params(yy, semCd, '2', '', '2', '', '', '', ''),
+        # create_params(yy, semCd, '3', '', '2', '', '', '', '')
     ]
 
     # 결과 저장용 CSV 파일명
-    csv_filenames = ['custom1.csv', 'custom2.csv', 'custom3.csv', 'custom4.csv', 'custom5.csv', 'custom6.csv']
+    csv_filenames = ['custom1.csv', 'custom2.csv', 'custom3.csv']#, 'custom4.csv', 'custom5.csv', 'custom6.csv']
     # json_filenames = ['custom1.json', 'custom2.json', 'custom3.json']
 
     for i, param in enumerate(params):

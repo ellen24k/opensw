@@ -78,6 +78,7 @@ async def json_data_type1():
         raise HTTPException(status_code=500, detail="JSON 데이터를 생성하는 중 오류가 발생했습니다.")
 
 
+# todo 캠퍼스별 건물명 그냥 크롤링으로 가져온 것 수동으로 분석 할 것. 혹은 그냥 죽전만 하는 것으로
 @app.get(
     "/save-to-redis",
     summary="데이터를 정제하여 Redis에 저장",
@@ -93,6 +94,14 @@ async def save_to_redis():
         print("original_data 저장 완료")
     if json_data_type1:
         data_obj_type1 = json.loads(json_data_type1)
+
+        # org_time 값을 파싱하여 parse_rooms, parse_days, parse_times 추가
+        for building in data_obj_type1.values():
+            for room in building.values():
+                for course in room["courses"]:
+                    parsed_time = parse_org_time(course["org_time"])
+                    course.update(parsed_time)
+
         save_json_to_redis('classroom_data', data_obj_type1)
         print("classroom_data 저장 완료")
         return {"message": "데이터가 Redis에 성공적으로 저장되었습니다."}

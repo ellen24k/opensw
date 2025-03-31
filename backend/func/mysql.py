@@ -19,9 +19,9 @@ def connect_to_mysql():
 
 # CSV 파일을 MySQL 테이블에 삽입하는 함수
 def import_csv_to_mysql(csv_file: str, first_insert=False):
+#todo 캠퍼스 선택 할거면 lesnPlcCd=1 or 2 값을 이 함수에서 처리할 것. DDL도 작업하고.
     connection = connect_to_mysql()
     cursor = connection.cursor()
-
     try:
         # 첫 번째로 실행되는 경우에만 테이블 데이터를 삭제 (TRUNCATE)
         if first_insert:

@@ -52,36 +52,36 @@ async def root():
     return {"message": "/docs 에서 API 문서를 확인하세요."}
 
 
-@app.get(
-    "/make-json",
-    summary="JSON 데이터 생성",
-    description="MySQL에서 데이터를 가져와 JSON 형식으로 변환합니다.",
-)
-async def json_data():
-    json_data = make_json()
-    if json_data:
-        return json.loads(json_data)
-    else:
-        raise HTTPException(status_code=500, detail="JSON 데이터를 생성하는 중 오류가 발생했습니다.")
+# @app.get(
+#     "/make-json",
+#     summary="JSON 데이터 생성",
+#     description="MySQL에서 데이터를 가져와 JSON 형식으로 변환합니다.",
+# )
+# async def json_data():
+#     json_data = make_json()
+#     if json_data:
+#         return json.loads(json_data)
+#     else:
+#         raise HTTPException(status_code=500, detail="JSON 데이터를 생성하는 중 오류가 발생했습니다.")
 
 
-@app.get(
-    "/make-json-type1",
-    summary="JSON 데이터 생성 (Type 1)",
-    description="MySQL에서 데이터를 가져와 JSON 형식으로 변환합니다.",
-)
-async def json_data_type1():
-    json_data = make_json_type1()
-    if json_data:
-        return json.loads(json_data)
-    else:
-        raise HTTPException(status_code=500, detail="JSON 데이터를 생성하는 중 오류가 발생했습니다.")
+# @app.get(
+#     "/make-json-type1",
+#     summary="JSON 데이터 생성 (Type 1)",
+#     description="MySQL에서 데이터를 가져와 JSON 형식으로 변환합니다.",
+# )
+# async def json_data_type1():
+#     json_data = make_json_type1()
+#     if json_data:
+#         return json.loads(json_data)
+#     else:
+#         raise HTTPException(status_code=500, detail="JSON 데이터를 생성하는 중 오류가 발생했습니다.")
 
 
 # todo 캠퍼스별 건물명 그냥 크롤링으로 가져온 것 수동으로 분석 할 것. 혹은 그냥 죽전만 하는 것으로
 @app.get(
     "/save-to-redis",
-    summary="데이터를 정제하여 Redis에 저장",
+    summary="데이터를 Redis에 저장",
     description="주의! 필요할 때만 실행하세요.",
 )
 async def save_to_redis():
@@ -111,8 +111,8 @@ async def save_to_redis():
 
 @app.get(
     "/query-classroom/{classroom_id}",
-    summary="특정 강의실 정보 조회",
-    description="특정 강의실의 시간표와 강의 정보를 조회합니다. 예) 소프트304",
+    summary="특정 강의실 정보 조회. 예) 소프트516",
+    description="JSON 형태",
 )
 async def query_classroom(classroom_id: str):
     data = get_json_from_redis('classroom_data')
@@ -137,8 +137,8 @@ async def query_classroom(classroom_id: str):
 
 @app.get(
     "/query-classroom-schedule/{classroom_id}",
-    summary="강의실 시간표 상세 정보 조회",
-    description="특정 강의실의 모든 강의 일정을 구조화된 형태로 조회합니다. 예) 소프트516"
+    summary="특정 강의실 정보 조회. 예) 소프트516",
+    description="RDB TABLE 형태"
 )
 async def query_classroom_schedule(classroom_id: str):
     data = get_json_from_redis('classroom_data')
@@ -172,8 +172,8 @@ async def query_classroom_schedule(classroom_id: str):
 
 @app.get(
     "/query-building/{building_id}",
-    summary="특정 건물의 모든 강의실 정보 조회",
-    description="특정 건물의 모든 강의실 정보를 조회합니다. 예) 소프트"
+    summary="특정 건물의 모든 강의실 정보 조회 예) 소프트",
+    description="JSON 형태"
 )
 async def query_building(building_id: str):
     data = get_json_from_redis('classroom_data')
@@ -191,15 +191,15 @@ async def query_building(building_id: str):
         "courses": courses
     }
 
+
 @app.get(
     "/query-building_schedule/{building_id}",
-    summary="특정 건물의 모든 강의실 정보 조회",
-    description="특정 건물의 모든 강의실 정보를 조회합니다. 예) 소프트"
+    summary="특정 건물의 모든 강의실 정보 조회 예) 소프트",
+    description="RDB TABLE 형태"
 )
 async def query_building_schedule(building_id: str):
     data = get_json_from_redis('classroom_data')
 
-    # 데이터 검증
     if not data or building_id not in data:
         raise HTTPException(status_code=404, detail=f"건물 {building_id}을(를) 찾을 수 없습니다.")
 
@@ -207,34 +207,16 @@ async def query_building_schedule(building_id: str):
 
     for room in data[building_id].values():
         for course in room["courses"]:
-            time_info = course["org_time"]
-            time_entries = time_info.split(", ")
-
-            for entry in time_entries:
-                # 괄호 안의 강의실 정보 추출
-                room_info = ""
-                if "(" in entry and ")" in entry:
-                    room_info = entry.split("(")[1].split(")")[0]
-
-                # 요일과 시간 정보 추출
-                day_time = entry.split("(")[0] if "(" in entry else entry
-
-                # 요일 추출 (첫 글자)
-                day = ''.join([c for c in day_time if not c.isdigit() and c != '~'])
-
-                # 시작 및 종료 시간 추출
-                time_parts = ''.join([c for c in day_time if c.isdigit() or c == '~']).split('~')
-                start = int(time_parts[0]) if len(time_parts) > 0 and time_parts[0].isdigit() else None
-                end = int(time_parts[1]) if len(time_parts) > 1 and time_parts[1].isdigit() else None
-
+            for i in range(len(course["parse_days"])):
                 result.append({
                     "course_code": course["course_code"],
                     "course_name": course["course_name"],
-                    "course_room": room_info,
-                    "day": day,
-                    "start": start,
-                    "end": end,
-                    "professor": course["professor"]
+                    "org_time": course["org_time"],
+                    "professor": course["professor"],
+                    "course_room": course["parse_rooms"][i],
+                    "day": course["parse_days"][i],
+                    "start": course["parse_times"][i]["start"],
+                    "end": course["parse_times"][i]["end"],
                 })
 
     return result

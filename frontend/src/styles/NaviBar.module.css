@@ -1,0 +1,44 @@
+.NaviBar {
+    background-color: #64A7E3;
+    border-radius: 2px;
+    box-shadow: 1px 1px 2px #666;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    height: 31px;
+    width: 100%;
+}
+
+.LinkItem {
+    /* background-color: #FFFFFF; */
+    border-radius: 2px;
+    box-shadow: 1px 1px 2px #666;
+
+    /* color: #000000; */
+    font-weight: 600;
+    font-size: 12px;
+
+    height: 85%;
+    width: 30%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.LinkNotSelected {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.LinkSelected {
+    background-color: #03539C;
+    color: #FFFFFF;
+}
+
+.RemoveLinkDeco {
+    text-decoration-line: none;
+    color: inherit;
+}

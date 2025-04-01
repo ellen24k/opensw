@@ -5,9 +5,13 @@ import nightIcon from "../resources/night.svg";
 function Header() {
     return (
         <div className={styles.Header}>
-            <div>DKU Class Room Schedule<img src={checkIcon} alt="check image"></img></div>
+            <div className={styles.BrandLogo}>
+                <span style={{ color: 'rgb(3, 83, 156)' }}>DKU</span>&nbsp;
+                <span style={{ color: 'rgb(100, 167, 227)' }}> Class Room Schedule</span>
+                <img src={checkIcon} alt="check image"></img>
+            </div>
             <img src={nightIcon} alt="night image"></img>
-        </div>
+        </div >
     )
 }
 

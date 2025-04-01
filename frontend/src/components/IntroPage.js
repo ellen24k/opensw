@@ -1,10 +1,14 @@
 import MainFrame from "./MainFrame.js"
 import ClassroomSchedule from "./ClassroomSchedule.js"
+import NaviBar from "./NaviBar.js"
+import { useState } from "react";
 
 function IntroPage() {
+    const [selectedOptionId, setSelectedOptionId] = useState(0);
+
     return (
         <MainFrame>
-            <ClassroomSchedule />
+            <NaviBar selectedOptionId={selectedOptionId}></NaviBar>
         </MainFrame>
     )
 }

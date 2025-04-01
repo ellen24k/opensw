@@ -117,29 +117,20 @@ async def save_to_redis():
 async def query_classroom(classroom_id: str):
     data = get_json_from_redis('classroom_data')
 
-    # 건물명과 강의실로 분리 (예: "소프트304" -> "소프트", "304")
+    # 건물명
     building = ''.join([c for c in classroom_id if not c.isdigit()])
-    room = ''.join([c for c in classroom_id if c.isdigit()])
-    full_classroom = building + room
 
-    # 데이터 검증
     if not data or building not in data:
         raise HTTPException(status_code=404, detail=f"건물 {building}을(를) 찾을 수 없습니다.")
 
-    if full_classroom not in data[building]:
-        raise HTTPException(status_code=404, detail=f"강의실 {full_classroom}을(를) 찾을 수 없습니다.")
-
-    parsed_courses = []
-    for course in data[building][full_classroom]["courses"]:
-        parsed_course = course.copy()
-        parsed_course.update(parse_org_time(course["org_time"]))
-        parsed_courses.append(parsed_course)
+    if classroom_id not in data[building]:
+        raise HTTPException(status_code=404, detail=f"강의실 {classroom_id}을(를) 찾을 수 없습니다.")
 
     return {
-        "classroom": full_classroom,
+        "classroom": classroom_id,
         "schedule": {
-            "time": data[building][full_classroom]["time"],
-            "courses": parsed_courses
+            "time": data[building][classroom_id]["time"],
+            "courses": data[building][classroom_id]["courses"]
         }
     }
 

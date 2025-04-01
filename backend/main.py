@@ -217,3 +217,51 @@ async def query_building(building_id: str):
         "building": building_id,
         "courses": courses
     }
+
+@app.get(
+    "/query-building_schedule/{building_id}",
+    summary="특정 건물의 모든 강의실 정보 조회",
+    description="특정 건물의 모든 강의실 정보를 조회합니다. 예) 소프트"
+)
+async def query_building_schedule(building_id: str):
+    data = get_json_from_redis('classroom_data')
+
+    # 데이터 검증
+    if not data or building_id not in data:
+        raise HTTPException(status_code=404, detail=f"건물 {building_id}을(를) 찾을 수 없습니다.")
+
+    result = []
+
+    for room in data[building_id].values():
+        for course in room["courses"]:
+            time_info = course["org_time"]
+            time_entries = time_info.split(", ")
+
+            for entry in time_entries:
+                # 괄호 안의 강의실 정보 추출
+                room_info = ""
+                if "(" in entry and ")" in entry:
+                    room_info = entry.split("(")[1].split(")")[0]
+
+                # 요일과 시간 정보 추출
+                day_time = entry.split("(")[0] if "(" in entry else entry
+
+                # 요일 추출 (첫 글자)
+                day = ''.join([c for c in day_time if not c.isdigit() and c != '~'])
+
+                # 시작 및 종료 시간 추출
+                time_parts = ''.join([c for c in day_time if c.isdigit() or c == '~']).split('~')
+                start = int(time_parts[0]) if len(time_parts) > 0 and time_parts[0].isdigit() else None
+                end = int(time_parts[1]) if len(time_parts) > 1 and time_parts[1].isdigit() else None
+
+                result.append({
+                    "course_code": course["course_code"],
+                    "course_name": course["course_name"],
+                    "course_room": room_info,
+                    "day": day,
+                    "start": start,
+                    "end": end,
+                    "professor": course["professor"]
+                })
+
+    return result

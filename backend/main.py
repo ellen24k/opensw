@@ -143,50 +143,28 @@ async def query_classroom(classroom_id: str):
 async def query_classroom_schedule(classroom_id: str):
     data = get_json_from_redis('classroom_data')
 
-    # 건물명과 강의실로 분리 (예: "소프트304" -> "소프트", "304")
     building = ''.join([c for c in classroom_id if not c.isdigit()])
-    room = ''.join([c for c in classroom_id if c.isdigit()])
-    full_classroom = building + room
 
     # 데이터 검증
     if not data or building not in data:
         raise HTTPException(status_code=404, detail=f"건물 {building}을(를) 찾을 수 없습니다.")
 
-    if full_classroom not in data[building]:
-        raise HTTPException(status_code=404, detail=f"강의실 {full_classroom}을(를) 찾을 수 없습니다.")
+    if classroom_id not in data[building]:
+        raise HTTPException(status_code=404, detail=f"강의실 {classroom_id}을(를) 찾을 수 없습니다.")
 
     result = []
 
-    # 각 강의에 대해 시간 정보 파싱
-    for course in data[building][full_classroom]["courses"]:
-        time_info = course["org_time"]
-        time_entries = time_info.split(", ")
-
-        for entry in time_entries:
-            # 괄호 안의 강의실 정보 추출
-            room_info = ""
-            if "(" in entry and ")" in entry:
-                room_info = entry.split("(")[1].split(")")[0]
-
-            # 요일과 시간 정보 추출
-            day_time = entry.split("(")[0] if "(" in entry else entry
-
-            # 요일 추출 (첫 글자)
-            day = ''.join([c for c in day_time if not c.isdigit() and c != '~'])
-
-            # 시작 및 종료 시간 추출
-            time_parts = ''.join([c for c in day_time if c.isdigit() or c == '~']).split('~')
-            start = int(time_parts[0]) if len(time_parts) > 0 and time_parts[0].isdigit() else None
-            end = int(time_parts[1]) if len(time_parts) > 1 and time_parts[1].isdigit() else None
-
+    for course in data[building][classroom_id]["courses"]:
+        for i in range(len(course["parse_days"])):
             result.append({
                 "course_code": course["course_code"],
                 "course_name": course["course_name"],
-                "course_room": room_info,
-                "day": day,
-                "start": start,
-                "end": end,
-                "professor": course["professor"]
+                "org_time": course["org_time"],
+                "professor": course["professor"],
+                "course_room": course["parse_rooms"][i],
+                "day": course["parse_days"][i],
+                "start": course["parse_times"][i]["start"],
+                "end": course["parse_times"][i]["end"],
             })
 
     return result

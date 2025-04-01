@@ -186,11 +186,6 @@ async def query_building(building_id: str):
     for room in data[building_id].values():
         courses.extend(room['courses'])
 
-    for room in data[building_id].values():
-        for course in room['courses']:
-            course.update(parse_org_time(course['org_time']))
-            courses.append(course)
-
     return {
         "building": building_id,
         "courses": courses

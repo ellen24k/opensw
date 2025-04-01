@@ -15,7 +15,7 @@ app = FastAPI(
 
 # CORS 미들웨어 추가
 app.add_middleware(
-    CORSMiddleware,
+    CORSMiddleware, # type: ignore
     allow_origins=[
         "https://opensw.ellen24k.kro.kr",
         "https://opensw-dev.ellen24k.kro.kr",

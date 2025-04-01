@@ -27,12 +27,17 @@ app.add_middleware(
 )
 
 
+@app.get("/")
+async def root():
+    return {"message": "/docs 에서 API 문서를 확인하세요."}
+
+
 @app.get(
     "/run-crawler",
     summary="크롤러 실행 및 MySQL에 데이터 저장",
     description="주의! 필요할 때만 실행하세요. 30~60초 정도 소요됩니다.",
 )
-async def run_script(background_tasks: BackgroundTasks):
+async def run_crawler(background_tasks: BackgroundTasks):
     result = fetch_and_convert()
 
     #    CSV 파일들을 MySQL에 삽입하는 작업을 백그라운드로 실행
@@ -47,11 +52,6 @@ async def run_script(background_tasks: BackgroundTasks):
         raise HTTPException(status_code=500, detail=result)
 
 
-@app.get("/")
-async def root():
-    return {"message": "/docs 에서 API 문서를 확인하세요."}
-
-
 # @app.get(
 #     "/make-json",
 #     summary="JSON 데이터 생성",
@@ -63,7 +63,6 @@ async def root():
 #         return json.loads(json_data)
 #     else:
 #         raise HTTPException(status_code=500, detail="JSON 데이터를 생성하는 중 오류가 발생했습니다.")
-
 
 # @app.get(
 #     "/make-json-type1",
@@ -110,11 +109,11 @@ async def save_to_redis():
 
 
 @app.get(
-    "/query-classroom/{classroom_id}",
+    "/query-classroom-json/{classroom_id}",
     summary="특정 강의실 정보 조회. 예) 소프트516",
     description="JSON 형태",
 )
-async def query_classroom(classroom_id: str):
+async def query_classroom_json(classroom_id: str):
     data = get_json_from_redis('classroom_data')
 
     # 건물명
@@ -136,11 +135,11 @@ async def query_classroom(classroom_id: str):
 
 
 @app.get(
-    "/query-classroom-schedule/{classroom_id}",
+    "/query-classroom-table/{classroom_id}",
     summary="특정 강의실 정보 조회. 예) 소프트516",
     description="RDB TABLE 형태"
 )
-async def query_classroom_schedule(classroom_id: str):
+async def query_classroom_table(classroom_id: str):
     data = get_json_from_redis('classroom_data')
 
     building = ''.join([c for c in classroom_id if not c.isdigit()])
@@ -171,11 +170,11 @@ async def query_classroom_schedule(classroom_id: str):
 
 
 @app.get(
-    "/query-building/{building_id}",
+    "/query-building-json/{building_id}",
     summary="특정 건물의 모든 강의실 정보 조회 예) 소프트",
     description="JSON 형태"
 )
-async def query_building(building_id: str):
+async def query_building_json(building_id: str):
     data = get_json_from_redis('classroom_data')
 
     # 데이터 검증
@@ -193,11 +192,11 @@ async def query_building(building_id: str):
 
 
 @app.get(
-    "/query-building_schedule/{building_id}",
+    "/query-building-table/{building_id}",
     summary="특정 건물의 모든 강의실 정보 조회 예) 소프트",
     description="RDB TABLE 형태"
 )
-async def query_building_schedule(building_id: str):
+async def query_building_table(building_id: str):
     data = get_json_from_redis('classroom_data')
 
     if not data or building_id not in data:

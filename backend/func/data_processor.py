@@ -15,7 +15,7 @@ def parse_line(line):
     result = []
 
     for r in rooms:
-        match = re.match(r"([가-힣])(\d+)~(\d+)\((.*?)(\d{3})\)", r.strip())
+        match = re.match(r"([가-힣])(\d+)~(\d+)\((.*?)(\d+)\)", r.strip())
         if match:
             day = match.group(1)
             start_time = match.group(2)

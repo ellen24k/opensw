@@ -20,6 +20,12 @@ def save_json_to_redis(key, json_data):
     _cache_expiry[key] = time.time() + DEFAULT_CACHE_TTL
     print(f"JSON 데이터가 Redis에 저장되었습니다: {key}")
 
+    # JSON 데이터를 로컬 파일로 저장
+    with open('custom.json', 'w', encoding='utf-8') as f:
+        import json
+        json.dump(json_data, f, ensure_ascii=False, indent=4)
+    print(f"JSON 데이터가 로컬 파일에 저장되었습니다: custom.json")
+
 
 def get_json_from_redis(key, ttl=DEFAULT_CACHE_TTL):
     start_time = time.time()

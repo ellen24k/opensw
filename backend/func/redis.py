@@ -1,3 +1,4 @@
+import os
 import time
 import re
 import redis
@@ -79,14 +80,9 @@ def invalidate_cache(key=None):
         print("모든 캐시 무효화")
 
 def get_all_classroom_list():
-    data = set(client.json().get('classroom_data', '$.*[*].courses[*].parse_rooms[*]'))
+    data = set(client.json().get('classroom_data', os.getenv('RDS_GET_ALL_CLASSROOM_LIST')))
 
     if data:
         return sorted(data)
     else:
         return None
-
-def get_building_list():
-    data = get_all_classroom_list()
-    ret_data = {re.sub(r'\d+(-\d+)?$', '', item) for item in data}
-    return sorted(ret_data)

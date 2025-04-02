@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from func.crawler import fetch_and_convert
 from func.mysql import import_csv_to_mysql, make_json, make_json_type1
 from func.data_processor import parse_org_time
-from func.redis import save_json_to_redis, get_json_from_redis
+from func.redis import save_json_to_redis, get_json_from_redis, get_all_classroom_list, get_building_list
 
 app = FastAPI(
     title="OpenSW API",
@@ -219,3 +219,35 @@ async def query_building_table(building_id: str):
                 })
 
     return result
+
+
+@app.get(
+    "/query-classroom-list",
+    summary="모든 강의실 리스트 정보 조회",
+    description=""
+)
+async def query_classroom_list():
+    return get_all_classroom_list()
+
+@app.get(
+    "/query-classroom-list/{building_id}",
+    summary="특정 건물의 모든 강의실 리스트 정보 조회",
+    description=""
+)
+async def query_classroom_list_in_building(building_id=None):
+    classroom_list_in_building = get_all_classroom_list()
+
+    def filter_classroom_list(classroom_list, b_id):
+        return {classroom for classroom in classroom_list if b_id in classroom}
+
+    classroom_list_in_building = filter_classroom_list(classroom_list_in_building, building_id)
+
+    return sorted(classroom_list_in_building)
+
+@app.get(
+    "/query-building-list",
+    summary="모든 건물 리스트 정보 조회",
+    description=""
+)
+async def query_building_list():
+    return get_building_list()

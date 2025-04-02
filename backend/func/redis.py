@@ -1,5 +1,5 @@
 import time
-
+import re
 import redis
 
 # Redis 클라이언트 설정
@@ -77,3 +77,16 @@ def invalidate_cache(key=None):
         _cache.clear()
         _cache_expiry.clear()
         print("모든 캐시 무효화")
+
+def get_all_classroom_list():
+    data = set(client.json().get('classroom_data', '$.*[*].courses[*].parse_rooms[*]'))
+
+    if data:
+        return sorted(data)
+    else:
+        return None
+
+def get_building_list():
+    data = get_all_classroom_list()
+    ret_data = {re.sub(r'\d+(-\d+)?$', '', item) for item in data}
+    return sorted(ret_data)

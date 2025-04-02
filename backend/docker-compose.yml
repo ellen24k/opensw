@@ -8,6 +8,7 @@ services:
     environment:
       TZ: "Asia/Seoul"
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      RDS_GET_ALL_CLASSROOM_LIST: ${RDS_GET_ALL_CLASSROOM_LIST}
     restart: unless-stopped
     networks:
       net:

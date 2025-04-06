@@ -9,8 +9,31 @@ client = redis.StrictRedis(host='172.22.22.23', port=6379, decode_responses=True
 # 캐시 저장소
 _cache = {}
 _cache_expiry = {}
-DEFAULT_CACHE_TTL = 60 * 60 * 3  # 기본 캐시 유효시간 (초). 크롤링 데이터 업데이트 시간에 따라.
 
+def get_cache_ttl():
+    ttl = client.get('cache_ttl')
+    return int(ttl) if ttl else 60*60*24  # 기본값 24시간
+
+DEFAULT_CACHE_TTL = get_cache_ttl()  # 기본 캐시 유효시간 (초). 크롤링 데이터 업데이트 시간에 따라.
+
+# 강제로 캐시 무효화 (필요한 경우)
+def invalidate_cache(key=None):
+    if key:
+        if key in _cache:
+            del _cache[key]
+        if key in _cache_expiry:
+            del _cache_expiry[key]
+        print(f"캐시 무효화: {key}")
+    else:
+        _cache.clear()
+        _cache_expiry.clear()
+        print("모든 캐시 무효화")
+
+def set_cache_ttl(ttl: int):
+    invalidate_cache()
+    client.set('cache_ttl', ttl)
+    global DEFAULT_CACHE_TTL
+    DEFAULT_CACHE_TTL = get_cache_ttl()
 
 # JSON 데이터 저장
 def save_json_to_redis(key, json_data):
@@ -28,7 +51,8 @@ def save_json_to_redis(key, json_data):
     print(f"JSON 데이터가 로컬 파일에 저장되었습니다: custom.json")
 
 
-def get_json_from_redis(key, ttl=DEFAULT_CACHE_TTL):
+def get_json_from_redis(key):
+    ttl= get_cache_ttl()
     start_time = time.time()
     cache_hit = False
     data_size = 0
@@ -59,25 +83,11 @@ def get_json_from_redis(key, ttl=DEFAULT_CACHE_TTL):
     print(f"쿼리: {key} | 캐시: {cache_status} | 시간: {execution_time:.2f}ms")
 
     if cache_hit:
-        print(f"캐시에서 데이터 조회: {key}")
+        print(f"캐시에서 데이터 조회: {key}. | 데이터 크기: {data_size / 1024:.2f}KB. {get_cache_ttl()}")
     elif data:
-        print(f"Redis에서 데이터 조회 및 캐싱: {key} | 데이터 크기: {data_size / 1024:.2f}KB")
+        print(f"Redis에서 데이터 조회 및 캐싱: {key} | 데이터 크기: {data_size / 1024:.2f}KB {get_cache_ttl()}")
 
     return data
-
-
-# 강제로 캐시 무효화 (필요한 경우)
-def invalidate_cache(key=None):
-    if key:
-        if key in _cache:
-            del _cache[key]
-        if key in _cache_expiry:
-            del _cache_expiry[key]
-        print(f"캐시 무효화: {key}")
-    else:
-        _cache.clear()
-        _cache_expiry.clear()
-        print("모든 캐시 무효화")
 
 def get_all_classroom_list():
     data = set(client.json().get('classroom_data', os.getenv('RDS_GET_ALL_CLASSROOM_LIST')))
@@ -86,3 +96,4 @@ def get_all_classroom_list():
         return sorted(data)
     else:
         return None
+

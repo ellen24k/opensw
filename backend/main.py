@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from func.crawler import fetch_and_convert
 from func.mysql import import_csv_to_mysql, make_json, make_json_type1
 from func.data_processor import parse_org_time
-from func.redis import save_json_to_redis, get_json_from_redis, get_all_classroom_list
+from func.redis import save_json_to_redis, get_json_from_redis, get_all_classroom_list, set_cache_ttl
 
 app = FastAPI(
     title="OpenSW API",
@@ -32,6 +32,14 @@ app.add_middleware(
 async def root():
     return {"message": "/docs 에서 API 문서를 확인하세요."}
 
+@app.post(
+    "/set-cache-ttl",
+    summary="캐시 TTL 값을 설정",
+    description="캐시 TTL 값을 초 단위로 설정합니다.",
+)
+async def set_cache_ttl_endpoint(ttl: int):
+    set_cache_ttl(ttl)
+    return {"message": f"캐시 TTL 값이 {ttl}초로 설정되었습니다."}
 
 @app.get(
     "/run-crawler",
@@ -256,4 +264,3 @@ async def query_building_list():
     classroom_list = get_all_classroom_list()
     ret_data = {re.sub(r'\d+(-\d+)?$', '', item) for item in classroom_list}
     return sorted(ret_data)
-

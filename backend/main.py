@@ -118,7 +118,7 @@ async def query_classroom_json(classroom_id: str):
     data = get_json_from_redis('classroom_data')
 
     # 건물명
-    building = ''.join([c for c in classroom_id if not c.isdigit()])
+    building = ''.join([c for c in classroom_id if not c.isdigit()]).replace('B', '')
 
     if not data or building not in data:
         raise HTTPException(status_code=404, detail=f"건물 {building}을(를) 찾을 수 없습니다.")
@@ -143,7 +143,7 @@ async def query_classroom_json(classroom_id: str):
 async def query_classroom_table(classroom_id: str):
     data = get_json_from_redis('classroom_data')
 
-    building = ''.join([c for c in classroom_id if not c.isdigit()])
+    building = ''.join([c for c in classroom_id if not c.isdigit()]).replace('B', '')
 
     # 데이터 검증
     if not data or building not in data:
@@ -254,7 +254,7 @@ async def query_classroom_list_in_building(building_id=None):
 )
 async def query_building_list():
     classroom_list = get_all_classroom_list()
-    ret_data = {re.sub(r'\d+(-\d+)?$', '', item) for item in classroom_list}
+    ret_data = {re.sub(r'B?\d+(-\d+)?$', '', item) for item in classroom_list}
     return sorted(ret_data)
 
 @app.get(
@@ -302,3 +302,4 @@ async def query_classroom_period(building_id: str, day: str, period: int):
         "occupied_classrooms": sorted(occupied_classrooms),
         "occupied_classrooms_detail": sorted(detailed_occupied_classrooms, key=lambda x: x["room"])
     }
+

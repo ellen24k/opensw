@@ -15,13 +15,24 @@ def parse_line(line):
     result = []
 
     for r in rooms:
-        match = re.match(r"([가-힣])(\d+)~(\d+)\((.*?)(\d+-\d+|\d+)\)", r.strip())
+        # match = re.match(r"([가-힣])(\d+)~(\d+)\((.*?)(\d+-\d+|\d+)\)", r.strip())
+        match = re.match(r"([가-힣])(\d+)~(\d+)\((.*?)(B)?(\d+-\d+|\d+)\)", r.strip())
+
         if match:
+            # day = match.group(1)
+            # start_time = match.group(2)
+            # end_time = match.group(3)
+            # building = match.group(4)
+            # roomNo = match.group(5)
+            # timeStr = f"{day}{start_time}~{end_time}"
+            # room_full = f"{building}{roomNo}"
+
             day = match.group(1)
             start_time = match.group(2)
             end_time = match.group(3)
             building = match.group(4)
-            roomNo = match.group(5)
+            b_prefix = match.group(5) or ""  # B 또는 빈 문자열
+            roomNo = b_prefix + match.group(6)
             timeStr = f"{day}{start_time}~{end_time}"
             room_full = f"{building}{roomNo}"
 

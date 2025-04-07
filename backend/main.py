@@ -261,3 +261,48 @@ async def query_building_list():
     ret_data = {re.sub(r'B?\d+(-\d+)?$', '', item) for item in classroom_list}
     return sorted(ret_data)
 
+@app.get(
+    "/query-classroom-period/{building_id}/{day}/{period}",
+    summary="특정 건물의 특정 요일 특정 교시에 빈 강의실 정보 조회 예) 미디어/수/3",
+    description=""
+)
+async def query_classroom_period(building_id: str, day: str, period: int):
+        classroom_list = get_all_classroom_list()
+        classroom_list_in_building = {classroom for classroom in classroom_list if building_id in classroom}
+
+        data = get_json_from_redis('classroom_data')
+        if not data or building_id not in data:
+            raise HTTPException(status_code=404, detail=f"건물 {building_id}을(를) 찾을 수 없습니다.")
+        if not classroom_list_in_building:
+            raise HTTPException(status_code=404, detail=f"건물 {building_id}에 강의실이 없습니다.")
+        if day not in ["월", "화", "수", "목", "금"]:
+            raise HTTPException(status_code=400, detail="요일은 월,화,수,목,금 중 하나여야 합니다.")
+
+        occupied_classrooms = set()
+        detailed_occupied_classrooms = []
+        for room in data[building_id].values():
+            for course in room["courses"]:
+                if day in course["parse_days"]:
+                    for i, time in enumerate(course["parse_times"]):
+                        if time["start"] <= period <= time["end"] and course["parse_days"][i] == day:
+                            if building_id in course["parse_rooms"][i]:  # 건물 ID와 강의실 비교
+                                occupied_classrooms.add(course["parse_rooms"][i])
+                                detailed_occupied_classrooms.append({
+                                    "course_name": course["course_name"],
+                                    "professor": course["professor"],
+                                    "org_time": course["org_time"],
+                                    "room": course["parse_rooms"][i],
+                                    "day": course["parse_days"][i],
+                                    "start": time["start"],
+                                    "end": time["end"],
+                                })
+
+        empty_classrooms = classroom_list_in_building - occupied_classrooms
+        return {
+            "building": building_id,
+            "day": day,
+            "period": period,
+            "empty_classrooms": sorted(empty_classrooms),
+            "occupied_classrooms": sorted(occupied_classrooms),
+            "occupied_classrooms_detail": sorted(detailed_occupied_classrooms, key=lambda x: x["room"])
+        }

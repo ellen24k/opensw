@@ -1,8 +1,10 @@
 import json
+import os
 import re
 
-from fastapi import FastAPI, HTTPException, BackgroundTasks
+from fastapi import FastAPI, HTTPException, BackgroundTasks, Security
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from func.crawler import fetch_and_convert
 from func.mysql import import_csv_to_mysql, make_json, make_json_type1
@@ -27,9 +29,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+security = HTTPBearer()
+def verify_api_key(credentials: HTTPAuthorizationCredentials):
+    expected_api_key = os.environ.get("CRAWLER_API_KEY")
+
+    if not expected_api_key:
+        raise HTTPException(status_code=500, detail="서버 설정 오류: API 키가 설정되지 않았습니다.")
+
+    if credentials.credentials != expected_api_key:
+        raise HTTPException(status_code=401, detail="인증에 실패했습니다. 유효한 API 키가 필요합니다.")
 
 @app.get("/")
-async def root():
+async def root(credentials: HTTPAuthorizationCredentials = Security(security)):
+    verify_api_key(credentials)
     return {"message": "/docs 에서 API 문서를 확인하세요."}
 
 @app.post(
@@ -37,19 +49,26 @@ async def root():
     summary="캐시 TTL 값을 설정",
     description="캐시 TTL 값을 초 단위로 설정합니다.",
 )
-async def set_cache_ttl_endpoint(ttl: int):
+async def set_cache_ttl_endpoint(ttl: int, credentials: HTTPAuthorizationCredentials = Security(security)):
+    verify_api_key(credentials)
+
     set_cache_ttl(ttl)
     return {"message": f"캐시 TTL 값이 {ttl}초로 설정되었습니다."}
+
 
 @app.get(
     "/run-crawler",
     summary="크롤러 실행 및 MySQL에 데이터 저장",
     description="주의! 필요할 때만 실행하세요. 30~60초 정도 소요됩니다.",
 )
-async def run_crawler(background_tasks: BackgroundTasks):
+async def run_crawler(background_tasks: BackgroundTasks,
+    credentials: HTTPAuthorizationCredentials = Security(security)):
+    verify_api_key(credentials)
+
+    # 크롤러 실행
     result = fetch_and_convert()
 
-    #    CSV 파일들을 MySQL에 삽입하는 작업을 백그라운드로 실행
+    # CSV 파일들을 MySQL에 삽입하는 작업을 백그라운드로 실행
     if isinstance(result, list):  # CSV 파일들이 생성되었으면
         first_insert = True
         for csv_file in result:
@@ -66,7 +85,9 @@ async def run_crawler(background_tasks: BackgroundTasks):
     summary="데이터를 Redis에 저장",
     description="주의! 필요할 때만 실행하세요.",
 )
-async def save_to_redis():
+async def save_to_redis(credentials: HTTPAuthorizationCredentials = Security(security)):
+    verify_api_key(credentials)
+
     json_data = make_json()
     json_data_type1 = make_json_type1()
 

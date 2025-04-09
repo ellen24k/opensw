@@ -306,3 +306,66 @@ async def query_classroom_period(building_id: str, day: str, period: int):
             "occupied_classrooms": sorted(occupied_classrooms),
             "occupied_classrooms_detail": sorted(detailed_occupied_classrooms, key=lambda x: x["room"])
         }
+
+from concurrent.futures import ThreadPoolExecutor
+
+
+
+@app.get(
+    "/query-classroom-period-ext/{building_id}/{day}",
+    summary="특정 건물의 특정 요일 모든 교시의 빈 강의실 및 점유 강의실 정보 조회 예) 미디어/수",
+    description="period 1부터 30까지의 결과를 period별로 반환합니다."
+)
+async def query_classroom_period_ext(building_id: str, day: str):
+    classroom_list = get_all_classroom_list()
+    classroom_list_in_building = {classroom for classroom in classroom_list if building_id in classroom}
+
+    data = get_json_from_redis('classroom_data')
+    if not data or building_id not in data:
+        raise HTTPException(status_code=404, detail=f"건물 {building_id}을(를) 찾을 수 없습니다.")
+    if not classroom_list_in_building:
+        raise HTTPException(status_code=404, detail=f"건물 {building_id}에 강의실이 없습니다.")
+    if day not in ["월", "화", "수", "목", "금"]:
+        raise HTTPException(status_code=400, detail="요일은 월,화,수,목,금 중 하나여야 합니다.")
+
+    building_data = data[building_id].values()
+
+    def process_period(period):
+        occupied_classrooms = set()
+        detailed_occupied_classrooms = set()
+        for room in building_data:
+            for course in room["courses"]:
+                if day in course["parse_days"]:
+                    for i, time in enumerate(course["parse_times"]):
+                        if time["start"] <= period <= time["end"] and course["parse_days"][i] == day:
+                            if building_id in course["parse_rooms"][i]:
+                                occupied_classrooms.add(course["parse_rooms"][i])
+                                detailed_occupied_classrooms.add((
+                                    course["course_name"],
+                                    course["professor"],
+                                    course["org_time"],
+                                    course["parse_rooms"][i],
+                                    course["parse_days"][i],
+                                    time["start"],
+                                    time["end"],
+                                ))
+
+        empty_classrooms = classroom_list_in_building - occupied_classrooms
+        return {
+            "empty_classrooms": sorted(empty_classrooms),
+            "occupied_classrooms": sorted(occupied_classrooms),
+            "occupied_classrooms_detail": sorted(
+                [dict(zip(["course_name", "professor", "org_time", "room", "day", "start", "end"], item))
+                 for item in detailed_occupied_classrooms],
+                key=lambda x: x["room"]
+            )
+        }
+
+    with ThreadPoolExecutor() as executor:
+        period_results = dict(zip(range(1, 31), executor.map(process_period, range(1, 31))))
+
+    return {
+        "building": building_id,
+        "day": day,
+        "period_results": period_results
+    }

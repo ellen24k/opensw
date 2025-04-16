@@ -1,4 +1,5 @@
 import json
+import os
 import re
 
 from fastapi import FastAPI, HTTPException, BackgroundTasks
@@ -9,9 +10,11 @@ from func.mysql import import_csv_to_mysql, make_json, make_json_type1
 from func.data_processor import parse_org_time
 from func.redis import save_json_to_redis, get_json_from_redis, get_all_classroom_list, set_cache_ttl
 
+is_production = os.getenv("ENV", "MODE") == "production"
 app = FastAPI(
     title="OpenSW API",
     description="강의실 정보 제공 API",
+    docs_url= None if is_production else "/docs",
 )
 
 # CORS 미들웨어 추가
@@ -35,11 +38,11 @@ async def root():
 @app.post(
     "/set-cache-ttl",
     summary="캐시 TTL 값을 설정",
-    description="캐시 TTL 값을 초 단위로 설정합니다.",
+    description="캐시 TTL 값을 ms단위로 설정합니다.",
 )
 async def set_cache_ttl_endpoint(ttl: int):
     set_cache_ttl(ttl)
-    return {"message": f"캐시 TTL 값이 {ttl}초로 설정되었습니다."}
+    return {"message": f"캐시 TTL 값이 {ttl}ms로 설정되었습니다."}
 
 @app.get(
     "/run-crawler",

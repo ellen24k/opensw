@@ -43,3 +43,5 @@ backend/.venv
 /.idea/inspectionProfiles/
 /opensw.iml
 /clean.sh
+
+*.pyc

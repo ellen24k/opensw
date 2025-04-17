@@ -1,22 +1,25 @@
-# 내용을 각자 알맞게 수정해주세요.
+### 내용을 각자 알맞게 수정해주세요.
 
 
-# 빈 강의실 찾기 프로젝트
+# 🏫빈 강의실 찾기 프로젝트
 
 ---
-본 프로젝트는 단국대학교(죽전) 학생 및 교직원들을 대상으로  
-시험기간 및 수업과 수업 사이 시간적 여유가 있을 때  
-머무를 수 있는 강의실을 조회하는 서비스 개발을 목적으로 한다.
----
 
-## 프로젝트 개요
-- **프로젝트명**: 빈 강의실 찾기
+## 📌 프로젝트 개요
+
+*본 프로젝트는 단국대학교(죽전) 학생 및 교직원들을 대상으로<br/>
+시험기간 및 수업과 수업 사이 시간적 여유가 있을 때<br/>
+머무를 수 있는 강의실을 조회하는 서비스 개발을 목적으로 한다.<br/>*
+
+
+- **과목**: 오픈소스SW기초
 - **분반**: 3분반
 - **담당 교수**: 송인식 교수님
 - **기간**: 2025. 03. ~ 2025. 06.
 
+---
 
-# 팀 구성 및 역할
+# 👥 팀 구성 및 역할
 - 프론트 
   - 유재석(팀장)
     - Figma를 활용한 UI 디자인
@@ -42,31 +45,30 @@
     - 강의 시간표 크롤링 기능 구현
     - MySQL, Redis 데이터베이스 구축
     - 구축한 데이터베이스와 연동하여 API 제공
-    - 관리자 API 인증 처리
+    - 관리자 API 인증 처리 (Bearer Token)
     - 보안 및 서버 관리
-    - 성능, 부하 테스트 및 모니터링 [테스트 결과 링크](k6.md)
+    - 성능, 부하 테스트 및 모니터링 >> [테스트 결과 링크](k6.md)
 
+---
 
-## UX/UI 설계
+## ✨ 주요 기능
+
+- 특정 강의실 수업 정보 조회
+- 특정 강의실 일주일간 수업 정보 조회
+- 특정 교시에 사용 가능한 빈 강의실 조회
+- 특정 교시에 수업중인 강의실 정보 조회
+
+---
+
+## 🖼️ UX/UI 설계 및 사용법
  - 페이지1
  - 페이지2
  - 페이지3
  - 페이지4
 
+---
 
-## 주요 기능
-  
-- 특정 건물의 강의실 목록 조회
-- 특정 강의실 정보 조회
-- 특정 교시에 사용 가능한 강의실 조회
-- 특정 건물의 강의실 목록 조회
-- 모든 강의실 목록 조회
-- 특정 건물 정보 조회
-- 특정 강의실 정보 조회 
-- 특정 건물 정보 조회
-
-
-## 백엔드 API 엔드포인트
+## 📡 백엔드 API 엔드포인트
 
 | **HTTP 메서드** | **엔드포인트** (*표시는 인증 필요)                                 | **설명**                                   |
 |-----------------|--------------------------------------------------------|-------------------------------------------|
@@ -86,59 +88,36 @@
 | GET             | `/query-classroom-period/{building_id}/{day}/{period}` | 특정 요일 특정 교시에 빈 강의실 정보를 조회합니다. |
 | GET             | `/query-classroom-period-ext/{building_id}/{day}`      | 특정 요일 모든 교시의 빈 강의실 정보를 조회합니다. |
 
+---
 
-## 기술 스택
-- **백엔드 개발**:
-  - Python, FastAPI
-  - MySQL, Redis
-  - requests (크롤링)
-  - Swagger (API 문서화)
+## 🛠️ 기술 스택 (Tech Stack)
 
-
-- **프론트엔드 개발**:
-  - React, Npm
-  - HTML, CSS
-  - Axios (API 호출)
-  - Bootstrap (스타일링)
-  - Figma (UI 디자인)
-
-
-- **CI/CD 및 배포 환경**:
-  - Oracle Cloud Infrastructure (OCI)
-  - OCIR (Oracle Container Registry)
-  - GitHub, Jenkins
-  - k3s, Docker
-
-
-- **버전 관리 및 보안**:
-  - Git
-  - CORS, HTTPS
-
-
-- **테스트 및 모니터링**:
-  - K6 (성능, 부하 테스트)
-  - InfluxDB (성능 데이터 저장)
-  - Grafana (모니터링)
-  - Postman (API 테스트)
+| 구분                 | 기술 스택                                                                                   |
+|----------------------|---------------------------------------------------------------------------------------------|
+| **백엔드 개발**       | `Python`, `FastAPI`<br>`MySQL`, `Redis`<br>`requests` (크롤링)<br>`Swagger` (API 문서화)     |
+| **프론트엔드 개발**   | `React`, `Npm`<br>`HTML`, `CSS`<br>`Axios` (API 호출)<br>`Bootstrap` (스타일링)<br>`Figma` (UI 디자인) |
+| **CI/CD 및 배포 환경**| `Oracle Cloud Infrastructure (OCI)`<br>`OCIR` (Oracle Container Registry)<br>`GitHub`, `Jenkins`<br>`k3s`, `Docker` |
+| **버전 관리 및 보안** | `Git`<br>`CORS`, `HTTPS` |
+| **테스트 및 모니터링**| `K6` (성능/부하 테스트)<br>`InfluxDB` (성능 데이터 저장)<br>`Grafana` (모니터링)<br>`Postman` (API 테스트) |
 
 ---
 
-## 배치 다이어그램
+## 🖥️ 배치 다이어그램
 
 ![Deployment Diagram](https://github.com/ellen24k/opensw/raw/backend-develop-feature/readme/resources/deployment_diagram.png)
 
 ---
 
-## 프로그램 설치 및 실행 방법
+## 📂 프로그램 설치 및 실행 방법
 - 필요한 소프트웨어 설치 Docker, Git, Python, MySQL, Redis 등.
 - GitHub 레포지토리 클론 
 - 환경변수 설정
-- 백엔드 API 서버 빌드 및 실행 (/backend/docker-compose.yml)
-- 프론트엔드 서버 빌드 및 실행 (/frontend/docker-compose.yml)
+- 백엔드 API 컨테이너 빌드 및 실행 (/backend/docker-compose.yml)
+- 프론트엔드 컨테이너 빌드 및 실행 (/frontend/docker-compose.yml)
 
 ---
 
-## 용어
+## 📖 용어
 - **React**: 사용자 인터페이스를 구축하기 위한 JavaScript 라이브러리.
 - **Figma**: UI/UX 디자인 도구로, 프로토타입 및 디자인을 작성하는 데 사용.
 - **FastAPI**: Python 기반의 웹 프레임워크로, API 서버를 구축하는 데 사용.
@@ -163,8 +142,9 @@
 - **Swagger**: API 문서화를 위한 도구로, FastAPI와 함께 사용하여 API 엔드포인트를 문서화.
 - **Postman**: API 테스트 및 문서화를 위한 도구로, API 요청을 시뮬레이션하고 응답을 확인하는 데 사용.
 
+---
 
-## 레퍼런스
+## 📚 레퍼런스
 - React 공식 문서: [https://reactjs.org/](https://reactjs.org/)
 - Figma 공식 문서: [https://www.figma.com/](https://www.figma.com/)
 - Bootstrap 공식 문서: [https://getbootstrap.com/](https://getbootstrap.com/)

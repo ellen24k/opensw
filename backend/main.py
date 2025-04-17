@@ -16,6 +16,7 @@ app = FastAPI(
     title="OpenSW API",
     description="강의실 정보 제공 API",
     docs_url= None if is_production else "/docs",
+    redoc_url= None if is_production else "/redoc",
 )
 
 # CORS 미들웨어 추가
@@ -42,9 +43,8 @@ def verify_api_key(credentials: HTTPAuthorizationCredentials):
         raise HTTPException(status_code=401, detail="인증에 실패했습니다. 유효한 API 키가 필요합니다.")
 
 @app.get("/")
-async def root(credentials: HTTPAuthorizationCredentials = Security(security)):
-    verify_api_key(credentials)
-    return {"message": "/docs 에서 API 문서를 확인하세요."}
+async def root():
+    return {"message": "/docs, /redoc 에서 API 문서를 확인하세요."}
 
 @app.post(
     "/set-cache-ttl",

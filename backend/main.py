@@ -286,7 +286,7 @@ async def query_building_list():
 
 @app.get(
     "/query-classroom-period/{building_id}/{day}/{period}",
-    summary="특정 건물, 특정 요일, 특정 교시로 빈 강의실 및 사용 중인 정보 조회 예) 미디어/수/3",
+    summary="특정 건물, 특정 요일, 특정 교시로 빈 강의실 및 사용 중인 강의실 정보 조회 예) 미디어/수/3",
     description=""
 )
 async def query_classroom_period(building_id: str, day: str, period: int):
@@ -336,7 +336,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 @app.get(
     "/query-classroom-period-ext/{building_id}/{day}",
-    summary="특정 건물, 특정 요일로 모든 교시의 빈 강의실 및 사용 중인 정보 조회 예) 미디어/수",
+    summary="특정 건물, 특정 요일로 모든 교시의 빈 강의실 및 사용 중인 강의실 정보 조회 예) 미디어/수",
     description=""
 )
 async def query_classroom_period_ext(building_id: str, day: str):

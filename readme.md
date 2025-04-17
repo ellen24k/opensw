@@ -4,7 +4,7 @@
 # 빈 강의실 찾기 프로젝트
 
 ---
-본 프로젝트는 단국대학교 학생 및 교직원들을 대상으로  
+본 프로젝트는 단국대학교(죽전) 학생 및 교직원들을 대상으로  
 시험기간 및 수업과 수업 사이 시간적 여유가 있을 때  
 머무를 수 있는 강의실을 조회하는 서비스 개발을 목적으로 한다.
 ---
@@ -125,8 +125,7 @@
 
 ## 배치 다이어그램
 
-![배치다이어그램](`https://raw.githubusercontent.com/ellen24k/opensw/master/backend/resources/deployment_diagram.png`)
-
+![Deployment Diagram](https://github.com/ellen24k/opensw/raw/backend-develop-feature/readme/resources/deployment_diagram.png)
 
 ---
 

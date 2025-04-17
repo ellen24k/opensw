@@ -129,6 +129,15 @@
 
 ---
 
+## 프로그램 설치 및 실행 방법
+- 필요한 소프트웨어 설치 Docker, Git, Python, MySQL, Redis 등.
+- GitHub 레포지토리 클론 
+- 환경변수 설정
+- 백엔드 API 서버 빌드 및 실행 (/backend/docker-compose.yml)
+- 프론트엔드 서버 빌드 및 실행 (/frontend/docker-compose.yml)
+
+---
+
 ## 용어
 - **React**: 사용자 인터페이스를 구축하기 위한 JavaScript 라이브러리.
 - **Figma**: UI/UX 디자인 도구로, 프로토타입 및 디자인을 작성하는 데 사용.

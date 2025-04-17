@@ -48,8 +48,8 @@ async def root(credentials: HTTPAuthorizationCredentials = Security(security)):
 
 @app.post(
     "/set-cache-ttl",
-    summary="캐시 TTL 값을 설정",
-    description="캐시 TTL 값을 ms단위로 설정합니다.",
+    summary="캐시 TTL 값을 ms단위로 설정합니다.",
+    description="",
 )
 async def set_cache_ttl_endpoint(ttl: int, credentials: HTTPAuthorizationCredentials = Security(security)):
     verify_api_key(credentials)
@@ -117,7 +117,7 @@ async def save_to_redis(credentials: HTTPAuthorizationCredentials = Security(sec
 @app.get(
     "/make-json",
     summary="전체 데이터를 JSON 형식으로 제공",
-    description="MySQL에서 데이터를 가져와 JSON 형식으로 변환합니다.",
+    description="",
 )
 async def json_data():
     json_data = make_json()
@@ -130,7 +130,7 @@ async def json_data():
 @app.get(
     "/make-json-type1",
     summary="전체 데이터를 JSON 형식으로 제공 (Type 1)",
-    description="MySQL에서 데이터를 가져와 JSON 형식으로 변환합니다.",
+    description="",
 )
 async def json_data_type1():
     json_data = make_json_type1()
@@ -286,7 +286,7 @@ async def query_building_list():
 
 @app.get(
     "/query-classroom-period/{building_id}/{day}/{period}",
-    summary="특정 건물의 특정 요일 특정 교시에 빈 강의실 정보 조회 예) 미디어/수/3",
+    summary="특정 건물, 특정 요일, 특정 교시로 빈 강의실 및 사용 중인 정보 조회 예) 미디어/수/3",
     description=""
 )
 async def query_classroom_period(building_id: str, day: str, period: int):
@@ -336,8 +336,8 @@ from concurrent.futures import ThreadPoolExecutor
 
 @app.get(
     "/query-classroom-period-ext/{building_id}/{day}",
-    summary="특정 건물의 특정 요일 모든 교시의 빈 강의실 및 점유 강의실 정보 조회 예) 미디어/수",
-    description="period 1부터 30까지의 결과를 period별로 반환합니다."
+    summary="특정 건물, 특정 요일로 모든 교시의 빈 강의실 및 사용 중인 정보 조회 예) 미디어/수",
+    description=""
 )
 async def query_classroom_period_ext(building_id: str, day: str):
     classroom_list = get_all_classroom_list()

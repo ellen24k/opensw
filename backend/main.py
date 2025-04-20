@@ -267,10 +267,12 @@ async def query_classroom_list_in_building(building_id=None):
     classroom_list = get_all_classroom_list()
 
     def filter_classroom_list(classroom_list, b_id):
-        return {classroom for classroom in classroom_list if b_id in classroom}
+        if b_id == "체": # 일단 처리
+            return {classroom for classroom in classroom_list if b_id in classroom and "체육" not in classroom}
+        else:
+            return {classroom for classroom in classroom_list if b_id in classroom}
 
     classroom_list_in_building = filter_classroom_list(classroom_list, building_id)
-
     return sorted(classroom_list_in_building)
 
 
@@ -374,6 +376,12 @@ async def query_classroom_period_ext(building_id: str, day: str):
                                 ))
 
         empty_classrooms = classroom_list_in_building - occupied_classrooms
+
+        # building_id가 "체"이면 "체육"이 포함된 강의실 제거
+        if building_id == "체":
+            occupied_classrooms = {room for room in occupied_classrooms if "체육" not in room}
+            empty_classrooms = {room for room in empty_classrooms if "체육" not in room}
+
         return {
             "empty_classrooms": sorted(empty_classrooms),
             "occupied_classrooms": sorted(occupied_classrooms),
@@ -385,7 +393,7 @@ async def query_classroom_period_ext(building_id: str, day: str):
         }
 
     with ThreadPoolExecutor() as executor:
-        period_results = dict(zip(range(1, 31), executor.map(process_period, range(1, 31))))
+        period_results = dict(zip(range(1, 25), executor.map(process_period, range(1, 25))))
 
     return {
         "building": building_id,

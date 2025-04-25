@@ -400,3 +400,34 @@ async def query_classroom_period_ext(building_id: str, day: str):
         "day": day,
         "period_results": period_results
     }
+
+@app.get(
+    "/query-course-table/{course_name}",
+    summary="과목명으로 수업 정보 조회",
+    description=""
+)
+async def query_course_table(course_name: str):
+    data = get_json_from_redis('classroom_data')
+    if not data:
+        raise HTTPException(status_code=404, detail="데이터를 찾을 수 없습니다.")
+
+    result = []
+    for building in data.values():
+        for room in building.values():
+            for course in room["courses"]:
+                # 입력한 문자열이 course_name에 포함되는 경우 검색
+                if course_name.strip() in course["course_name"].strip():
+                    for i in range(len(course["parse_days"])):
+                        result.append({
+                            "course_code": course["course_code"],
+                            "course_name": course["course_name"],
+                            "org_time": course["org_time"],
+                            "professor": course["professor"],
+                            "course_room": course["parse_rooms"][i],
+                            "day": course["parse_days"][i],
+                            "start": course["parse_times"][i]["start"],
+                            "end": course["parse_times"][i]["end"],
+                        })
+    if not result:
+        raise HTTPException(status_code=404, detail="해당 course_name의 수업 정보를 찾을 수 없습니다.")
+    return result

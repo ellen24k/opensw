@@ -141,47 +141,47 @@ async def json_data_type1():
 
 
 @app.get(
-    "/query-classroom-json/{building}/{classroom_id}",
+    "/query-classroom-json/{building_id}/{classroom_id}",
     summary="특정 강의실 정보 조회. 예) 무용/B105",
     description="JSON 형태",
 )
-async def query_classroom_json(building: str, classroom_id: str):
+async def query_classroom_json(building_id: str, classroom_id: str):
     data = get_json_from_redis('classroom_data')
-    classroom_id = building+classroom_id
+    classroom_id = building_id + classroom_id
 
-    if not data or building not in data:
-        raise HTTPException(status_code=404, detail=f"건물 {building}을(를) 찾을 수 없습니다.")
+    if not data or building_id not in data:
+        raise HTTPException(status_code=404, detail=f"건물 {building_id}을(를) 찾을 수 없습니다.")
 
-    if classroom_id not in data[building]:
+    if classroom_id not in data[building_id]:
         raise HTTPException(status_code=404, detail=f"강의실 {classroom_id}을(를) 찾을 수 없습니다.")
 
     return {
         "classroom": classroom_id,
         "schedule": {
-            "time": data[building][classroom_id]["time"],
-            "courses": data[building][classroom_id]["courses"]
+            "time": data[building_id][classroom_id]["time"],
+            "courses": data[building_id][classroom_id]["courses"]
         }
     }
 
 
 @app.get(
-    "/query-classroom-table/{building}/{classroom_id}",
+    "/query-classroom-table/{building_id}/{classroom_id}",
     summary="특정 강의실 정보 조회. 예) 1공/401-1",
     description="RDB TABLE 형태"
 )
-async def query_classroom_table(building: str, classroom_id: str):
+async def query_classroom_table(building_id: str, classroom_id: str):
     data = get_json_from_redis('classroom_data')
-    classroom_id = building+classroom_id
+    classroom_id = building_id + classroom_id
 
-    if not data or building not in data:
-        raise HTTPException(status_code=404, detail=f"건물 {building}을(를) 찾을 수 없습니다.")
+    if not data or building_id not in data:
+        raise HTTPException(status_code=404, detail=f"건물 {building_id}을(를) 찾을 수 없습니다.")
 
-    if (classroom_id) not in data[building]:
+    if (classroom_id) not in data[building_id]:
         raise HTTPException(status_code=404, detail=f"강의실 {classroom_id}을(를) 찾을 수 없습니다.")
 
     result = []
 
-    for course in data[building][classroom_id]["courses"]:
+    for course in data[building_id][classroom_id]["courses"]:
         for i in range(len(course["parse_days"])):
             result.append({
                 "course_code": course["course_code"],

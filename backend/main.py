@@ -1,22 +1,23 @@
 import json
 import os
 import re
+from concurrent.futures import ThreadPoolExecutor
 
 from fastapi import FastAPI, HTTPException, BackgroundTasks, Security
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from func.crawler import fetch_and_convert
-from func.mysql import import_csv_to_mysql, make_json, make_json_type1
 from func.data_processor import parse_org_time
+from func.mysql import import_csv_to_mysql, make_json, make_json_type1
 from func.redis import save_json_to_redis, get_json_from_redis, get_all_classroom_list, set_cache_ttl
 
 is_production = os.getenv("ENV", "MODE") == "production"
 app = FastAPI(
     title="OpenSW API",
     description="강의실 정보 제공 API",
-    docs_url= None if is_production else "/docs",
-    redoc_url= None if is_production else "/redoc",
+    docs_url=None if is_production else "/docs",
+    redoc_url=None if is_production else "/redoc",
 )
 
 # CORS 미들웨어 추가
@@ -26,13 +27,15 @@ app.add_middleware(
         "https://opensw.ellen24k.kro.kr",
         "https://opensw-dev.ellen24k.kro.kr",
     ],
-    allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?",
+    allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?",  # for local
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 security = HTTPBearer()
+
+
 def verify_api_key(credentials: HTTPAuthorizationCredentials):
     expected_api_key = os.environ.get("CRAWLER_API_KEY")
 
@@ -42,9 +45,11 @@ def verify_api_key(credentials: HTTPAuthorizationCredentials):
     if credentials.credentials != expected_api_key:
         raise HTTPException(status_code=401, detail="인증에 실패했습니다. 유효한 API 키가 필요합니다.")
 
+
 @app.get("/")
 async def root():
     return {"message": "/docs, /redoc 에서 API 문서를 확인하세요."}
+
 
 @app.post(
     "/set-cache-ttl",
@@ -64,7 +69,7 @@ async def set_cache_ttl_endpoint(ttl: int, credentials: HTTPAuthorizationCredent
     description="주의! 필요할 때만 실행하세요. 30~60초 정도 소요됩니다.",
 )
 async def run_crawler(background_tasks: BackgroundTasks,
-    credentials: HTTPAuthorizationCredentials = Security(security)):
+                      credentials: HTTPAuthorizationCredentials = Security(security)):
     verify_api_key(credentials)
 
     # 크롤러 실행
@@ -119,7 +124,10 @@ async def save_to_redis(credentials: HTTPAuthorizationCredentials = Security(sec
     summary="전체 데이터를 JSON 형식으로 제공",
     description="",
 )
-async def json_data():
+async def json_data(background_tasks: BackgroundTasks,
+                    credentials: HTTPAuthorizationCredentials = Security(security)):
+    verify_api_key(credentials)
+
     json_data = make_json()
     if json_data:
         return json.loads(json_data)
@@ -132,7 +140,10 @@ async def json_data():
     summary="전체 데이터를 JSON 형식으로 제공 (Type 1)",
     description="",
 )
-async def json_data_type1():
+async def json_data_type1(background_tasks: BackgroundTasks,
+                          credentials: HTTPAuthorizationCredentials = Security(security)):
+    verify_api_key(credentials)
+
     json_data = make_json_type1()
     if json_data:
         return json.loads(json_data)
@@ -286,54 +297,52 @@ async def query_building_list():
     ret_data = {re.sub(r'B?\d+(-\d+)?$', '', item) for item in classroom_list}
     return sorted(ret_data)
 
+
 @app.get(
     "/query-classroom-period/{building_id}/{day}/{period}",
     summary="특정 건물, 특정 요일, 특정 교시로 빈 강의실 및 사용 중인 강의실 정보 조회 예) 미디어/수/3",
     description=""
 )
 async def query_classroom_period(building_id: str, day: str, period: int):
-        classroom_list = get_all_classroom_list()
-        classroom_list_in_building = {classroom for classroom in classroom_list if building_id in classroom}
+    classroom_list = get_all_classroom_list()
+    classroom_list_in_building = {classroom for classroom in classroom_list if building_id in classroom}
 
-        data = get_json_from_redis('classroom_data')
-        if not data or building_id not in data:
-            raise HTTPException(status_code=404, detail=f"건물 {building_id}을(를) 찾을 수 없습니다.")
-        if not classroom_list_in_building:
-            raise HTTPException(status_code=404, detail=f"건물 {building_id}에 강의실이 없습니다.")
-        if day not in ["월", "화", "수", "목", "금"]:
-            raise HTTPException(status_code=400, detail="요일은 월,화,수,목,금 중 하나여야 합니다.")
+    data = get_json_from_redis('classroom_data')
+    if not data or building_id not in data:
+        raise HTTPException(status_code=404, detail=f"건물 {building_id}을(를) 찾을 수 없습니다.")
+    if not classroom_list_in_building:
+        raise HTTPException(status_code=404, detail=f"건물 {building_id}에 강의실이 없습니다.")
+    if day not in ["월", "화", "수", "목", "금"]:
+        raise HTTPException(status_code=400, detail="요일은 월,화,수,목,금 중 하나여야 합니다.")
 
-        occupied_classrooms = set()
-        detailed_occupied_classrooms = []
-        for room in data[building_id].values():
-            for course in room["courses"]:
-                if day in course["parse_days"]:
-                    for i, time in enumerate(course["parse_times"]):
-                        if time["start"] <= period <= time["end"] and course["parse_days"][i] == day:
-                            if building_id in course["parse_rooms"][i]:  # 건물 ID와 강의실 비교
-                                occupied_classrooms.add(course["parse_rooms"][i])
-                                detailed_occupied_classrooms.append({
-                                    "course_name": course["course_name"],
-                                    "professor": course["professor"],
-                                    "org_time": course["org_time"],
-                                    "room": course["parse_rooms"][i],
-                                    "day": course["parse_days"][i],
-                                    "start": time["start"],
-                                    "end": time["end"],
-                                })
+    occupied_classrooms = set()
+    detailed_occupied_classrooms = []
+    for room in data[building_id].values():
+        for course in room["courses"]:
+            if day in course["parse_days"]:
+                for i, time in enumerate(course["parse_times"]):
+                    if time["start"] <= period <= time["end"] and course["parse_days"][i] == day:
+                        if building_id in course["parse_rooms"][i]:  # 건물 ID와 강의실 비교
+                            occupied_classrooms.add(course["parse_rooms"][i])
+                            detailed_occupied_classrooms.append({
+                                "course_name": course["course_name"],
+                                "professor": course["professor"],
+                                "org_time": course["org_time"],
+                                "room": course["parse_rooms"][i],
+                                "day": course["parse_days"][i],
+                                "start": time["start"],
+                                "end": time["end"],
+                            })
 
-        empty_classrooms = classroom_list_in_building - occupied_classrooms
-        return {
-            "building": building_id,
-            "day": day,
-            "period": period,
-            "empty_classrooms": sorted(empty_classrooms),
-            "occupied_classrooms": sorted(occupied_classrooms),
-            "occupied_classrooms_detail": sorted(detailed_occupied_classrooms, key=lambda x: x["room"])
-        }
-
-from concurrent.futures import ThreadPoolExecutor
-
+    empty_classrooms = classroom_list_in_building - occupied_classrooms
+    return {
+        "building": building_id,
+        "day": day,
+        "period": period,
+        "empty_classrooms": sorted(empty_classrooms),
+        "occupied_classrooms": sorted(occupied_classrooms),
+        "occupied_classrooms_detail": sorted(detailed_occupied_classrooms, key=lambda x: x["room"])
+    }
 
 
 @app.get(
@@ -401,6 +410,7 @@ async def query_classroom_period_ext(building_id: str, day: str):
         "period_results": period_results
     }
 
+
 @app.get(
     "/query-course-table/{course_name}",
     summary="과목명으로 수업 정보 조회",
@@ -429,5 +439,10 @@ async def query_course_table(course_name: str):
                             "end": course["parse_times"][i]["end"],
                         })
     if not result:
-        raise HTTPException(status_code=404, detail="해당 course_name의 수업 정보를 찾을 수 없습니다.")
-    return result
+        raise HTTPException(status_code=404, detail="해당 과목의 수업 정보를 찾을 수 없습니다.")
+
+    unique_result = list({json.dumps(item, sort_keys=True): item for item in result}.values())
+    sorted_result = sorted(unique_result,
+                           key=lambda x: (x["course_name"], x["professor"], x["org_time"], x["course_room"],
+                                          x["org_time"], x["start"]))
+    return sorted_result

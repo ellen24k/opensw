@@ -103,8 +103,8 @@
 ---
 
 ## 🖥️ 배치 다이어그램
-
-![Deployment Diagram](https://raw.githubusercontent.com/ellen24k/opensw/master/backend/resources/deployment_diagram.png)
+<!--https://raw.githubusercontent.com/ellen24k/opensw/master-->
+![Deployment Diagram](backend/resources/deployment_diagram.png)
 
 ---
 

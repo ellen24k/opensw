@@ -5,8 +5,8 @@ services:
     container_name: opensw-api
     expose:
       - 8000
-    ports:
-      - 8000:8000
+#    ports:
+#      - 8800:8000
     environment:
       TZ: "Asia/Seoul"
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}

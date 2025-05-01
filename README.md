@@ -113,7 +113,7 @@
 ## 📂 프로그램 설치 및 실행 방법
 - 필요한 소프트웨어 설치 Docker, Git, Python, MySQL, Redis 등.
 - GitHub 레포지토리 클론 
-- 환경변수 설정
+- Database 비밀번호 등의 환경변수 설정
 - 백엔드 API 컨테이너 빌드 및 실행 (/backend/docker-compose.yml)
 - 프론트엔드 컨테이너 빌드 및 실행 (/frontend/docker-compose.yml)
 

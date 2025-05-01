@@ -47,7 +47,8 @@
     - 구축한 데이터베이스와 연동하여 API 제공
     - 관리자 API 인증 처리 (Bearer Token)
     - 보안 및 서버 관리
-    - 성능, 부하 테스트 및 모니터링 >> [테스트 결과 링크](k6.md)
+    - API 서버 캐시 기능 구현
+    - HPA 및 캐시 기능의 성능, 부하 테스트 및 모니터링 >> [테스트 결과 링크](k6.md)
 
 ---
 
@@ -99,6 +100,7 @@
 | **CI/CD 및 배포 환경**| `Oracle Cloud Infrastructure (OCI)`<br>`OCIR` (Oracle Container Registry)<br>`GitHub`, `Jenkins`<br>`k3s`, `Docker` |
 | **버전 관리 및 보안** | `Git`<br>`CORS`, `HTTPS` |
 | **테스트 및 모니터링**| `K6` (성능/부하 테스트)<br>`InfluxDB` (성능 데이터 저장)<br>`Grafana` (모니터링)<br>`Postman` (API 테스트) |
+
 
 ---
 

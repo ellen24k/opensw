@@ -1,6 +1,6 @@
 import os
 import time
-import re
+
 import redis
 
 # Redis 클라이언트 설정
@@ -10,11 +10,14 @@ client = redis.StrictRedis(host='172.22.22.23', port=6379, decode_responses=True
 _cache = {}
 _cache_expiry = {}
 
+
 def get_cache_ttl():
     ttl = client.get('cache_ttl')
-    return int(ttl) if ttl else 60*60*24  # 기본값 24시간
+    return float(ttl) if ttl else 2000  # 기본값 2000ms
 
-DEFAULT_CACHE_TTL = get_cache_ttl()  # 기본 캐시 유효시간 (초). 크롤링 데이터 업데이트 시간에 따라.
+
+DEFAULT_CACHE_TTL = get_cache_ttl()  # 기본 캐시 유효시간 (밀리초)
+
 
 # 강제로 캐시 무효화 (필요한 경우)
 def invalidate_cache(key=None):
@@ -29,11 +32,13 @@ def invalidate_cache(key=None):
         _cache_expiry.clear()
         print("모든 캐시 무효화")
 
+
 def set_cache_ttl(ttl: int):
     invalidate_cache()
     client.set('cache_ttl', ttl)
     global DEFAULT_CACHE_TTL
     DEFAULT_CACHE_TTL = get_cache_ttl()
+
 
 # JSON 데이터 저장
 def save_json_to_redis(key, json_data):
@@ -41,7 +46,7 @@ def save_json_to_redis(key, json_data):
     client.json().set(key, '$', json_data)
     # 캐시 업데이트
     _cache[key] = json_data
-    _cache_expiry[key] = time.time() + DEFAULT_CACHE_TTL
+    _cache_expiry[key] = time.time() + 1000 + DEFAULT_CACHE_TTL  # 밀리초 단위
     print(f"JSON 데이터가 Redis에 저장되었습니다: {key}")
 
     # JSON 데이터를 로컬 파일로 저장
@@ -52,13 +57,13 @@ def save_json_to_redis(key, json_data):
 
 
 def get_json_from_redis(key):
-    ttl= get_cache_ttl()
-    start_time = time.time()
+    ttl = get_cache_ttl()
+    start_time = time.time() * 1000  # 밀리초 단위
     cache_hit = False
     data_size = 0
 
     # 캐시에 데이터가 있고 유효한지 확인
-    current_time = time.time()
+    current_time = time.time() * 1000  # 밀리초 단위
     if key in _cache and key in _cache_expiry and current_time < _cache_expiry[key]:
         data = _cache[key]
         cache_hit = True
@@ -75,7 +80,7 @@ def get_json_from_redis(key):
             _cache[key] = data
             _cache_expiry[key] = current_time + ttl
 
-    end_time = time.time()
+    end_time = time.time() * 1000  # 밀리초 단위
     execution_time = (end_time - start_time) * 1000  # 밀리초 단위로 변환
 
     # 결과 출력
@@ -89,6 +94,7 @@ def get_json_from_redis(key):
 
     return data
 
+
 def get_all_classroom_list():
     data = set(client.json().get('classroom_data', os.getenv('RDS_GET_ALL_CLASSROOM_LIST')))
 
@@ -96,4 +102,3 @@ def get_all_classroom_list():
         return sorted(data)
     else:
         return None
-

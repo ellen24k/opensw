@@ -1,11 +1,45 @@
-# Test your FastAPI endpoints
-
-GET http://127.0.0.1:8000/
-Accept: application/json
+###
+GET http://localhost:8888/
 
 ###
-
-GET http://127.0.0.1:8000/hello/User
-Accept: application/json
+POST http://localhost:8888/set-cache-ttl?
+    ttl={{$placeholder}}
 
 ###
+GET http://localhost:8888/run-crawler
+
+###
+GET http://localhost:8888/save-to-redis
+
+###
+GET http://localhost:8888/make-json
+
+###
+GET http://localhost:8888/make-json-type1
+
+###
+GET http://localhost:8888/query-classroom-json/{{building}}/{{classroom_id}}
+
+###
+GET http://localhost:8888/query-classroom-table/{{building}}/{{classroom_id}}
+
+###
+GET http://localhost:8888/query-building-json/{{building_id}}
+
+###
+GET http://localhost:8888/query-building-table/{{building_id}}
+
+###
+GET http://localhost:8888/query-classroom-list
+
+###
+GET http://localhost:8888/query-classroom-list/{{building_id}}
+
+###
+GET http://localhost:8888/query-building-list
+
+###
+GET http://localhost:8888/query-classroom-period/{{building_id}}/{{day}}/{{period}}
+
+###
+GET http://localhost:8888/query-classroom-period-ext/{{building_id}}/{{day}}

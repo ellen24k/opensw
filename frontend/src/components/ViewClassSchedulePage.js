@@ -2,12 +2,13 @@
 
 import MainFrame from "./MainFrame.js";
 import NaviBar from "./NaviBar.js";
+import { Button } from "@mui/material";
 
 function ViewClassSchedulePage() {
     return (
         <MainFrame>
             <NaviBar />
-            {/* 여기에 코드를 작성해주세요. */}
+            <Button variant="contained">Test</Button>
         </MainFrame>
     )
 }

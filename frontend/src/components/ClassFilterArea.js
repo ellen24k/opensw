@@ -47,8 +47,14 @@ function ClassFilterArea() {
     const [selectClass, setSelectClass] = useState(null);
 
     useEffect(() => {
-        const classroomData = fetchClassroomList();
-        const buildingData = fetchBuildingList();
+        const classroomData = null;
+        fetchClassroomList().then((result) => {
+            classroomData = result
+        });
+        const buildingData = null;
+        fetchBuildingList().then((result) => {
+            buildingData = result
+        });
         setClassList(classroomData);
         setBuildingList(buildingData);
         /* 초기 classList는 filtering 없이 전부 받아온다. */

@@ -47,21 +47,22 @@ function ClassFilterArea() {
     const [selectClass, setSelectClass] = useState(null);
 
     useEffect(() => {
-        const classroomData = null;
-        fetchClassroomList().then((result) => {
-            classroomData = result
-        });
-        const buildingData = null;
-        fetchBuildingList().then((result) => {
-            buildingData = result
-        });
-        setClassList(classroomData);
-        setBuildingList(buildingData);
-        /* 초기 classList는 filtering 없이 전부 받아온다. */
-        setFloorList(["건물을 선택해주세요."])
-        console.log(classroomData)
-        console.log(buildingData)
-    }, [])
+        const fetchData = async () => {
+            try {
+                const classroomData = await fetchClassroomList();
+                const buildingData = await fetchBuildingList();
+
+                setClassList(classroomData);
+                setBuildingList(buildingData);
+                setFloorList(["건물을 선택해주세요."]);
+                console.log(classroomData, buildingData);
+            } catch (err) {
+                console.error("데이터 불러오기 실패:", err);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     function handleBuildingSelect(event, building) {
         setSelectBuilding(building);

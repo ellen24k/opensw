@@ -17,7 +17,7 @@ export const fetchBuildingList = async () => {
     if (buildingListCache !== null) return buildingListCache
 
     try {
-        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/query-building-list/`);
+        const response = await axios.get(`https://opensw-api-dev.ellen24k.kro.kr/query-building-list/`);
         buildingListCache = response.data;
         return response.data;
     } catch (error) {
@@ -29,9 +29,10 @@ let classroomList = null;
 
 export const fetchClassroomList = async () => {
     if (classroomList !== null) return classroomList;
+    console.log(process.env.REACT_APP_API_BASE_URL);
 
     try {
-        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/query-classroom-list/`);
+        const response = await axios.get(`https://opensw-api-dev.ellen24k.kro.kr/query-classroom-list/`);
         classroomList = response.data;
         return response.data;
     } catch (error) {

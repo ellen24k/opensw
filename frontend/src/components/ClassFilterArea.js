@@ -1,7 +1,7 @@
 import { Autocomplete, TextField, Stack, Button } from '@mui/material'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { fetchClassroomList } from "../api.js";
+import { fetchBuildingList, fetchClassroomList } from "../api.js";
 
 const initalBuilding = [
     "1공",
@@ -47,17 +47,15 @@ function ClassFilterArea() {
     const [selectClass, setSelectClass] = useState(null);
 
     useEffect(() => {
-        const data = fetchClassroomList();
-        setClassList(data);
-        setBuildingList(initalBuilding);
+        const classroomData = fetchClassroomList();
+        const buildingData = fetchBuildingList();
+        setClassList(classroomData);
+        setBuildingList(buildingData);
         /* 초기 classList는 filtering 없이 전부 받아온다. */
-        // setClassList(initalClass);
         setFloorList(["건물을 선택해주세요."])
+        console.log(classroomData)
+        console.log(buildingData)
     }, [])
-
-    function handleBuildingListClick(event) {
-        setBuildingList(initalBuilding);
-    }
 
     function handleBuildingSelect(event, building) {
         setSelectBuilding(building);

@@ -38,3 +38,13 @@ export const fetchClassroomList = async () => {
         throw error;
     }
 };
+
+export const fetchFilteredClassroom = async (filter) => {
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/query-classroom-list/${filter}`);
+        classroomList = response.data;
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};

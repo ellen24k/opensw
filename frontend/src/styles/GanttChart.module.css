@@ -1,0 +1,19 @@
+ table {
+     border-collapse: collapse;
+ }
+
+ /*이중선 제거*/
+ th,
+ td {
+     width: 100px;
+     height: 50px;
+     text-align: center;
+     border: 1px solid #000;
+
+     vertical-align: top;
+     /* 위 */
+     vertical-align: bottom;
+     /* 아래 */
+     vertical-align: middle;
+     /* 가운데 */
+ }

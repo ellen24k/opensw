@@ -1,15 +1,11 @@
 import { Autocomplete, TextField, Stack, Button } from '@mui/material'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { fetchBuildingList, fetchClassroomList, fetchFilteredClassroom } from "../api.js";
+import { fetchBuildingList, fetchClassroomList, fetchFilteredClassroom, fetchCoursesFromClassroom } from "../api.js";
 
-const initalFloor = [
-    "1",
-    "2",
-    "3"
-]
+const initalFloor = ["건물을 선택해주세요."]
 
-function ClassFilterArea() {
+function ClassFilterArea({ setCourses }) {
     const [buildingList, setBuildingList] = useState(null);
     const [floorList, setFloorList] = useState(null);
     const [classroomList, setClassroomList] = useState(null);
@@ -25,8 +21,7 @@ function ClassFilterArea() {
 
                 setClassroomList(classroomData);
                 setBuildingList(buildingData);
-                setFloorList(["건물을 선택해주세요."]);
-                console.log(classroomData, buildingData);
+                setFloorList(initalFloor);
             } catch (err) {
                 console.error("데이터 불러오기 실패:", err);
             }
@@ -78,6 +73,9 @@ function ClassFilterArea() {
     }
 
     function handleFloorSelect(event, floor) {
+        if (floor == initalFloor[0]) {
+            return
+        }
         setSelectFloor(floor);
 
         /* Floor는 Building 종속이므로 Classroom만 초기화하면 된다. */
@@ -107,6 +105,34 @@ function ClassFilterArea() {
         setSelectClassroom(classroom)
     }
 
+    function handleClearButtonClick(event) {
+        setSelectBuilding(null)
+        setSelectClassroom(null)
+        const fetchData = async () => {
+            const data = await fetchClassroomList()
+            setClassroomList(data)
+        }
+        fetchData()
+        setSelectFloor(null)
+        setFloorList(initalFloor)
+    }
+
+    function handleSearchButtonClick() {
+        if (selectClassroom == null) {
+
+        }
+        const fetchData = async () => {
+            const prefixLength = selectBuilding.length
+            const classroomId = selectClassroom.slice(prefixLength)
+
+            const courses = await fetchCoursesFromClassroom(selectBuilding, classroomId)
+            console.log(typeof (courses[0].end))
+            setCourses(courses)
+        }
+
+        fetchData()
+    }
+
     return (
         <Stack spacing="10px" sx={{ paddingTop: "14px" }} useFlexGap>
             <Stack direction="row" sx={{ justifyContent: "space-between" }}>
@@ -122,7 +148,7 @@ function ClassFilterArea() {
                     renderInput={(params) => <TextField {...params} label="층수" />}
                     value={selectFloor}
                     onChange={(event, floor) => { handleFloorSelect(event, floor) }} />
-                <Button variant="outlined" sx={{ width: "15%" }}>초기화</Button>
+                <Button variant="outlined" sx={{ width: "15%" }} onClick={handleClearButtonClick}>초기화</Button>
             </Stack>
             <Stack direction="row" sx={{ justifyContent: "space-between" }}>
                 <Autocomplete
@@ -132,7 +158,7 @@ function ClassFilterArea() {
                     value={selectClassroom}
                     onChange={(event, classroom) => { handleClassroomSelect(event, classroom) }}
                 />
-                <Button variant="contained" sx={{ width: "15%" }}>검색</Button>
+                <Button variant="contained" sx={{ width: "15%" }} onClick={handleSearchButtonClick}>검색</Button>
             </Stack>
         </Stack >
     )

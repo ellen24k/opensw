@@ -5,15 +5,16 @@ import NaviBar from "./NaviBar.js";
 import { Button } from "@mui/material";
 import ClassFilterArea from "./ClassFilterArea.js"
 import GanttChart from "./GanttChart.js"
+import { useState } from "react";
 
 function ViewClassSchedulePage() {
-
+    const [courses, setCourses] = useState(null);
 
     return (
         <MainFrame>
             <NaviBar />
-            <ClassFilterArea></ClassFilterArea>
-            <GanttChart></GanttChart>
+            <ClassFilterArea setCourses={setCourses}></ClassFilterArea>
+            <GanttChart courses={courses}></GanttChart>
         </MainFrame>
     )
 }

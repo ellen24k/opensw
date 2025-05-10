@@ -2,7 +2,7 @@ services:
   app:
     build: .
     image: opensw-api:latest
-    container_name: opensw-api
+    container_name: prj-opensw-api
     expose:
       - 8000
 #    ports:

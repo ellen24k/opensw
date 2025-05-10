@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: opensw-dev:latest
-    container_name: opensw-dev
+    container_name: prj-opensw-dev
     expose:
       - 3000
 #    ports:

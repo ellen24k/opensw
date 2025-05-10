@@ -54,10 +54,10 @@
 
 ## ✨ 주요 기능
 
-- 특정 강의실 수업 정보 조회
-- 특정 강의실 일주일간 수업 정보 조회
 - 특정 교시에 사용 가능한 빈 강의실 조회
-- 특정 교시에 수업중인 강의실 정보 조회
+- 특정 교시에 수업 중인 강의실 정보 조회
+- 특정 강의실 일주일 간 수업 정보 조회
+- 내 시간표 등록 및 강의실 수업 정보 조회
 
 ---
 
@@ -111,11 +111,42 @@
 ---
 
 ## 📂 프로그램 설치 및 실행 방법
-- 필요한 소프트웨어 설치 Docker, Git, Python, MySQL, Redis 등.
-- GitHub 레포지토리 클론 
-- Database 비밀번호 등의 환경변수 설정
-- 백엔드 API 컨테이너 빌드 및 실행 (/backend/docker-compose.yml)
-- 프론트엔드 컨테이너 빌드 및 실행 (/frontend/docker-compose.yml)
+
+### 사전 준비 사항
+* Docker, Git, Python, Redis, MySQL
+
+### 설치 단계
+
+1.  **저장소 복제**:
+* git clone https://github.com/ellen24k/opensw.git
+
+2.  **환경 변수 설정**:
+* MYSQL_PASSWORD=your_mysql_password
+* CRAWLER_API_KEY=your_crawler_api_key
+* RDS_GET_ALL_CLASSROOM_LIST=your_redis_query_value
+* .env* 파일에 backend 서버의 URL 설정
+
+3.  **Docker 네트워크 생성 및 설정**:
+* docker network create net 으로 docker network 생성
+* Redis 및 MySQL IP 설정 값 확인 후 적용
+* backend CORS 에 front 도메인 혹은 IP 설정
+
+4.  **빌드 및 실행**:
+* docker-compose -f frontend/docker-compose.yml up -d --build
+* docker-compose -f backend/docker-compose.yml up -d --build
+* docker 사용 안하는 경우 frontend
+  * npm install
+  * npm run start
+* docker 사용 안하는 경우 backend
+  * python3 -m venv .venv
+  * .venv/Scripts/activate
+  * pip install -r requirements.txt
+  * python -m uvicorn main:app --host 0.0.0.0 --port 8000
+
+### 애플리케이션 접속
+
+* docker 사용 URL: `http://localhost:13080`
+* docker 사용 안하는 경우 URL: `http://localhost:3000`
 
 ---
 

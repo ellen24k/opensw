@@ -43,7 +43,7 @@ function ClassroomInfo({ classroom, onHide }) {
                         as={Link}
                         to="/ViewClassSchedulePage"
                     >
-                        {classroom} 주간 시간표
+                        주간 시간표 보기
                     </Button>
                 </section>
             </Offcanvas.Body>

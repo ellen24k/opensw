@@ -138,6 +138,10 @@ function ClassFilterArea({ setCourses, classroomId = null }) {
     }
 
     async function handleExternalParam() {
+        if (!classroomId) {
+            console.log("classroomId is null")
+            return
+        }
         console.log(classroomId)
         setSelectClassroom(classroomId)
         const buildingId = classroomId.match("/^[0-9]*[ㄱ-ㅎ가-힣]*")

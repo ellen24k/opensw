@@ -12,7 +12,7 @@ import ClassroomInfo from './ClassroomInfo.js';
 import styles from '../styles/FindEmptyClassPage.module.css';
 
 function FindEmptyClassPage() {
-    const [emptyClassrooms, setEmptyClassrooms] = useState(["테스트123", "테스트456"]);
+    const [emptyClassrooms, setEmptyClassrooms] = useState([]);
     const [activeClassroom, setActiveClassroom] = useState(null);
     return (
         <MainFrame>

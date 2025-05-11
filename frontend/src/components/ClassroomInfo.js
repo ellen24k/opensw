@@ -41,7 +41,7 @@ function ClassroomInfo({ classroom, onHide }) {
                     <Button
                         className={[styles.FullWidth, styles.MarginTop1]}
                         as={Link}
-                        to="/ViewClassSchedulePage"
+                        to={`/ViewClassSchedulePage/${classroom}`}
                     >
                         주간 시간표 보기
                     </Button>

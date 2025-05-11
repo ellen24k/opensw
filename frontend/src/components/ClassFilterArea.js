@@ -138,11 +138,12 @@ function ClassFilterArea({ setCourses, classroomId = null }) {
     }
 
     async function handleExternalParam() {
+        console.log(classroomId)
+        setSelectClassroom(classroomId)
         const buildingId = classroomId.match("/^[0-9]*[ㄱ-ㅎ가-힣]*")
         const classroomId = classroomId.slice(buildingId.length)
         setSelectBuilding(buildingId)
         setSelectFloor(classroomId.at(0))
-        setSelectClassroom(classroomId)
         const courses = await fetchCoursesFromClassroom(buildingId, classroomId)
         setCourses(courses)
     }

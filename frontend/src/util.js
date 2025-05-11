@@ -59,11 +59,3 @@ export function periodRange(period) {
 export function classTime(start, end) {
     return [periodStart(start), periodEnd(end)];
 }
-
-/**
- * 현재 시각을 분:초 형식의 문자열로 얻기
- */
-export function currentTime() {
-    const date = new Date();
-
-}

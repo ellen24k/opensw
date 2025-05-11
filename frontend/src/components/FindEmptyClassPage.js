@@ -20,6 +20,7 @@ function FindEmptyClassPage() {
                     <li><ClassroomButton
                         active={activeClassroom === classroom}
                         classroom={classroom}
+                        onClick={(classroom) => setActiveClassroom(classroom)}
                     /></li>
                 ))}
             </ul>

@@ -12,7 +12,7 @@ import ClassroomInfo from './ClassroomInfo.js';
 import styles from '../styles/FindEmptyClassPage.module.css';
 
 function FindEmptyClassPage() {
-    const [emptyClassrooms, setEmptyClassrooms] = useState([]);
+    const [emptyClassrooms, setEmptyClassrooms] = useState(['소프트332', '2공524']);
     const [activeClassroom, setActiveClassroom] = useState(null);
     return (
         <MainFrame>
@@ -31,12 +31,10 @@ function FindEmptyClassPage() {
                     />
                 ))}
             </ListGroup>
-            {(activeClassroom) && (
-                <ClassroomInfo
-                    classroom={activeClassroom}
-                    onHide={() => setActiveClassroom(null)}
-                />
-            )}
+            <ClassroomInfo
+                classroom={activeClassroom}
+                onHide={() => setActiveClassroom(null)}
+            />
         </MainFrame >
     );
 }

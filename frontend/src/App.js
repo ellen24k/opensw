@@ -2,7 +2,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import ClassroomSchedule from './components/ClassroomSchedule';
-import { useEffect, useReducer } from "react";
 import IntroPage from './components/IntroPage.js';
 import FindEmptyClassPage from './components/FindEmptyClassPage.js'
 import ViewClassSchedulePage from "./components/ViewClassSchedulePage.js";

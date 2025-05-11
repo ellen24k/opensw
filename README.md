@@ -113,7 +113,7 @@
 ## 📂 프로그램 설치 및 실행 방법
 
 ### 사전 준비 사항
-* Docker, Git, Python, Redis, MySQL
+* Docker, Git, Python, Redis, MySQL latest
 
 ### 설치 단계
 
@@ -132,21 +132,23 @@
 * backend CORS 에 front 도메인 혹은 IP 설정
 
 4.  **빌드 및 실행**:
-* docker-compose -f frontend/docker-compose.yml up -d --build
-* docker-compose -f backend/docker-compose.yml up -d --build
-* docker 사용 안하는 경우 frontend
-  * npm install
-  * npm run start
-* docker 사용 안하는 경우 backend
-  * python3 -m venv .venv
-  * .venv/Scripts/activate
-  * pip install -r requirements.txt
-  * python -m uvicorn main:app --host 0.0.0.0 --port 8000
+* Dockerized / Container-based
+  * docker-compose -f frontend/docker-compose.yml up -d --build
+  * docker-compose -f backend/docker-compose.yml up -d --build
+* Local / Native / Host-based
+  * frontend
+    * npm install
+    * npm run start
+  * backend
+    * python3 -m venv .venv
+    * .venv/Scripts/activate
+    * pip install -r requirements.txt
+    * python -m uvicorn main:app --host 0.0.0.0 --port 8000
 
 ### 애플리케이션 접속
 
-* docker 사용 URL: `http://localhost:13080`
-* docker 사용 안하는 경우 URL: `http://localhost:3000`
+* Dockerized / Container-based URL: `http://localhost:13080`
+* Local / Native / Host-based URL: `http://localhost:3000`
 
 ---
 

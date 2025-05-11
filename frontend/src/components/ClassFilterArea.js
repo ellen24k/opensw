@@ -123,15 +123,23 @@ function ClassFilterArea({ setCourses, classroomName = null }) {
 
     function handleSearchButtonClick() {
         if (selectClassroom == null) {
-
+            return
         }
         const fetchData = async () => {
-            const prefixLength = selectBuilding.length
-            const classroomId = selectClassroom.slice(prefixLength)
+            if (!selectBuilding) {
+                const buildingId = selectClassroom.match(/^[0-9]*[ㄱ-ㅎ가-힣]*/g)
+                console.log(selectClassroom.match(/^[0-9]*[ㄱ-ㅎ가-힣]*/g))
+                const classroomId = selectClassroom.slice(buildingId[0].length)
+                const courses = await fetchCoursesFromClassroom(buildingId[0], classroomId)
+                setCourses(courses)
+            } else {
+                const prefixLength = selectBuilding.length
+                const classroomId = selectClassroom.slice(prefixLength)
 
-            const courses = await fetchCoursesFromClassroom(selectBuilding, classroomId)
-            console.log(typeof (courses[0].end))
-            setCourses(courses)
+                const courses = await fetchCoursesFromClassroom(selectBuilding, classroomId)
+                console.log(typeof (courses[0].end))
+                setCourses(courses)
+            }
         }
 
         fetchData()
@@ -144,12 +152,14 @@ function ClassFilterArea({ setCourses, classroomName = null }) {
         }
         console.log(classroomName)
         setSelectClassroom(classroomName)
-        const buildingId = classroomName.match("/^[0-9]*[ㄱ-ㅎ가-힣]*")
-        const classroomId = classroomName.slice(buildingId.length)
-        setSelectBuilding(buildingId)
+        const buildingId = classroomName.match(/^[0-9]*[ㄱ-ㅎ가-힣]*/g)
+        const classroomId = classroomName.slice(buildingId[0].length)
+        setSelectBuilding(buildingId[0])
         setSelectFloor(classroomId.at(0))
-        const courses = await fetchCoursesFromClassroom(buildingId, classroomId)
+        const courses = await fetchCoursesFromClassroom(buildingId[0], classroomId)
         setCourses(courses)
+        console.log(courses)
+
     }
 
     return (

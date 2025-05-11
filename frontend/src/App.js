@@ -18,7 +18,7 @@ function App() {
             <Route path="/api-test" element={<ClassroomSchedule />} />
             <Route path="/FindEmptyClassPage" element={<FindEmptyClassPage />} />
             <Route path="/ViewClassSchedulePage" element={<ViewClassSchedulePage />} />
-            <Route path="/ViewClassSchedulePage/:classroomId" element={<ViewClassSchedulePage />} />
+            <Route path="/ViewClassSchedulePage/:classroomName" element={<ViewClassSchedulePage />} />
             <Route path="/MySchedulePage" element={<MySchedulePage />} />
           </Routes>
         </div>

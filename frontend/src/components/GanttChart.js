@@ -61,23 +61,14 @@ function GanttChart({ courses }) {
             return { ...courseObj, "start": (start - 1) * 0.5 + 9, "end": end * 0.5 + 9 }
         })
 
-
+        console.log(normCourses)
     }
 
     return (
         <Table >
             <TableRow >
-                {dayHeader.map((day, index) => {
-                    return <TableCell align="center">{day}</TableCell>
-                })}
+
             </TableRow >
-            {hourHeader.map((hour, index) => {
-                return (
-                    <TableRow>
-                        <TableCell>{hour}</TableCell>
-                    </TableRow>
-                )
-            })}
         </Table >
     )
 }

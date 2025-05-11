@@ -5,7 +5,7 @@ import { fetchBuildingList, fetchClassroomList, fetchFilteredClassroom, fetchCou
 
 const initalFloor = ["건물을 선택해주세요."]
 
-function ClassFilterArea({ setCourses }) {
+function ClassFilterArea({ setCourses, classroomId }) {
     const [buildingList, setBuildingList] = useState(null);
     const [floorList, setFloorList] = useState(null);
     const [classroomList, setClassroomList] = useState(null);
@@ -18,6 +18,10 @@ function ClassFilterArea({ setCourses }) {
             try {
                 const classroomData = await fetchClassroomList();
                 const buildingData = await fetchBuildingList();
+
+                if (classroomId) {
+                    handleExternalParam();
+                }
 
                 setClassroomList(classroomData);
                 setBuildingList(buildingData);
@@ -131,6 +135,16 @@ function ClassFilterArea({ setCourses }) {
         }
 
         fetchData()
+    }
+
+    async function handleExternalParam() {
+        const buildingId = classroomId.match("/^[0-9]*[ㄱ-ㅎ가-힣]*")
+        const classroomId = classroomId.slice(buildingId.length)
+        setSelectBuilding(buildingId)
+        setSelectFloor(classroomId.at(0))
+        setSelectClassroom(classroomId)
+        const courses = await fetchCoursesFromClassroom(buildingId, classroomId)
+        setCourses(courses)
     }
 
     return (

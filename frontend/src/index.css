@@ -1,9 +1,9 @@
 body {
-	margin: 0 auto !important;
+	margin: 0 auto;
 	/* auto로 인해 가운데 정렬이 가능하다. */
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
 		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-		sans-serif, var(--bs-body-font-family) !important;
+		sans-serif, var(--bs-body-font-family);
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 

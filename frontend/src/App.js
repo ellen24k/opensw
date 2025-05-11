@@ -3,8 +3,6 @@ import React from 'react';
 import { useEffect, useReducer } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 import ClassroomSchedule from './components/ClassroomSchedule';
 import IntroPage from './components/IntroPage.js';
 import FindEmptyClassPage from './components/FindEmptyClassPage.js';

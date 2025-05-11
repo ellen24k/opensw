@@ -5,7 +5,7 @@ import { fetchBuildingList, fetchClassroomList, fetchFilteredClassroom, fetchCou
 
 const initalFloor = ["건물을 선택해주세요."]
 
-function ClassFilterArea({ setCourses, classroomId = null }) {
+function ClassFilterArea({ setCourses, classroomName = null }) {
     const [buildingList, setBuildingList] = useState(null);
     const [floorList, setFloorList] = useState(null);
     const [classroomList, setClassroomList] = useState(null);
@@ -19,7 +19,7 @@ function ClassFilterArea({ setCourses, classroomId = null }) {
                 const classroomData = await fetchClassroomList();
                 const buildingData = await fetchBuildingList();
 
-                if (classroomId !== null) {
+                if (classroomName !== null) {
                     handleExternalParam();
                 }
 
@@ -32,7 +32,7 @@ function ClassFilterArea({ setCourses, classroomId = null }) {
         };
 
         fetchData();
-    }, [classroomId]);
+    }, [classroomName]);
 
     function handleBuildingSelect(event, building) {
         setSelectBuilding(building);
@@ -138,14 +138,14 @@ function ClassFilterArea({ setCourses, classroomId = null }) {
     }
 
     async function handleExternalParam() {
-        if (!classroomId) {
+        if (!classroomName) {
             console.log("classroomId is null")
             return
         }
-        console.log(classroomId)
-        setSelectClassroom(classroomId)
-        const buildingId = classroomId.match("/^[0-9]*[ㄱ-ㅎ가-힣]*")
-        const classroomId = classroomId.slice(buildingId.length)
+        console.log(classroomName)
+        setSelectClassroom(classroomName)
+        const buildingId = classroomName.match("/^[0-9]*[ㄱ-ㅎ가-힣]*")
+        const classroomId = classroomName.slice(buildingId.length)
         setSelectBuilding(buildingId)
         setSelectFloor(classroomId.at(0))
         const courses = await fetchCoursesFromClassroom(buildingId, classroomId)

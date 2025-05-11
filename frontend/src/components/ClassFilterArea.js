@@ -32,7 +32,7 @@ function ClassFilterArea({ setCourses, classroomId = null }) {
         };
 
         fetchData();
-    }, []);
+    }, [classroomId]);
 
     function handleBuildingSelect(event, building) {
         setSelectBuilding(building);

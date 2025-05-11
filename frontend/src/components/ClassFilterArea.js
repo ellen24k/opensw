@@ -5,7 +5,7 @@ import { fetchBuildingList, fetchClassroomList, fetchFilteredClassroom, fetchCou
 
 const initalFloor = ["건물을 선택해주세요."]
 
-function ClassFilterArea({ setCourses, classroomId }) {
+function ClassFilterArea({ setCourses, classroomId = null }) {
     const [buildingList, setBuildingList] = useState(null);
     const [floorList, setFloorList] = useState(null);
     const [classroomList, setClassroomList] = useState(null);

@@ -1,0 +1,41 @@
+.NoTopPadding {
+	padding-top: 0;
+}
+
+.OffcanvasFooter {
+	width: 100%;
+
+	position: absolute;
+	left: 0;
+	bottom: 0;
+
+	padding: 1rem;
+}
+
+.FullWidth {
+	width: 100%;
+}
+
+.NoStyleList {
+	list-style: none;
+	padding-left: 0;
+}
+
+.VerticalList {
+	overflow-x: scroll;
+}
+
+.DelegateXPadding1 {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+:where(.DelegateXPadding1 > *) {
+	padding-left: 1rem;
+	padding-right: 1rem;
+}
+
+.XPadding1 {
+	padding-left: 1rem;
+	padding-right: 1rem;
+}

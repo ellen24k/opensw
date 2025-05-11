@@ -21,6 +21,7 @@ function FindEmptyClassPage() {
             <ListGroup className={styles.Gap05}>
                 {emptyClassrooms.map((classroom) => (
                     <ClassroomButton
+                        key={classroom}
                         classroom={classroom}
                         classes={[]}
                         active={activeClassroom === classroom}

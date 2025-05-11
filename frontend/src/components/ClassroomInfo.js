@@ -32,7 +32,7 @@ function ClassroomInfo({ classroom, onHide }) {
                             as="ul"
                             className={[styles.NoStyleList, styles.VerticalList, styles.FlexGrow1, styles.PaddingX1, styles.NoMarginBottom]}
                         >
-                            {classes.map((cls) => <ClassCard classInfo={cls} />)}
+                            {classes.map((cls) => <ClassCard key={cls.start} classInfo={cls} />)}
                         </Stack>
                         : <div className={[styles.Center, styles.FlexGrow1].join(' ')}>오늘 예정된 수업이 없습니다.</div>
                     }

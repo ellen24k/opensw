@@ -1,4 +1,4 @@
-.NoTopPadding {
+.NoPaddingTop {
 	padding-top: 0;
 }
 
@@ -21,21 +21,43 @@
 	padding-left: 0;
 }
 
+.ColumnFlex {
+	display: flex;
+	flex-direction: column;
+}
+
+.FlexGrow1 {
+	flex-grow: 1;
+}
+
 .VerticalList {
 	overflow-x: scroll;
 }
 
-.DelegateXPadding1 {
+.DelegatePaddingX1 {
 	padding-left: 0;
 	padding-right: 0;
 }
 
-:where(.DelegateXPadding1 > *) {
+:where(.DelegatePaddingX1 > *) {
 	padding-left: 1rem;
 	padding-right: 1rem;
 }
 
-.XPadding1 {
+.PaddingX1 {
 	padding-left: 1rem;
 	padding-right: 1rem;
+}
+
+.Center {
+	align-content: center;
+	text-align: center;
+}
+
+.NoMarginBottom {
+	margin-bottom: 0;
+}
+
+.MarginTop1 {
+	margin-top: 1rem;
 }

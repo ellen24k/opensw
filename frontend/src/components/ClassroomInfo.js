@@ -22,20 +22,29 @@ function ClassroomInfo({ classroom, onHide }) {
             <Offcanvas.Header closeButton>
                 <Offcanvas.Title>✅ {classroom} 강의실 정보</Offcanvas.Title>
             </Offcanvas.Header>
-            <Offcanvas.Body className={[styles.NoTopPadding, styles.DelegateXPadding1]}>
-                <section className={styles.DelegateXPadding1}>
+            <Offcanvas.Body className={[styles.ColumnFlex, styles.NoPaddingTop, styles.DelegatePaddingX1]}>
+                <section className={[styles.ColumnFlex, styles.FlexGrow1, styles.DelegatePaddingX1].join(' ')}>
                     <h6>오늘 수업</h6>
-                    <Stack
-                        direction="horizontal"
-                        gap={2}
-                        as="ul"
-                        className={[styles.NoStyleList, styles.VerticalList, styles.XPadding1]}
-                    >
-                        {classes.map((cls) => <ClassCard classInfo={cls} />)}
-                    </Stack>
+                    {classes.length > 0
+                        ? <Stack
+                            direction="horizontal"
+                            gap={2}
+                            as="ul"
+                            className={[styles.NoStyleList, styles.VerticalList, styles.FlexGrow1, styles.PaddingX1, styles.NoMarginBottom]}
+                        >
+                            {classes.map((cls) => <ClassCard classInfo={cls} />)}
+                        </Stack>
+                        : <div className={[styles.Center, styles.FlexGrow1].join(' ')}>오늘 예정된 수업이 없습니다.</div>
+                    }
                 </section>
                 <section>
-                    <Button className={styles.FullWidth} as={Link} to="/ViewClassSchedulePage">{classroom} 주간 시간표</Button>
+                    <Button
+                        className={[styles.FullWidth, styles.MarginTop1]}
+                        as={Link}
+                        to="/ViewClassSchedulePage"
+                    >
+                        {classroom} 주간 시간표
+                    </Button>
                 </section>
             </Offcanvas.Body>
         </Offcanvas>

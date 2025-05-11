@@ -4,8 +4,8 @@
  * @returns {string} 시:분
  */
 export function minutesToTime(minutes) {
-    const hour = Math.floor(minutes / 60);
-    const minute = minutes % 60 || '00';
+    const hour = String(Math.floor(minutes / 60)).padStart(2, '0');
+    const minute = String(minutes % 60).padStart(2, '0');
     return `${hour}:${minute}`;
 }
 

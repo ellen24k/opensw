@@ -19,7 +19,7 @@ function ClassFilterArea({ setCourses, classroomId = null }) {
                 const classroomData = await fetchClassroomList();
                 const buildingData = await fetchBuildingList();
 
-                if (classroomId) {
+                if (classroomId !== null) {
                     handleExternalParam();
                 }
 

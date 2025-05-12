@@ -1,11 +1,13 @@
 // src/App.js
 import React from 'react';
+import { useEffect, useReducer } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+
 import ClassroomSchedule from './components/ClassroomSchedule';
 import IntroPage from './components/IntroPage.js';
-import FindEmptyClassPage from './components/FindEmptyClassPage.js'
+import FindEmptyClassPage from './components/FindEmptyClassPage.js';
 import ViewClassSchedulePage from "./components/ViewClassSchedulePage.js";
-import MySchedulePage from "./components/MySchedulePage.js"
+import MySchedulePage from "./components/MySchedulePage.js";
 import { SelectedOptionIdProvider } from './components/NaviContext.js';
 
 function App() {

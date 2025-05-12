@@ -1,0 +1,9 @@
+.ClassroomButton {
+	border-radius: inherit;
+	text-align: center;
+	padding: 1rem;
+}
+
+.ClassroomButton + .ClassroomButton {
+	border-width: 1px;
+}

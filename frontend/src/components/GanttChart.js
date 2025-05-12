@@ -126,7 +126,7 @@ function GanttChart({ courses }) {
             setTableMap(newTableMap)
         }
 
-    }, [courses, TableMap])
+    }, [courses])
 
     return (
         <Table >

@@ -142,7 +142,7 @@ function GanttChart({ courses }) {
     }, [courses])
 
     return (
-        <Table sx={{ borderCollapse: 'collapse' }}>
+        <Table sx={{ borderCollapse: 'collapse', marginTop: "10px" }}>
             <TableHead>
                 <TableRow>
                     {dayHeader.map((day, index) => {
@@ -176,7 +176,6 @@ function GanttChart({ courses }) {
                                     P:{course.professor}
                                 </TableCell>
                             } else if (typeof (course) == "number") {
-                                // return <TableCell key={index} sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} />
                             }
                         })}
                     </TableRow>

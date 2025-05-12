@@ -113,6 +113,7 @@ function GanttChart({ courses }) {
             })
 
             const uniqueCourseCodes = [...new Set(normCourses.map(courseObj => courseObj["course_code"]))]
+            console.log(uniqueCourseCodes)
             uniqueCourseCodes.map((code, idx) => {
                 normCourses.filter(courseObj => courseObj["course_code"] == code).forEach(courseObj => {
                     courseObj["color"] = colorMap[idx]
@@ -157,8 +158,8 @@ function GanttChart({ courses }) {
                                 return <TableCell />
                             } else if (typeof (course) == "object") {
                                 return <TableCell
-                                    color="primary"
                                     sx={{
+                                        backgroundColor: course.color,
                                         padding: "4px",
                                         color: "white",
                                         fontSize: "12px",

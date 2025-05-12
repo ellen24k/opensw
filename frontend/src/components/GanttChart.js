@@ -168,7 +168,6 @@ function GanttChart({ courses }) {
                                         fontSize: "12px",
                                         fontFamily: "NanumSquare",
                                         width: "14%",
-                                        border: "1px solid gray",
                                         borderRight: '1px solid rgba(224, 224, 224, 1)',
                                         verticalAlign: "top"
                                     }} rowSpan={2 * (course.end - course.start + 0.5)}>

@@ -123,7 +123,7 @@ function GanttChart({ courses }) {
                 }
             })
             console.log(newTableMap)
-            setTableMap(newTableMap)
+            // setTableMap(newTableMap)
         }
 
     }, [courses])

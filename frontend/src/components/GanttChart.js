@@ -146,7 +146,7 @@ function GanttChart({ courses }) {
                             if (course == "") {
                                 return <TableCell />
                             } else if (typeof (course) == "object") {
-                                return <TableCell align="top" sx={{ padding: "2px", backgroundColor: "blue", color: "white", fontSize: "12px", width: "14%", border: "1px solid gray" }} rowSpan={2 * (course.end - course.start + 0.5)}>
+                                return <TableCell sx={{ padding: "2px", backgroundColor: "blue", color: "white", fontSize: "12px", width: "14%", border: "1px solid gray", verticalAlign: "top" }} rowSpan={2 * (course.end - course.start + 0.5)}>
                                     {course.course_name}<br />
                                     P:{course.professor}
                                 </TableCell>

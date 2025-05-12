@@ -7,12 +7,12 @@ import ClassFilterArea from "./ClassFilterArea.js"
 import GanttChart from "./GanttChart.js"
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { SelectedOptionSetterContext } from "./NaviContext.js";
+import { SelectedOptionIdSetterContext } from "./NaviContext.js";
 
 function ViewClassSchedulePage() {
     const [courses, setCourses] = useState(null);
     const { classroomName } = useParams();
-    const setSelectedOptionId = useContext(SelectedOptionSetterContext)
+    const setSelectedOptionId = useContext(SelectedOptionIdSetterContext)
 
     useEffect(() => {
         setSelectedOptionId(1)

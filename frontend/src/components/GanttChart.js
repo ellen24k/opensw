@@ -142,24 +142,25 @@ function GanttChart({ courses }) {
     }, [courses])
 
     return (
-        <Table >
+        <Table sx={{ borderCollapse: 'collapse' }}>
             <TableHead>
                 <TableRow>
-                    {dayHeader.map((day) => {
-                        return <TableCell align="center">{day}</TableCell>
+                    {dayHeader.map((day, index) => {
+                        return <TableCell key={index} align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>{day}</TableCell>
                     })}
                 </TableRow>
             </TableHead>
 
             {TableMap.map((row, idx_row) => {
                 return (
-                    <TableRow>
-                        {(idx_row % 2 == 0) && <TableCell rowSpan={2}>{hourHeader[idx_row / 2]}</TableCell>}
-                        {Object.values(row)[0].map((course) => {
+                    <TableRow key={idx_row}>
+                        {(idx_row % 2 == 0) && <TableCell rowSpan={2} sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>{hourHeader[idx_row / 2]}</TableCell>}
+                        {Object.values(row)[0].map((course, index) => {
                             if (course == "") {
-                                return <TableCell />
+                                return <TableCell key={index} sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} />
                             } else if (typeof (course) == "object") {
                                 return <TableCell
+                                    key={index}
                                     sx={{
                                         backgroundColor: course.color,
                                         padding: "4px",
@@ -168,19 +169,20 @@ function GanttChart({ courses }) {
                                         fontFamily: "NanumSquare",
                                         width: "14%",
                                         border: "1px solid gray",
+                                        borderRight: '1px solid rgba(224, 224, 224, 1)',
                                         verticalAlign: "top"
                                     }} rowSpan={2 * (course.end - course.start + 0.5)}>
                                     {course.course_name}<br />
                                     P:{course.professor}
                                 </TableCell>
                             } else if (typeof (course) == "number") {
-
+                                // return <TableCell key={index} sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} />
                             }
                         })}
                     </TableRow>
                 )
             })}
-        </Table >
+        </Table>
     )
 }
 

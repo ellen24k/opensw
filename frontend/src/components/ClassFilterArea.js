@@ -2,6 +2,7 @@ import { Autocomplete, TextField, Stack, Button } from '@mui/material'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { fetchBuildingList, fetchClassroomList, fetchFilteredClassroom, fetchCoursesFromClassroom } from "../api.js";
+import { useNavigate } from 'react-router-dom';
 
 const initalFloor = ["건물을 선택해주세요."]
 
@@ -12,7 +13,7 @@ function ClassFilterArea({ setCourses, classroomName = null }) {
     const [selectBuilding, setSelectBuilding] = useState(null);
     const [selectFloor, setSelectFloor] = useState(null);
     const [selectClassroom, setSelectClassroom] = useState(null);
-
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -124,24 +125,8 @@ function ClassFilterArea({ setCourses, classroomName = null }) {
         if (selectClassroom == null) {
             return
         }
-        const fetchData = async () => {
-            if (!selectBuilding) {
-                const buildingId = selectClassroom.match(/^[0-9]*[ㄱ-ㅎ가-힣]*/g)
-                console.log(buildingId)
-                const classroomId = selectClassroom.slice(buildingId[0].length)
-                console.log(classroomId)
-                const courses = await fetchCoursesFromClassroom(buildingId[0], classroomId)
-                setCourses(courses)
-            } else {
-                const prefixLength = selectBuilding.length
-                const classroomId = selectClassroom.slice(prefixLength)
 
-                const courses = await fetchCoursesFromClassroom(selectBuilding, classroomId)
-                setCourses(courses)
-            }
-        }
-
-        fetchData()
+        navigate('/ViewClassSchedulePage/' + selectClassroom)
     }
 
     async function handleExternalParam() {
@@ -149,12 +134,29 @@ function ClassFilterArea({ setCourses, classroomName = null }) {
             console.log("classroomId is null")
             return
         }
+        console.log(classroomName)
         setSelectClassroom(classroomName)
+
+
+
         const buildingId = classroomName.match(/^[0-9]*[ㄱ-ㅎ가-힣]*/g)
+        const filteredClassRoom = await fetchFilteredClassroom(buildingId[0]);
+        setClassroomList(filteredClassRoom)
+        const preUniqueFloor = filteredClassRoom.map((classItem, index) => {
+            const prefixLength = buildingId[0].length;
+            return classItem.slice(prefixLength).at(0)
+        })
+        const postUniqueFloor = [...new Set(preUniqueFloor)];
+        setFloorList(postUniqueFloor);
+
+
+
         const classroomId = classroomName.slice(buildingId[0].length)
         setSelectBuilding(buildingId[0])
         setSelectFloor(classroomId.at(0))
+
         const courses = await fetchCoursesFromClassroom(buildingId[0], classroomId)
+
         setCourses(courses)
     }
 

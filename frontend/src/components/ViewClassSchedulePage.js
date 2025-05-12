@@ -9,12 +9,12 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 function ViewClassSchedulePage() {
     const [courses, setCourses] = useState(null);
-    const { classroomId } = useParams();
+    const { classroomName } = useParams();
 
     return (
         <MainFrame>
             <NaviBar />
-            <ClassFilterArea setCourses={setCourses} classroomId={classroomId}></ClassFilterArea>
+            <ClassFilterArea setCourses={setCourses} classroomName={classroomName}></ClassFilterArea>
             <GanttChart courses={courses}></GanttChart>
         </MainFrame>
     )

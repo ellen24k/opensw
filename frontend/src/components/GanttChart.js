@@ -157,7 +157,7 @@ function GanttChart({ courses }) {
                                 return <TableCell />
                             } else if (typeof (course) == "object") {
                                 return <TableCell
-                                    color={course.color}
+                                    color="primary"
                                     sx={{
                                         padding: "4px",
                                         color: "white",

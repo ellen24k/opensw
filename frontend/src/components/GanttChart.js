@@ -113,7 +113,11 @@ function GanttChart({ courses }) {
             })
 
             const uniqueCourseCodes = [...new Set(normCourses.map(courseObj => courseObj["course_code"]))]
-            console.log(uniqueCourseCodes)
+            uniqueCourseCodes.map((code, idx) => {
+                normCourses.filter(courseObj => courseObj["course_code"] == code).forEach(courseObj => {
+                    courseObj["color"] = colorMap[idx]
+                })
+            })
 
             console.log(normCourses)
             normCourses.forEach((courseObj) => {
@@ -152,16 +156,17 @@ function GanttChart({ courses }) {
                             if (course == "") {
                                 return <TableCell />
                             } else if (typeof (course) == "object") {
-                                return <TableCell sx={{
-                                    padding: "4px",
-                                    backgroundColor: "blue",
-                                    color: "white",
-                                    fontSize: "12px",
-                                    fontFamily: "NanumSquare",
-                                    width: "14%",
-                                    border: "1px solid gray",
-                                    verticalAlign: "top"
-                                }} rowSpan={2 * (course.end - course.start + 0.5)}>
+                                return <TableCell
+                                    color={course.color}
+                                    sx={{
+                                        padding: "4px",
+                                        color: "white",
+                                        fontSize: "12px",
+                                        fontFamily: "NanumSquare",
+                                        width: "14%",
+                                        border: "1px solid gray",
+                                        verticalAlign: "top"
+                                    }} rowSpan={2 * (course.end - course.start + 0.5)}>
                                     {course.course_name}<br />
                                     P:{course.professor}
                                 </TableCell>

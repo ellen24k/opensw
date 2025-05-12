@@ -1,7 +1,8 @@
 /* 기능: 빈 강의실 */
 
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
+import { SelectedOptionIdSetterContext } from "./NaviContext.js";
 
 import MainFrame from "./MainFrame.js";
 import NaviBar from "./NaviBar.js";
@@ -18,6 +19,7 @@ function FindEmptyClassPage() {
     useEffect(() => {
         setSelectedOptionId(0)
     }, [])
+
     return (
         <MainFrame>
             <NaviBar />

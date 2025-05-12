@@ -2,8 +2,15 @@
 
 import MainFrame from "./MainFrame.js";
 import NaviBar from "./NaviBar.js";
+import { SelectedOptionIdSetterContext } from "./NaviContext.js";
+import { useContext, useEffect } from "react";
 
 function MySchedulePage() {
+    const setSelectedOptionId = useContext(SelectedOptionIdSetterContext)
+    useEffect(() => {
+        setSelectedOptionId(2)
+    }, [])
+
     return (
         <MainFrame>
             <NaviBar />

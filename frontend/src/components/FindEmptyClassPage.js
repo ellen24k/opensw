@@ -14,6 +14,10 @@ import styles from '../styles/FindEmptyClassPage.module.css';
 function FindEmptyClassPage() {
     const [emptyClassrooms, setEmptyClassrooms] = useState(['소프트332', '2공524']);
     const [activeClassroom, setActiveClassroom] = useState(null);
+    const setSelectedOptionId = useContext(SelectedOptionIdSetterContext)
+    useEffect(() => {
+        setSelectedOptionId(0)
+    }, [])
     return (
         <MainFrame>
             <NaviBar />

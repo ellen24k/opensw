@@ -130,18 +130,26 @@ function GanttChart({ courses }) {
 
     return (
         <Table >
+            <TableHead>
+                <TableRow>
+                    {dayHeader.map((day, idx_day) => {
+                        return <TableCell>{day}</TableCell>
+                    })}
+                </TableRow>
+            </TableHead>
+
             {TableMap.map((row, idx_row) => {
                 return (
                     <TableRow>
+                        {(idx_row % 2 == 0) && <TableCell rowSpan={2}>{hourHeader[idx_row]}</TableCell>}
                         {Object.values(row)[0].map((course, idx_course) => {
                             if (course == "") {
                                 return <TableCell />
                             } else if (typeof (course) == "object") {
-                                return <TableCell sx={{ backgroundColor: "blue", color: "white", fontSize: "8px" }} rowSpan={2 * (course.end - course.start + 0.5)}>{course.course_name}</TableCell>
+                                return <TableCell sx={{ backgroundColor: "blue", color: "white", fontSize: "12px" }} rowSpan={2 * (course.end - course.start + 0.5)}>{course.course_name}</TableCell>
                             } else if (typeof (course) == "number") {
 
                             }
-
                         })}
                     </TableRow>
                 )

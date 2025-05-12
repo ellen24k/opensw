@@ -133,7 +133,7 @@ function GanttChart({ courses }) {
             <TableHead>
                 <TableRow>
                     {dayHeader.map((day, idx_day) => {
-                        return <TableCell>{day}</TableCell>
+                        return <TableCell align="center">{day}</TableCell>
                     })}
                 </TableRow>
             </TableHead>
@@ -141,7 +141,7 @@ function GanttChart({ courses }) {
             {TableMap.map((row, idx_row) => {
                 return (
                     <TableRow>
-                        {(idx_row % 2 == 0) && <TableCell rowSpan={2}>{hourHeader[idx_row]}</TableCell>}
+                        {(idx_row % 2 == 0) && <TableCell rowSpan={2}>{hourHeader[idx_row / 2]}</TableCell>}
                         {Object.values(row)[0].map((course, idx_course) => {
                             if (course == "") {
                                 return <TableCell />

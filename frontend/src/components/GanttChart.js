@@ -114,6 +114,8 @@ function GanttChart({ courses }) {
 
             const uniqueCourseCodes = [...new Set(normCourses.map(courseObj => courseObj["course_code"]))]
             console.log(uniqueCourseCodes)
+
+            // forEach는 배열을 반환하지 않고, 콜백 함수만 처리한다. courseObj는 레퍼런스이므로 원본 배열을 변경할 수 있다.
             uniqueCourseCodes.map((code, idx) => {
                 normCourses.filter(courseObj => courseObj["course_code"] == code).forEach(courseObj => {
                     courseObj["color"] = colorMap[idx]
@@ -143,7 +145,7 @@ function GanttChart({ courses }) {
         <Table >
             <TableHead>
                 <TableRow>
-                    {dayHeader.map((day, idx_day) => {
+                    {dayHeader.map((day) => {
                         return <TableCell align="center">{day}</TableCell>
                     })}
                 </TableRow>
@@ -153,7 +155,7 @@ function GanttChart({ courses }) {
                 return (
                     <TableRow>
                         {(idx_row % 2 == 0) && <TableCell rowSpan={2}>{hourHeader[idx_row / 2]}</TableCell>}
-                        {Object.values(row)[0].map((course, idx_course) => {
+                        {Object.values(row)[0].map((course) => {
                             if (course == "") {
                                 return <TableCell />
                             } else if (typeof (course) == "object") {

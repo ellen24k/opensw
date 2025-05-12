@@ -5,14 +5,14 @@ import NaviBar from "./NaviBar.js";
 import { Button } from "@mui/material";
 import ClassFilterArea from "./ClassFilterArea.js"
 import GanttChart from "./GanttChart.js"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { SelectedOptionSetterContext } from "./SelectedOptionContext.js";
 
 function ViewClassSchedulePage() {
     const [courses, setCourses] = useState(null);
     const { classroomName } = useParams();
-    const SelectedOptionSetter = useContext(SelectedOptionSetterContext)
+    const setSelectedOptionId = useContext(SelectedOptionSetterContext)
 
     useEffect(() => {
         setSelectedOptionId(1)

@@ -139,11 +139,11 @@ function ClassFilterArea({ setCourses, classroomName = null }) {
 
 
 
-        const buildingId = classroomName.match(/^[0-9]*[ㄱ-ㅎ가-힣]*/g)
-        const filteredClassRoom = await fetchFilteredClassroom(buildingId[0]);
+        const buildingId = classroomName.match(/^[0-9]*[ㄱ-ㅎ가-힣]*/g)[0]
+        const filteredClassRoom = await fetchFilteredClassroom(buildingId);
         setClassroomList(filteredClassRoom)
         const preUniqueFloor = filteredClassRoom.map((classItem, index) => {
-            const prefixLength = buildingId[0].length;
+            const prefixLength = buildingId.length;
             return classItem.slice(prefixLength).at(0)
         })
         const postUniqueFloor = [...new Set(preUniqueFloor)];
@@ -151,11 +151,11 @@ function ClassFilterArea({ setCourses, classroomName = null }) {
 
 
 
-        const classroomId = classroomName.slice(buildingId[0].length)
-        setSelectBuilding(buildingId[0])
+        const classroomId = classroomName.slice(buildingId.length)
+        setSelectBuilding(buildingId)
         setSelectFloor(classroomId.at(0))
 
-        const courses = await fetchCoursesFromClassroom(buildingId[0], classroomId)
+        const courses = await fetchCoursesFromClassroom(buildingId, classroomId)
 
         setCourses(courses)
     }

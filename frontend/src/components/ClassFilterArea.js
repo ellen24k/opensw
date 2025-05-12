@@ -127,7 +127,9 @@ function ClassFilterArea({ setCourses, classroomName = null }) {
         const fetchData = async () => {
             if (!selectBuilding) {
                 const buildingId = selectClassroom.match(/^[0-9]*[ㄱ-ㅎ가-힣]*/g)
+                console.log(buildingId)
                 const classroomId = selectClassroom.slice(buildingId[0].length)
+                console.log(classroomId)
                 const courses = await fetchCoursesFromClassroom(buildingId[0], classroomId)
                 setCourses(courses)
             } else {

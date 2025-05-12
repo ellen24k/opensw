@@ -1,9 +1,12 @@
 import { Table, TableRow, TableHead, TableCell } from '@mui/material'
 import { useState, useEffect } from 'react'
 // import styles from '../styles/GanttChart.module.css'
+import { purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, red, pink, grey, blueGrey } from '@mui/material/colors'
 
 const dayHeader = [" ", "월", "화", "수", "목", "금", "토"]
 const hourHeader = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
+const colorMap = [purple[800], deepPurple[800], indigo[800], blue[800], lightBlue[800], cyan[800], teal[800], green[800], lightGreen[800], lime[800], yellow[800], amber[800], orange[800], deepOrange[800], red[800], pink[800], grey[800], blueGrey[800]]
+
 
 /* 각 시간에 대응하는 key-value 배열 생성
    [
@@ -108,6 +111,9 @@ function GanttChart({ courses }) {
                 const end = courseObj["end"]
                 return { ...courseObj, "course_code": parseInt(courseObj["course_code"]), "start": (start - 1) * 0.5 + 9, "end": (end - 1) * 0.5 + 9 }
             })
+
+            const uniqueCourseCodes = [...new Set(normCourses.map(courseObj => courseObj["course_code"]))]
+            console.log(uniqueCourseCodes)
 
             console.log(normCourses)
             normCourses.forEach((courseObj) => {

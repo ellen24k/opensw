@@ -1,4 +1,5 @@
 import { Table, TableRow, TableHead, TableCell } from '@mui/material'
+import { useState, useEffect } from 'react'
 // import styles from '../styles/GanttChart.module.css'
 
 const dayHeader = [" ", "월", "화", "수", "목", "금", "토"]
@@ -34,41 +35,117 @@ const DAY_LUT = {
     "토": 5
 }
 
-const TableMap = [
+const TableMap_ = [
     { 9: ["", "", "", "", "", ""] },
+    { 9.5: ["", "", "", "", "", ""] },
     { 10: ["", "", "", "", "", ""] },
+    { 10.5: ["", "", "", "", "", ""] },
     { 11: ["", "", "", "", "", ""] },
+    { 11.5: ["", "", "", "", "", ""] },
     { 12: ["", "", "", "", "", ""] },
+    { 12.5: ["", "", "", "", "", ""] },
     { 13: ["", "", "", "", "", ""] },
+    { 13.5: ["", "", "", "", "", ""] },
     { 14: ["", "", "", "", "", ""] },
+    { 14.5: ["", "", "", "", "", ""] },
     { 15: ["", "", "", "", "", ""] },
+    { 15.5: ["", "", "", "", "", ""] },
     { 16: ["", "", "", "", "", ""] },
+    { 16.5: ["", "", "", "", "", ""] },
     { 17: ["", "", "", "", "", ""] },
+    { 17.5: ["", "", "", "", "", ""] },
     { 18: ["", "", "", "", "", ""] },
+    { 18.5: ["", "", "", "", "", ""] },
     { 19: ["", "", "", "", "", ""] },
+    { 19.5: ["", "", "", "", "", ""] },
     { 20: ["", "", "", "", "", ""] },
+    { 20.5: ["", "", "", "", "", ""] },
     { 21: ["", "", "", "", "", ""] },
+    { 21.5: ["", "", "", "", "", ""] },
     { 22: ["", "", "", "", "", ""] },
+    { 22.5: ["", "", "", "", "", ""] },
 ]
 
 function GanttChart({ courses }) {
-    if (courses == null) {
+    const [TableMap, setTableMap] = useState(TableMap_)
 
-    } else {
-        const normCourses = courses.map((courseObj, index) => {
-            const start = courseObj["start"]
-            const end = courseObj["end"]
-            return { ...courseObj, "start": (start - 1) * 0.5 + 9, "end": end * 0.5 + 9 }
-        })
+    useEffect(() => {
+        if (courses == null) {
 
-        console.log(normCourses)
-    }
+        } else {
+            const newTableMap = [
+                { 9: ["", "", "", "", "", ""] },
+                { 9.5: ["", "", "", "", "", ""] },
+                { 10: ["", "", "", "", "", ""] },
+                { 10.5: ["", "", "", "", "", ""] },
+                { 11: ["", "", "", "", "", ""] },
+                { 11.5: ["", "", "", "", "", ""] },
+                { 12: ["", "", "", "", "", ""] },
+                { 12.5: ["", "", "", "", "", ""] },
+                { 13: ["", "", "", "", "", ""] },
+                { 13.5: ["", "", "", "", "", ""] },
+                { 14: ["", "", "", "", "", ""] },
+                { 14.5: ["", "", "", "", "", ""] },
+                { 15: ["", "", "", "", "", ""] },
+                { 15.5: ["", "", "", "", "", ""] },
+                { 16: ["", "", "", "", "", ""] },
+                { 16.5: ["", "", "", "", "", ""] },
+                { 17: ["", "", "", "", "", ""] },
+                { 17.5: ["", "", "", "", "", ""] },
+                { 18: ["", "", "", "", "", ""] },
+                { 18.5: ["", "", "", "", "", ""] },
+                { 19: ["", "", "", "", "", ""] },
+                { 19.5: ["", "", "", "", "", ""] },
+                { 20: ["", "", "", "", "", ""] },
+                { 20.5: ["", "", "", "", "", ""] },
+                { 21: ["", "", "", "", "", ""] },
+                { 21.5: ["", "", "", "", "", ""] },
+                { 22: ["", "", "", "", "", ""] },
+                { 22.5: ["", "", "", "", "", ""] },
+            ]
+            const normCourses = courses.map((courseObj, index) => {
+                const start = courseObj["start"]
+                const end = courseObj["end"]
+                return { ...courseObj, "course_code": parseInt(courseObj["course_code"]), "start": (start - 1) * 0.5 + 9, "end": (end - 1) * 0.5 + 9 }
+            })
+
+            console.log(normCourses)
+            normCourses.forEach((courseObj) => {
+                const courseCode = courseObj["course_code"]
+                const courseName = courseObj["course_name"]
+                const start = courseObj["start"]
+                const end = courseObj["end"]
+                const day = courseObj["day"]
+
+                newTableMap[(start - 9) * 2][start][DAY_LUT[day]] = courseObj
+                for (let i = start + 0.5; i <= end; i += 0.5) {
+                    newTableMap[(i - 9) * 2][i][DAY_LUT[day]] = courseCode
+                }
+            })
+            console.log(newTableMap)
+            setTableMap(newTableMap)
+        }
+
+    }, [courses, TableMap])
 
     return (
         <Table >
-            <TableRow >
+            {TableMap.map((row, idx_row) => {
+                return (
+                    <TableRow>
+                        {Object.values(row)[0].map((course, idx_course) => {
+                            if (course == "") {
+                                return <TableCell />
+                            } else if (typeof (course) == "object") {
+                                return <TableCell sx={{ backgroundColor: "red" }} rowSpan={2 * (course.end - course.start + 0.5)}>{course.course_name}</TableCell>
+                            } else if (typeof (course) == "number") {
 
-            </TableRow >
+                            }
+
+                        })}
+                    </TableRow>
+                )
+            })}
         </Table >
     )
 }

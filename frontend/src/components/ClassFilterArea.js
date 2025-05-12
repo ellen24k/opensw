@@ -88,7 +88,6 @@ function ClassFilterArea({ setCourses, classroomName = null }) {
 
         /* finalFilterString to /query-classroom-list */
         const finalFilterString = selectBuilding.concat("", floor)
-        console.log(finalFilterString)
 
         /* Todo(Done): floor가 선택되면 building_prefix + floor를 / query - classroom - list로 요청
                        -> 받아온 데이터를 classList에 임베딩 */
@@ -128,7 +127,6 @@ function ClassFilterArea({ setCourses, classroomName = null }) {
         const fetchData = async () => {
             if (!selectBuilding) {
                 const buildingId = selectClassroom.match(/^[0-9]*[ㄱ-ㅎ가-힣]*/g)
-                console.log(selectClassroom.match(/^[0-9]*[ㄱ-ㅎ가-힣]*/g))
                 const classroomId = selectClassroom.slice(buildingId[0].length)
                 const courses = await fetchCoursesFromClassroom(buildingId[0], classroomId)
                 setCourses(courses)
@@ -137,7 +135,6 @@ function ClassFilterArea({ setCourses, classroomName = null }) {
                 const classroomId = selectClassroom.slice(prefixLength)
 
                 const courses = await fetchCoursesFromClassroom(selectBuilding, classroomId)
-                console.log(typeof (courses[0].end))
                 setCourses(courses)
             }
         }
@@ -150,7 +147,6 @@ function ClassFilterArea({ setCourses, classroomName = null }) {
             console.log("classroomId is null")
             return
         }
-        console.log(classroomName)
         setSelectClassroom(classroomName)
         const buildingId = classroomName.match(/^[0-9]*[ㄱ-ㅎ가-힣]*/g)
         const classroomId = classroomName.slice(buildingId[0].length)
@@ -158,8 +154,6 @@ function ClassFilterArea({ setCourses, classroomName = null }) {
         setSelectFloor(classroomId.at(0))
         const courses = await fetchCoursesFromClassroom(buildingId[0], classroomId)
         setCourses(courses)
-        console.log(courses)
-
     }
 
     return (

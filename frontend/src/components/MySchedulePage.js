@@ -7,7 +7,7 @@ import { SelectedOptionIdSetterContext } from "./NaviContext.js";
 import { useContext, useEffect, useState } from "react";
 
 function MySchedulePage() {
-    const [classListTable, setClassListTable] = useState([]);
+    const [course, setCourses] = useState([]);
     const setSelectedOptionId = useContext(SelectedOptionIdSetterContext)
     useEffect(() => {
         setSelectedOptionId(2)
@@ -16,8 +16,8 @@ function MySchedulePage() {
     return (
         <MainFrame>
             <NaviBar />
-            <GanttChart courses={classListTable}></GanttChart>
-            <BottomSheet classListTable={classListTable} setClassListTable={setClassListTable} />
+            <GanttChart courses={course}></GanttChart>
+            <BottomSheet classListTable={course} setClassListTable={setCourses} />
         </MainFrame>
     )
 }

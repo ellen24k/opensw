@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { fetchClassList } from '../api';
 import "../styles/BottomSheet.css"; // CSS 별도 정의
 
-export function BottomSheet({ course, setCourse }) {
+export default function BottomSheet({ course, setCourse }) {
 
     const [classname, setClassname] = useState('');
     const [classList, setClassList] = useState(null);

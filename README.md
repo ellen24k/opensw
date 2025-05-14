@@ -24,16 +24,14 @@
   - 신승호(팀장)
     - 아이디어 구체화 및 UI/UX 설계
     - Figma를 활용한 UI 디자인
-    - React 프론트엔드 개발
-    	- 강의실 시간표 Page 구현
-	- Navigation Bar 구현
+    - React 프론트엔드 개발: 강의실 시간표 Page / Navigation Bar 구현
   - 이현승
     - 아이디어 구체화 및 UI/UX 설계
     - React 프론트엔드 빈 강의실 페이지 개발
     - 프론트엔드 의존성 관리
   - 최준성
     - 아이디어 구체화 및 UI/UX 설계
-    - React 프론트엔드 개발: 내 시간표 Page 구현현
+    - React 프론트엔드 개발: 내 시간표 Page 구현
   
 - 백엔드 
   - 김태영

@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { fetchClassList } from '../api';
+import { BottomSheetManager } from "./BottomSheetManager";
 import "../styles/BottomSheet.css"; // CSS 별도 정의
 
-export default function BottomSheet({ course, setCourse }) {
+export default function BottomSheet({ courseList, setCourseList }) {
 
     const [classname, setClassname] = useState('');
     const [classList, setClassList] = useState(null);
@@ -44,7 +45,7 @@ export default function BottomSheet({ course, setCourse }) {
             setError(null);
 
             try {
-                const data = await fetchClassList(classname);
+                const data = await fetchClassList(classname.replace(/\s+/g, ''));
                 setClassList(data);
             } catch (err) {
                 setError("강의 정보를 불러오는 중 오류가 발생했습니다.");
@@ -60,8 +61,6 @@ export default function BottomSheet({ course, setCourse }) {
         setIsOpen(!isOpen);
     };
 
-    const handleAddClass = (list) => { setCourse((prev) => [...prev, list]); };
-
     function renderContent() { // 절차에 따른 렌더링
         if (!classname.trim()) {
             return <p>강의 이름을 입력하세요.</p>;
@@ -73,14 +72,7 @@ export default function BottomSheet({ course, setCourse }) {
             return <p style={{ color: 'red' }}>{error}</p>;
         }
         if (classList && classList.length > 0) {
-            return classList.map((course, index) => (
-                <div key={index} className="course-item">
-                    <li>
-                        {course.course_name} ({course.org_time}) - {course.professor}
-                    </li>
-                    <button onClick={() => handleAddClass(course)}>추가</button>
-                </div>
-            ));
+            return <BottomSheetManager courseList={courseList} setCourseList={setCourseList} classList={classList}></BottomSheetManager>;
         }
         if (classname.trim()) {
             return <p>검색 결과가 없습니다.</p>;
@@ -94,7 +86,7 @@ export default function BottomSheet({ course, setCourse }) {
                 <p>과목 검색하기</p>
             </div>
             <div className="sheet-content">
-                <input type="text" placeholder="강의 이름 입력" value={classname} onChange={(e) => setClassname(e.target.value)} />
+                <input type="text" placeholder="강의 이름 입력" value={classname} onChange={(e) => { setClassname(e.target.value); }} />
                 <ul>
                     {renderContent()}
                 </ul>

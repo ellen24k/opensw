@@ -1,4 +1,4 @@
-import { classTime } from '../util';
+import { classTime } from '../utils/time.js';
 
 import Card from 'react-bootstrap/Card';
 

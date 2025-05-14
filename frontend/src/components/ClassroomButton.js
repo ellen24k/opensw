@@ -1,4 +1,4 @@
-import { classTime, periodStart } from '../util.js';
+import { classTime, periodStart } from '../utils/time.js';
 
 import Card from 'react-bootstrap/Card';
 import ListGroupItem from 'react-bootstrap/ListGroupItem';

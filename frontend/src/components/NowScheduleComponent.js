@@ -71,9 +71,10 @@ function nextInfo(next, info) {
     return info;
 }
 
-// 9를 09:00으로, 10.5를 10:30으로 형식을 전환하는 함수
-function formatTime(timeFloat) {
-    timeFloat = (timeFloat - 1) * 0.5 + 9;
+// 시간표 시간을 정규 시간으로 바꿔주는 함수
+function formatTime(timeFloat, state = true) {
+    if (state) timeFloat = (timeFloat - 1) * 0.5 + 9;
+    else timeFloat = (timeFloat - 1) * 0.5 + 9.5;
     const hour = Math.floor(timeFloat);
     const minute = Math.round((timeFloat - hour) * 60);
     const hourStr = hour.toString().padStart(2, '0');
@@ -120,7 +121,7 @@ function makeCard(prev, now, next, state) {
                     {
                         !info_1.isNull &&
                         <Box sx={{ display: 'flex', alignItems: 'baseline', mt: 0.5 }}>
-                            <Typography variant="body2" sx={{ color: '#888' }}>{formatTime(info_1.start)} ~ {formatTime(info_1.end)}</Typography>
+                            <Typography variant="body2" sx={{ color: '#888' }}>{formatTime(info_1.start)} ~ {formatTime(info_1.end, false)}</Typography>
                             <Typography variant="body2" sx={{ fontWeight: 'bold', paddingLeft: 1 }}>({info_1.course_room})</Typography>
                         </Box>
                     }
@@ -171,7 +172,7 @@ function makeCard(prev, now, next, state) {
                     {
                         !info_1.isNull &&
                         <Box sx={{ display: 'flex', alignItems: 'baseline', mt: 0.5 }}>
-                            <Typography variant="body2" sx={{ color: '#888' }}>{formatTime(info_1.start)} ~ {formatTime(info_1.end)}</Typography>
+                            <Typography variant="body2" sx={{ color: '#888' }}>{formatTime(info_1.start)} ~ {formatTime(info_1.end, false)}</Typography>
                             <Typography variant="body2" sx={{ fontWeight: 'bold', paddingLeft: 1 }}>({info_1.course_room})</Typography>
                         </Box>
                     }
@@ -191,7 +192,7 @@ function makeCard(prev, now, next, state) {
                     {
                         !info_1.isNull &&
                         <Box sx={{ display: 'flex', alignItems: 'baseline', mt: 0.5 }}>
-                            <Typography variant="body2" sx={{ color: '#888' }}>{formatTime(info_2.start)} ~ {formatTime(info_2.end)}</Typography>
+                            <Typography variant="body2" sx={{ color: '#888' }}>{formatTime(info_2.start)} ~ {formatTime(info_2.end, false)}</Typography>
                             <Typography variant="body2" sx={{ fontWeight: 'bold', paddingLeft: 1 }}>({info_2.course_room})</Typography>
                         </Box>
                     }

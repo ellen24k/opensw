@@ -18,12 +18,12 @@ function addCourseList(group, courseList, setCourseList) {
         group.courses.map((course) => {
             setCourseList((prev) => [...prev, course])
         });
+        return true;
     }
     catch (err) {
         alert(err);
         return false;
     }
-    return true;
 }
 function removeCourseList(group, setCourseList) {
     setCourseList(prevList => prevList.filter(course => course.org_time !== group.org_time));

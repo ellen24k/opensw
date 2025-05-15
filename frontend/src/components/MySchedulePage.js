@@ -3,15 +3,10 @@ import BottomSheet from './BottomSheet.js';
 import MainFrame from "./MainFrame.js";
 import NaviBar from "./NaviBar.js";
 import GanttChart from './GanttChart.js';
-import { SelectedOptionIdSetterContext } from "./NaviContext.js";
 import { useContext, useEffect, useState } from "react";
 
 function MySchedulePage() {
     const [courseList, setCoursesList] = useState([]);
-    const setSelectedOptionId = useContext(SelectedOptionIdSetterContext)
-    useEffect(() => {
-        setSelectedOptionId(2)
-    }, [])
 
     return (
         <MainFrame>

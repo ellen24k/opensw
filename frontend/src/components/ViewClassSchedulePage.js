@@ -14,7 +14,7 @@ function ViewClassSchedulePage() {
     const { classroomName } = useParams();
 
     return (
-        <MainFrame spacing={1}>
+        <MainFrame spacing={2}>
             <NaviBar />
             <ClassFilterArea setCourses={setCourses} classroomName={classroomName}></ClassFilterArea>
             <Stack direction="row" alignItems="center">

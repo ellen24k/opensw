@@ -166,7 +166,7 @@ function ClassFilterArea({ setCourses, classroomName = null }) {
     }
 
     return (
-        <Stack spacing="10px" sx={{ paddingTop: "14px" }} useFlexGap>
+        <Stack spacing="10px">
             <Stack direction="row" sx={{ justifyContent: "space-between" }}>
                 <Autocomplete
                     options={buildingList}

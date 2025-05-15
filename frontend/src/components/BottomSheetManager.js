@@ -1,4 +1,5 @@
-import { BottomSheetComponent } from './BottomSheetComponent'; import { Box } from '@mui/material';
+import { BottomSheetComponent } from './BottomSheetComponent';
+import { Box } from '@mui/material';
 
 function groupByOrgTime(classList) {
     const grouped = {};
@@ -22,7 +23,7 @@ export function BottomSheetManager({ courseList, setCourseList, classList }) {
     return (
         <Box
             sx={{
-                maxHeight: '60vh',          // 화면 높이의 70%만 사용
+                maxHeight: '60vh',          // 화면 높이의 60%만 사용
                 overflowY: 'auto',          // 세로 스크롤 허용
                 padding: 2,
                 backgroundColor: '#fafafa',

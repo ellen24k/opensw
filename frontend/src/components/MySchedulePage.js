@@ -4,7 +4,7 @@ import MainFrame from "./MainFrame.js";
 import NaviBar from "./NaviBar.js";
 import GanttChart from './GanttChart.js';
 import { useState } from "react";
-import { NowSchedule } from './NowSchedule.js';
+import { NowScheduleState } from './NowScheduleState.js';
 
 function MySchedulePage() {
     const [courseList, setCoursesList] = useState([]);
@@ -12,7 +12,7 @@ function MySchedulePage() {
     return (
         <MainFrame>
             <NaviBar />
-            <NowSchedule courseList={courseList}></NowSchedule>
+            <NowScheduleState courseList={courseList}></NowScheduleState>
             <GanttChart courses={courseList}></GanttChart>
             <BottomSheet courseList={courseList} setCourseList={setCoursesList} />
         </MainFrame>

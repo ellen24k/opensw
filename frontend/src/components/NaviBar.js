@@ -31,6 +31,7 @@ function NaviBar() {
             {iterableOptions.map(([key, item]) => {
                 return (
                     <NavLink
+                        key={item.id}
                         id={item.id}
                         to={item.link}
                         className={({ isActive }) => isActive ? LinkSelectedClass : LinkNotSelectedClass}

@@ -8,7 +8,7 @@ function addCourseList(group, courseList, setCourseList) {
     try {
         group.courses.map((course) => {
             courseList.map((ex_course) => {
-                if (ex_course.start <= course.start && course.start <= ex_course.end || ex_course.start <= course.end && course.end <= ex_course.end) {
+                if (ex_course.start <= course.start && course.start <= ex_course.end && ex_course.day == course.day || ex_course.start <= course.end && course.end <= ex_course.end && ex_course.day == course.day) {
                     throw '시간이 겹치는 수업이 존재합니다.';
                 }
                 if (course.course_code == ex_course.course_code) {

@@ -3,11 +3,30 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { useState } from 'react';
 
-function addCourseList(group, setCourseList) {
-    group.courses.map((course) => { setCourseList((prev) => [...prev, course]) });
+function addCourseList(group, courseList, setCourseList) {
+    try {
+        group.courses.map((course) => {
+            courseList.map((ex_course) => {
+                if (ex_course.start <= course.start && course.start <= ex_course.end || ex_course.start <= course.end && course.end <= ex_course.end) {
+                    throw '시간이 겹치는 수업이 존재합니다.';
+                }
+                if (course.course_code == ex_course.course_code) {
+                    throw '이미 존재하는 과목입니다.'
+                }
+            })
+        });
+        group.courses.map((course) => {
+            setCourseList((prev) => [...prev, course])
+        });
+    }
+    catch (err) {
+        alert(err);
+        return false;
+    }
+    return true;
 }
 function removeCourseList(group, setCourseList) {
-    setCourseList(prevList => prevList.filter(course => course.course_code !== group.courses[0].course_code));
+    setCourseList(prevList => prevList.filter(course => course.org_time !== group.org_time));
 }
 
 export function BottomSheetComponent({ courseList, setCourseList, group, index }) {
@@ -32,8 +51,14 @@ export function BottomSheetComponent({ courseList, setCourseList, group, index }
 
                 <IconButton
                     onClick={() => {
-                        isSelected ? removeCourseList(group, setCourseList) : addCourseList(group, setCourseList);
-                        setIsSelected(!isSelected);
+                        if (isSelected) {
+                            removeCourseList(group, setCourseList);
+                            setIsSelected(false);
+                        }
+                        else {
+                            const success = addCourseList(group, courseList, setCourseList);
+                            if (success) setIsSelected(true);
+                        }
                     }}
                     sx={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)' }}
                     color="primary"

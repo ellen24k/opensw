@@ -3,6 +3,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { useState } from 'react';
 
+// 이미 존재하는 과목이거나 시간대가 겹치지 않는다면 수강 리스트에 추가하는 함수
 function addCourseList(group, courseList, setCourseList) {
     try {
         group.courses.map((course) => {
@@ -25,6 +26,7 @@ function addCourseList(group, courseList, setCourseList) {
         return false;
     }
 }
+// 이미 리스트에 들어가 있는 과목을 제거하는 함수
 function removeCourseList(group, setCourseList) {
     setCourseList(prevList => prevList.filter(course => course.org_time !== group.org_time));
 }
@@ -49,7 +51,7 @@ export function BottomSheetComponent({ courseList, setCourseList, group, index }
                     {course.course_code}
                 </Typography>
 
-                <IconButton
+                <IconButton // 상황에 맞게 추가/제거 버튼 활성화
                     onClick={() => {
                         if (isSelected) {
                             removeCourseList(group, setCourseList);

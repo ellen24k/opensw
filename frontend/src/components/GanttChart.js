@@ -1,4 +1,4 @@
-import { Table, TableRow, TableHead, TableCell } from '@mui/material'
+import { Table, TableRow, TableHead, TableCell, TableBody } from '@mui/material'
 import { useState, useEffect } from 'react'
 // import styles from '../styles/GanttChart.module.css'
 import { purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, red, pink, grey, blueGrey } from '@mui/material/colors'
@@ -165,14 +165,15 @@ function GanttChart({ courses }) {
 
     return (
         <Table sx={{ borderCollapse: 'collapse', marginTop: "10px" }}>
-            <TableHead>
-                <TableRow>
+            <TableHead key="day-header">
+                <TableRow key="day-header-row">
                     {dayHeader.map((day, index) => {
                         return <TableCell key={index} align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>{day}</TableCell>
                     })}
                 </TableRow>
             </TableHead>
-
+                
+            <TableBody>
             {TableMap.map((row, idx_row) => {
                 return (
                     <TableRow key={idx_row}>
@@ -209,6 +210,7 @@ function GanttChart({ courses }) {
                     </TableRow>
                 )
             })}
+            </TableBody>
         </Table>
     )
 }

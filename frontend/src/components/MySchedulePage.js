@@ -1,13 +1,18 @@
 /* 기능: 내 시간표 */
-
+import BottomSheet from './BottomSheet.js';
 import MainFrame from "./MainFrame.js";
 import NaviBar from "./NaviBar.js";
+import GanttChart from './GanttChart.js';
+import { useState } from "react";
 
 function MySchedulePage() {
+    const [courseList, setCoursesList] = useState([]);
+
     return (
         <MainFrame>
             <NaviBar />
-            {/* 여기에 코드를 작성해주세요. */}
+            <GanttChart courses={courseList}></GanttChart>
+            <BottomSheet courseList={courseList} setCourseList={setCoursesList} />
         </MainFrame>
     );
 }

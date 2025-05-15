@@ -47,3 +47,12 @@ export const fetchCoursesFromClassroom = async (buildingId, classroomId) => {
         throw error;
     }
 };
+
+export const fetchClassList = async (classname) => {
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/query-course-table/${classname}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};

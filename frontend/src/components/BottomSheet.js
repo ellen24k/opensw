@@ -13,12 +13,12 @@ export default function BottomSheet({ courseList, setCourseList }) {
 
     const sheetRef = useRef(null);
 
+    // BottomSheet의 바깥을 클릭 or 터치했을 때, BottomSheet의 상태에 따른 처리
     const handleClickOutside = (event) => {
         if (sheetRef.current && !sheetRef.current.contains(event.target)) {
             setIsOpen(false);
         }
     };
-
     useEffect(() => {
         if (isOpen) {
             document.addEventListener("mousedown", handleClickOutside);
@@ -34,7 +34,13 @@ export default function BottomSheet({ courseList, setCourseList }) {
         };
     }, [isOpen]);
 
-    useEffect(() => { // classname이 변경될 때마다 실행
+    // BottomSheet 헤더 부분 동작
+    const toggleSheet = () => {
+        setIsOpen(!isOpen);
+    };
+
+    // 검색 결과 fetch
+    useEffect(() => {
         const fetchData = async () => {
             if (!classname.trim()) {
                 setClassList(null);  // 검색어가 비어있으면 결과 초기화
@@ -45,7 +51,7 @@ export default function BottomSheet({ courseList, setCourseList }) {
             setError(null);
 
             try {
-                const data = await fetchClassList(classname.replace(/\s+/g, ''));
+                const data = await fetchClassList(classname.replace(/\s+/g, '')); // 공백은 없는셈 친다.
                 setClassList(data);
             } catch (err) {
                 setError("강의 정보를 불러오는 중 오류가 발생했습니다.");
@@ -55,11 +61,9 @@ export default function BottomSheet({ courseList, setCourseList }) {
         };
 
         fetchData();
-    }, [classname]);
+    }, [classname]); // classname이 변경될 때마다 실행
 
-    const toggleSheet = () => {
-        setIsOpen(!isOpen);
-    };
+
 
     function renderContent() { // 절차에 따른 렌더링
         if (!classname.trim()) {

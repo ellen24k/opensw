@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { NowScheduleComponent } from './NowScheduleComponent';
 
+// 매 초 마다 현재 시간을 갱신하며 금일의 수업리스트와 상호작용하는 함수
 function updateClock(prev, now, next, setPrev, setNow, setNext, todayCourseList) {
     const nowTime = new Date();
     const time = parseFloat(
@@ -39,6 +40,8 @@ function updateClock(prev, now, next, setPrev, setNow, setNext, todayCourseList)
 
     return time;
 }
+
+// 현재 요일을 반환하는 함수
 function nowDay() {
 
     const now = new Date();
@@ -47,6 +50,7 @@ function nowDay() {
     return dayofWeek[nowDay];
 }
 
+// 금일의 수업을 시간순으로 정렬한 리스트
 function makeTodayCourseList(courseList, day) {
     const todayCourseList = courseList.filter(course => course.day == day).sort((a, b) => a.start - b.start);
 
@@ -55,7 +59,8 @@ function makeTodayCourseList(courseList, day) {
 
 export function NowScheduleState({ courseList }) {
 
-    /* 전부 null이면 공강 */
+    /* 이전 | 현재 | 다음 수업을 담는 변수 */
+    /* 각 변수의 상태에 따른 분기는 NowScheduleComponent.js에서 다루고 있음. */
     const [prevCourse, setPrevCourse] = useState(null);
     const [nowCourse, setNowCourse] = useState(null);
     const [nextCourse, setNextCourse] = useState(null);
@@ -63,6 +68,7 @@ export function NowScheduleState({ courseList }) {
     const [day, setDay] = useState(nowDay());
     const [todayCourseList, setTodayCourseList] = useState(makeTodayCourseList(courseList, day));
     const [clock, setClock] = useState(updateClock(prevCourse, nowCourse, nextCourse, setPrevCourse, setNowCourse, setNextCourse, todayCourseList));
+
     // 1초마다 clock과 day 갱신
     useEffect(() => {
         const timer = setInterval(() => {
@@ -86,12 +92,5 @@ export function NowScheduleState({ courseList }) {
         console.log(todayCourseList);
     }, [prevCourse, nowCourse, nextCourse, clock, todayCourseList]);
 
-    return (<Box sx={{
-        display: 'flex',
-        gap: 2,
-        width: '100%',
-        pt: 2
-    }}>
-        <NowScheduleComponent prev={prevCourse} now={nowCourse} next={nextCourse}></NowScheduleComponent>
-    </Box>)
+    return <NowScheduleComponent prev={prevCourse} now={nowCourse} next={nextCourse}></NowScheduleComponent>
 }

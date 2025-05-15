@@ -1,6 +1,7 @@
 import { BottomSheetComponent } from './BottomSheetComponent';
 import { Box } from '@mui/material';
 
+// 같은 수업이지만 화,목 수업이면 화요일 객체, 목요일 객체로 나눠져 있음. 이를 합쳐주는 함수
 function groupByOrgTime(classList) {
     const grouped = {};
 

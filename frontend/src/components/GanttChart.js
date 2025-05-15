@@ -1,12 +1,11 @@
-import { Table, TableRow, TableHead, TableCell } from '@mui/material'
+import { Table, TableRow, TableHead, TableCell, TableBody } from '@mui/material'
 import { useState, useEffect } from 'react'
 // import styles from '../styles/GanttChart.module.css'
 import { purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, red, pink, grey, blueGrey } from '@mui/material/colors'
 
 const dayHeader = [" ", "월", "화", "수", "목", "금", "토"]
 const hourHeader = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
-const colorMap = [purple[800], deepPurple[800], indigo[800], blue[800], lightBlue[800], cyan[800], teal[800], green[800], lightGreen[800], lime[800], yellow[800], amber[800], orange[800], deepOrange[800], red[800], pink[800], grey[800], blueGrey[800]]
-
+const colorMap = [deepPurple[900], blue[900], deepPurple[700], blue[700], deepPurple[500], blue[500], cyan[800], green[900], green[700], green[500], lime[900], lime[700], lime[500]]
 
 /* 각 시간에 대응하는 key-value 배열 생성
    [
@@ -110,6 +109,10 @@ function GanttChart({ courses }) {
                 { 22: ["", "", "", "", "", ""] },
                 { 22.5: ["", "", "", "", "", ""] },
             ]
+
+            var now = new Date()
+            var nowHour = now.getHours() + now.getMinutes() / 60
+
             // 강의 시간을 표준시간에 맞게 정규화한다.
             const normCourses = courses.map((courseObj, index) => {
                 const start = courseObj["start"]
@@ -119,12 +122,17 @@ function GanttChart({ courses }) {
 
             // 과목코드가 같은 강의는 같은 색상으로 처리하기 위해 고유 코드를 추출한다.
             const uniqueCourseCodes = [...new Set(normCourses.map(courseObj => courseObj["course_code"]))]
-            console.log(uniqueCourseCodes)
+            // console.log(uniqueCourseCodes)
 
             // 강의실 별 색상을 지정한다. 과목코드가 같으면 같은 색상으로 처리한다.
             // forEach는 배열을 반환하지 않고, 콜백 함수만 처리한다. courseObj는 레퍼런스이므로 원본 배열을 변경할 수 있다.
             uniqueCourseCodes.map((code, idx) => {
                 normCourses.filter(courseObj => courseObj["course_code"] == code).forEach(courseObj => {
+                    if (courseObj["start"] <= nowHour && courseObj["end"] + 0.5 >= nowHour) {
+                        courseObj["color"] = "#FF0000"
+                        return;
+                    }
+
                     courseObj["color"] = colorMap[idx]
                 })
             })
@@ -157,14 +165,15 @@ function GanttChart({ courses }) {
 
     return (
         <Table sx={{ borderCollapse: 'collapse', marginTop: "10px" }}>
-            <TableHead>
-                <TableRow>
+            <TableHead key="day-header">
+                <TableRow key="day-header-row">
                     {dayHeader.map((day, index) => {
                         return <TableCell key={index} align="center" sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>{day}</TableCell>
                     })}
                 </TableRow>
             </TableHead>
-
+                
+            <TableBody>
             {TableMap.map((row, idx_row) => {
                 return (
                     <TableRow key={idx_row}>
@@ -201,6 +210,7 @@ function GanttChart({ courses }) {
                     </TableRow>
                 )
             })}
+            </TableBody>
         </Table>
     )
 }

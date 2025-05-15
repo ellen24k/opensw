@@ -7,23 +7,20 @@ import IntroPage from './components/IntroPage.js';
 import FindEmptyClassPage from './components/FindEmptyClassPage.js';
 import ViewClassSchedulePage from "./components/ViewClassSchedulePage.js";
 import MySchedulePage from "./components/MySchedulePage.js";
-import { SelectedOptionIdProvider } from './components/NaviContext.js';
 
 function App() {
   return (
-    <SelectedOptionIdProvider>
-      <Router>
-        <div className="App">
-          <Routes>
-            <Route path="/" element={<IntroPage />} />
-            <Route path="/FindEmptyClassPage" element={<FindEmptyClassPage />} />
-            <Route path="/ViewClassSchedulePage" element={<ViewClassSchedulePage />} />
-            <Route path="/ViewClassSchedulePage/:classroomName" element={<ViewClassSchedulePage />} />
-            <Route path="/MySchedulePage" element={<MySchedulePage />} />
-          </Routes>
-        </div>
-      </Router>
-    </SelectedOptionIdProvider>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<IntroPage />} />
+          <Route path="/FindEmptyClassPage" element={<FindEmptyClassPage />} />
+          <Route path="/ViewClassSchedulePage" element={<ViewClassSchedulePage />} />
+          <Route path="/ViewClassSchedulePage/:classroomName" element={<ViewClassSchedulePage />} />
+          <Route path="/MySchedulePage" element={<MySchedulePage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

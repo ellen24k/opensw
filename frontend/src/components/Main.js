@@ -1,8 +1,10 @@
-function Main({ children }) {
+import { Stack } from "@mui/material";
+
+function Main({ children, spacing }) {
     return (
-        <div>
+        <Stack spacing={spacing}>
             {children}
-        </div>
+        </Stack>
     )
 }
 

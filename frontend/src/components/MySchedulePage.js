@@ -3,7 +3,7 @@ import BottomSheet from './BottomSheet.js';
 import MainFrame from "./MainFrame.js";
 import NaviBar from "./NaviBar.js";
 import GanttChart from './GanttChart.js';
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 
 function MySchedulePage() {
     const [courseList, setCoursesList] = useState([]);
@@ -14,7 +14,7 @@ function MySchedulePage() {
             <GanttChart courses={courseList}></GanttChart>
             <BottomSheet courseList={courseList} setCourseList={setCoursesList} />
         </MainFrame>
-    )
+    );
 }
 
 export default MySchedulePage;

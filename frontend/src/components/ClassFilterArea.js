@@ -166,31 +166,31 @@ function ClassFilterArea({ setCourses, classroomName = null }) {
     }
 
     return (
-        <Stack spacing="10px" sx={{ paddingTop: "14px" }} useFlexGap>
+        <Stack spacing="10px">
             <Stack direction="row" sx={{ justifyContent: "space-between" }}>
                 <Autocomplete
                     options={buildingList}
-                    sx={{ width: "50%" }}
+                    sx={{ width: "47%" }}
                     renderInput={(params) => <TextField {...params} label="건물 선택" />}
                     value={selectBuilding}
                     onChange={(event, building) => { handleBuildingSelect(event, building) }} />
                 <Autocomplete
                     options={floorList}
-                    sx={{ width: "31%" }}
+                    sx={{ width: "32%" }}
                     renderInput={(params) => <TextField {...params} label="층수" />}
                     value={selectFloor}
                     onChange={(event, floor) => { handleFloorSelect(event, floor) }} />
-                <Button variant="outlined" sx={{ width: "15%" }} onClick={handleClearButtonClick}>초기화</Button>
+                <Button variant="outlined" sx={{ width: "17%" }} onClick={handleClearButtonClick}>초기화</Button>
             </Stack>
             <Stack direction="row" sx={{ justifyContent: "space-between" }}>
                 <Autocomplete
                     options={classroomList}
-                    sx={{ width: "83%" }}
+                    sx={{ width: "81%" }}
                     renderInput={(params) => <TextField {...params} label="강의실(필수)" />}
                     value={selectClassroom}
                     onChange={(event, classroom) => { handleClassroomSelect(event, classroom) }}
                 />
-                <Button variant="contained" sx={{ width: "15%" }} onClick={handleSearchButtonClick}>검색</Button>
+                <Button variant="contained" sx={{ width: "17%" }} onClick={handleSearchButtonClick}>검색</Button>
             </Stack>
         </Stack >
     )

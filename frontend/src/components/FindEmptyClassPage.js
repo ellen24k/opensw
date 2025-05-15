@@ -2,7 +2,6 @@
 
 import { useState, useContext, useEffect } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { SelectedOptionIdSetterContext } from "./NaviContext.js";
 
 import MainFrame from "./MainFrame.js";
 import NaviBar from "./NaviBar.js";
@@ -15,10 +14,6 @@ import styles from '../styles/FindEmptyClassPage.module.css';
 function FindEmptyClassPage() {
     const [emptyClassrooms, setEmptyClassrooms] = useState(['소프트332', '2공524']);
     const [activeClassroom, setActiveClassroom] = useState(null);
-    const setSelectedOptionId = useContext(SelectedOptionIdSetterContext)
-    useEffect(() => {
-        setSelectedOptionId(0)
-    }, [])
 
     return (
         <MainFrame>

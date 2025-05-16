@@ -190,7 +190,7 @@ function makeCard(prev, now, next, state) {
                     <Typography variant="body2" sx={{ fontWeight: 500 }}>{info_2.state}</Typography>
                     <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{info_2.course_name}</Typography>
                     {
-                        !info_1.isNull &&
+                        !info_2.isNull &&
                         <Box sx={{ display: 'flex', alignItems: 'baseline', mt: 0.5 }}>
                             <Typography variant="body2" sx={{ color: '#888' }}>{formatTime(info_2.start)} ~ {formatTime(info_2.end, false)}</Typography>
                             <Typography variant="body2" sx={{ fontWeight: 'bold', paddingLeft: 1 }}>({info_2.course_room})</Typography>

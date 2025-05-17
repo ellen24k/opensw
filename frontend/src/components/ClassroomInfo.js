@@ -10,6 +10,7 @@ import ClassCard from "./ClassCard.js";
 import styles from '../styles/ClassroomInfo.module.css';
 
 function ClassroomInfo({ classroom, onHide }) {
+    // TODO: API 호출
     const [classes, setClasses] = useState([]);
 
     return (

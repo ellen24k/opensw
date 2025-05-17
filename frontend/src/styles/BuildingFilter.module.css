@@ -1,0 +1,14 @@
+.Buildings {
+	display: flex;
+	gap: 0.25rem;
+	overflow-x: scroll;
+	overflow-y: visible;
+}
+
+.Buildings:has(:global(.dropdown.show)) {
+	overflow-x: clip;
+}
+
+.Button {
+	white-space: nowrap;
+}

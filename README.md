@@ -11,7 +11,6 @@
 시험기간 및 수업과 수업 사이 시간적 여유가 있을 때<br/>
 머무를 수 있는 강의실을 조회하는 서비스 개발을 목적으로 한다.<br/>*
 
-
 - **과목**: 오픈소스SW기초
 - **분반**: 3분반
 - **담당 교수**: 송인식 교수님
@@ -116,7 +115,8 @@
 ## 📂 프로그램 설치 및 실행 방법
 
 ### 사전 준비 사항
-* Docker, Git, Python, Redis, MySQL latest
+* Docker, Git, Python latest version
+* Redis, MySQL Container
 
 ### 설치 단계
 

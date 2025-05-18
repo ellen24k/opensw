@@ -15,7 +15,7 @@ function Selection({ title, items, selected, onChange, itemPostfix }) {
 
     return (
         <Stack direction="horizontal" gap={1} className={styles.SelectionXScroll}>
-            <Dropdown>
+            <Dropdown autoClose="outside">
                 <Dropdown.Toggle variant="secondary" className={styles.Selection}>
                     {title}
                 </Dropdown.Toggle>

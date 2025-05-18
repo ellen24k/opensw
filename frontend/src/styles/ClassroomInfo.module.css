@@ -61,3 +61,11 @@
 .MarginTop1 {
 	margin-top: 1rem;
 }
+
+.HeightFitContent {
+	height: fit-content !important;
+}
+
+.MinHeight18 {
+	min-height: 18rem;
+}

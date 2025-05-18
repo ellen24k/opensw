@@ -1,3 +1,17 @@
 .Gap05 {
 	gap: 0.5rem;
 }
+
+.MarginTop05 {
+	margin-top: 0.5rem;
+}
+
+.Grid2Col {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.Center {
+	align-content: center;
+	text-align: center;
+}

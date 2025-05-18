@@ -2,10 +2,12 @@
 
 import { useState, useMemo, Suspense, useTransition } from 'react';
 import {
+    endTimeToPeriod,
     getTime,
     getTimeAfter,
     getWeekday,
     minutesToTime,
+    periodEnd,
     periodsBetween,
     timeToMinutes,
 } from '../utils/time.js';
@@ -35,7 +37,9 @@ function FindEmptyClassPage() {
     const [activeClassroom, setActiveClassroom] = useState(null);
 
     const [selectedStartTime, setSelectedStartTime] = useState(currentTime);
-    const [selectedEndTime, setSelectedEndTime] = useState(getTimeAfter(+30));
+    const [selectedEndTime, setSelectedEndTime] = useState(() =>
+        periodEnd(Math.ceil(endTimeToPeriod(timeToMinutes(currentTime)) + 0.5))
+    );
     const [selectedBuildings, setSelectedBuildings] = useState([]);
     const [selectedFloors, setSelectedFloors] = useState([]);
 
@@ -136,7 +140,12 @@ function FindEmptyClassPage() {
                             onChange={(selected) => setSelectedFloors(selected)}
                         />
                     )}
-                    {selectedStartTime > selectedEndTime && <Alert variant="danger">종료 시간이 시작 시간보다 빠릅니다. 선택한 시간을 다시 확인해 주세요.</Alert>}
+                    {selectedStartTime > selectedEndTime && (
+                        <Alert variant="danger">
+                            종료 시간이 시작 시간보다 빠릅니다. 선택한 시간을 다시
+                            확인해 주세요.
+                        </Alert>
+                    )}
                     {isLoading && <div className={styles.Center}>로딩중...</div>}
                     {selectedBuildings.length > 0 ? (
                         <>

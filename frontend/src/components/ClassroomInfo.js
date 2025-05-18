@@ -15,7 +15,7 @@ function ClassroomInfo({ building, classroom, onHide }) {
     const [isLoading, startTransition] = useTransition();
     const [classes, setClasses] = useState([]);
     const todayClasses = useMemo(
-        () => classes?.filter((cls) => cls.day === today).sort((cls) => cls.start),
+        () => classes?.filter((cls) => cls.day === today && cls.course_room === classroom).sort((a, b) => a.start - b.start),
         [classes, today]
     );
 

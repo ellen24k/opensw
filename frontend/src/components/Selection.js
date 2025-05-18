@@ -21,7 +21,7 @@ function Selection({ title, items, selected, onChange, itemPostfix }) {
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                     {items.map((item) => (
-                        <Dropdown.Item key={item} onClick={() => toggleItem(item)}>
+                        <Dropdown.Item key={item} onClick={() => toggleItem(item)} className={styles.LargeDropdownItem}>
                             <Stack
                                 direction="horizontal"
                                 gap={2}

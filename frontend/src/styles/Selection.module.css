@@ -14,3 +14,7 @@
 .JustifyContentSpaceBetween {
 	justify-content: space-between;
 }
+
+.LargeDropdownItem {
+	--bs-dropdown-item-padding-y: 0.5rem;
+}

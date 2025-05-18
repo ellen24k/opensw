@@ -128,7 +128,6 @@ function FindEmptyClassPage() {
                             }}
                         />
                     </Suspense>
-
                     {selectedBuildings.length === 1 && (
                         <FloorFilter
                             building={selectedBuildings[0]}
@@ -137,6 +136,7 @@ function FindEmptyClassPage() {
                             onChange={(selected) => setSelectedFloors(selected)}
                         />
                     )}
+                    {selectedStartTime > selectedEndTime && <Alert variant="danger">종료 시간이 시작 시간보다 빠릅니다. 선택한 시간을 다시 확인해 주세요.</Alert>}
                     {isLoading && <div className={styles.Center}>로딩중...</div>}
                     {selectedBuildings.length > 0 ? (
                         <>

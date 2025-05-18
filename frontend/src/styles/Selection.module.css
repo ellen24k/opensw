@@ -1,0 +1,16 @@
+.SelectionXScroll {
+	overflow-x: scroll;
+	overflow-y: visible;
+}
+
+.SelectionXScroll:has(:global(.dropdown.show)) {
+	overflow-x: clip;
+}
+
+.Item {
+	white-space: nowrap;
+}
+
+.JustifyContentSpaceBetween {
+	justify-content: space-between;
+}

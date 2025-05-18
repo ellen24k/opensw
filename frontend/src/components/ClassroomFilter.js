@@ -1,7 +1,12 @@
-import Form from 'react-bootstrap/Form';
+import Stack from 'react-bootstrap/Stack';
 
-function ClassroomFilter({ onChange, children }) {
-    return (<>{children}</>
+import styles from '../styles/ClassroomFilter.module.css';
+
+function ClassroomFilter({ children }) {
+    return (
+        <Stack gap={1} className={styles.MarginTop}>
+            {children}
+        </Stack>
     );
 }
 

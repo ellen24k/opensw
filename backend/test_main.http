@@ -2,20 +2,19 @@
 GET http://localhost:8888/
 
 ###
-POST http://localhost:8888/set-cache-ttl?
-    ttl={{$placeholder}}
+#POST http://localhost:8888/set-cache-ttl?ttl={{$placeholder}}
 
 ###
-GET http://localhost:8888/run-crawler
+#GET http://localhost:8888/run-crawler
 
 ###
-GET http://localhost:8888/save-to-redis
+#GET http://localhost:8888/save-to-redis
 
 ###
-GET http://localhost:8888/make-json
+#GET http://localhost:8888/make-json
 
 ###
-GET http://localhost:8888/make-json-type1
+#GET http://localhost:8888/make-json-type1
 
 ###
 GET http://localhost:8888/query-classroom-json/{{building}}/{{classroom_id}}

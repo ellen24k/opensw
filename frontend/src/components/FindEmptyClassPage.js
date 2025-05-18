@@ -79,7 +79,7 @@ function FindEmptyClassPage() {
                     평일에만 이용할 수 있습니다.
                 </Alert>
             ) : (
-                <Stack gap={1} className={styles.MarginTop05}>
+                <Stack gap={2} className={styles.MarginTop05}>
                     <TimeFilter
                         start={selectedStartTime}
                         end={selectedEndTime}

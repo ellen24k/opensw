@@ -64,10 +64,17 @@
 ---
 
 ## 🖼️ UX/UI 설계 및 사용법
- - 페이지1
- - 페이지2
- - 페이지3
- - 페이지4
+ - 빈 강의실
+
+![tab1](https://raw.githubusercontent.com/ellen24k/opensw/master/backend/front1.png)
+
+ - 강의실 시간표
+
+![tab2](https://raw.githubusercontent.com/ellen24k/opensw/master/backend/front2.png)
+
+ - 내 시간표
+
+![tab3](https://raw.githubusercontent.com/ellen24k/opensw/master/backend/front3.png)
 
 ---
 
@@ -107,8 +114,8 @@
 ---
 
 ## 🖥️ 배치 다이어그램
-<!--https://raw.githubusercontent.com/ellen24k/opensw/master-->
-![Deployment Diagram](backend/resources/deployment_diagram.png)
+
+![Deployment Diagram](https://raw.githubusercontent.com/ellen24k/opensw/master/backend/resources/deployment_diagram.png)
 
 ---
 

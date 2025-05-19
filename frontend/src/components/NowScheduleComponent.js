@@ -1,5 +1,5 @@
-import { Box, Card, CardContent, Typography, IconButton } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Box, Card, CardContent, Typography } from '@mui/material';
+import { useEffect, useState, useMemo } from 'react';
 
 function makeState(prev, now, next, setState) {
     if (prev == null && now == null && next == null) setState(0); // 공강 => 1블럭 - 공강표시
@@ -17,14 +17,15 @@ function makeState(prev, now, next, setState) {
 }
 
 // info와 prev에서 겹치는 속성(course_name, course_room, professor, start, end)를 덮어쓰고, 세부 사항 조정.
-function prevInfo(prev, info) {
-
+function prevInfo(prev, info, isUsingPrev) {
+    if (prev == null) return info;
     info = {
         ...info,
         ...Object.fromEntries(
             Object.entries(prev).filter(([key]) => key in info)
         )
     };
+    info.isUsing = isUsingPrev;
     info.state = "이전 수업";
     info.color = info.isUsing ? "rgba(255, 236, 179, 1)" : "rgba(204, 255, 204, 1)";
     info.comment = info.isUsing ? "강의실이 사용중이에요." : "강의실이 비어있어요.";
@@ -34,14 +35,15 @@ function prevInfo(prev, info) {
 }
 
 // info와 now 겹치는 속성(course_name, course_room, professor, start, end)를 덮어쓰고, 세부 사항 조정.
-function nowInfo(now, info) {
-
+function nowInfo(now, info, isUsingNow) {
+    if (now == null) return info;
     info = {
         ...info,
         ...Object.fromEntries(
             Object.entries(now).filter(([key]) => key in info)
         )
     };
+    info.isUsing = isUsingNow;
     info.state = "현재 수업";
     info.color = "rgba(255, 204, 204, 1)";
     info.comment = "강의실이 사용중이에요.";
@@ -51,7 +53,7 @@ function nowInfo(now, info) {
 }
 
 // info와 now 겹치는 속성(course_name, course_room, professor, start, end)를 덮어쓰고, 세부 사항 조정 및 next가 null인 상황 분기
-function nextInfo(next, info) {
+function nextInfo(next, info, isUsingNext) {
     if (next == null) {
         info.course_name = "수업 끝"
         info.comment = "수업 끝! 수고하셨어요.";
@@ -63,6 +65,7 @@ function nextInfo(next, info) {
             Object.entries(next).filter(([key]) => key in info)
         )
     };
+    info.isUsing = isUsingNext;
     info.state = "다음 수업";
     info.color = info.isUsing ? "rgba(255, 236, 179, 1)" : "rgba(204, 255, 204, 1)";
     info.comment = info.isUsing ? "강의실이 사용중이에요." : "강의실이 비어있어요.";
@@ -83,57 +86,52 @@ function formatTime(timeFloat, state = true) {
 }
 
 // 이전/현재/다음 수업 카드를 생성하는 함수
-function makeCard(prev, now, next, state) {
-    let info_1 = {
-        'state': "수업 없음",
-        'course_name': "공강",
-        'course_room': "없음",
-        'professor': "없음",
-        'start': 0,
-        'end': 0,
-        'isUsing': false,
-        'color': "rgba(220, 220, 220, 1)",
-        'comment': "오늘은 공강이에요",
-        'isNull': true
-    };
-    if (state < 2) { // 1블럭 처리
-        switch (state) {
-            case 0: // 공강
-                break;
-            case 1: // 일과 시작
-                info_1 = nextInfo(next, info_1);
-                break;
-        }
-        return <Box sx={{
-            display: 'flex',
-            gap: 2,
-            width: '100%',
-            pt: 2
-        }}>
-            <Card variant="outlined" sx={{
-                mb: 2,
-                flex: 1,
-                backgroundColor: info_1.color
-            }}>
-                <CardContent>
-                    <Typography variant="body2" sx={{ fontWeight: 500 }}>{info_1.state}</Typography>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{info_1.course_name}</Typography>
-                    {
-                        !info_1.isNull &&
-                        <Box sx={{ display: 'flex', alignItems: 'baseline', mt: 0.5 }}>
-                            <Typography variant="body2" sx={{ color: '#888' }}>{formatTime(info_1.start)} ~ {formatTime(info_1.end, false)}</Typography>
-                            <Typography variant="body2" sx={{ fontWeight: 'bold', paddingLeft: 1 }}>({info_1.course_room})</Typography>
-                        </Box>
-                    }
-                    <Typography variant="caption" sx={{ color: '#aaa', display: 'block', mt: 1 }}>{info_1.professor}</Typography>
-                    <Box sx={{ borderBottom: '2px solid black', mt: 0.5, mb: 1 }} />
-                    <Typography variant="body2">{info_1.comment}</Typography>
-                </CardContent>
-            </Card>
+function makeCard(info1, info2) {
+    console.log(info1);
+    console.log(info2);
+
+    return (
+        <Box sx={{ display: 'flex', gap: 2, width: '100%', pt: 2 }}>
+            {info1 && (
+                <Card variant="outlined" sx={{ mb: 2, flex: 1, backgroundColor: info1.color }}>
+                    <CardContent>
+                        <Typography variant="body2" sx={{ fontWeight: 500 }}>{info1.state}</Typography>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{info1.course_name}</Typography>
+                        {!info1.isNull &&
+                            <Box sx={{ display: 'flex', alignItems: 'baseline', mt: 0.5 }}>
+                                <Typography variant="body2" sx={{ color: '#888' }}>{formatTime(info1.start)} ~ {formatTime(info1.end, false)}</Typography>
+                                <Typography variant="body2" sx={{ fontWeight: 'bold', paddingLeft: 1 }}>({info1.course_room})</Typography>
+                            </Box>}
+                        <Typography variant="caption" sx={{ color: '#aaa', display: 'block', mt: 1 }}>{info1.professor}</Typography>
+                        <Box sx={{ borderBottom: '2px solid black', mt: 0.5, mb: 1 }} />
+                        <Typography variant="body2">{info1.comment}</Typography>
+                    </CardContent>
+                </Card>
+            )}
+            {info2 && (
+                <Card variant="outlined" sx={{ mb: 2, flex: 1, backgroundColor: info2.color }}>
+                    <CardContent>
+                        <Typography variant="body2" sx={{ fontWeight: 500 }}>{info2.state}</Typography>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{info2.course_name}</Typography>
+                        {!info2.isNull &&
+                            <Box sx={{ display: 'flex', alignItems: 'baseline', mt: 0.5 }}>
+                                <Typography variant="body2" sx={{ color: '#888' }}>{formatTime(info2.start)} ~ {formatTime(info2.end, false)}</Typography>
+                                <Typography variant="body2" sx={{ fontWeight: 'bold', paddingLeft: 1 }}>({info2.course_room})</Typography>
+                            </Box>}
+                        <Typography variant="caption" sx={{ color: '#aaa', display: 'block', mt: 1 }}>{info2.professor}</Typography>
+                        <Box sx={{ borderBottom: '2px solid black', mt: 0.5, mb: 1 }} />
+                        <Typography variant="body2">{info2.comment}</Typography>
+                    </CardContent>
+                </Card>
+            )}
         </Box>
-    }
-    else { // 2블럭 처리
-        let info_2 = {
+    );
+}
+
+export function NowScheduleComponent({ prev, now, next, isUsingPrev, isUsingNow, isUsingNext }) {
+    const [state, setState] = useState(0);
+    const info1 = useMemo(() => {
+        const defaultInfo = {
             'state': "수업 없음",
             'course_name': "공강",
             'course_room': "없음",
@@ -146,76 +144,46 @@ function makeCard(prev, now, next, state) {
             'isNull': true
         };
         switch (state) {
+            case 0:
+                return defaultInfo;
+            case 1:
+                return nextInfo(next, { ...defaultInfo }, isUsingNext);
             case 2:
-                info_1 = prevInfo(prev, info_1);
-                info_2 = nextInfo(next, info_2);
-                break;
+                return prevInfo(prev, { ...defaultInfo }, isUsingPrev);
             case 3:
-                info_1 = nowInfo(now, info_1);
-                info_2 = nextInfo(next, info_2);
-                break;
+                return nowInfo(now, { ...defaultInfo }, isUsingNow);
         }
-        return <Box sx={{
-            display: 'flex',
-            gap: 2,
-            width: '100%',
-            pt: 2
-        }}>
-            <Card variant="outlined" sx={{
-                mb: 2,
-                flex: 1,
-                backgroundColor: info_1.color
-            }}>
-                <CardContent>
-                    <Typography variant="body2" sx={{ fontWeight: 500 }}>{info_1.state}</Typography>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{info_1.course_name}</Typography>
-                    {
-                        !info_1.isNull &&
-                        <Box sx={{ display: 'flex', alignItems: 'baseline', mt: 0.5 }}>
-                            <Typography variant="body2" sx={{ color: '#888' }}>{formatTime(info_1.start)} ~ {formatTime(info_1.end, false)}</Typography>
-                            <Typography variant="body2" sx={{ fontWeight: 'bold', paddingLeft: 1 }}>({info_1.course_room})</Typography>
-                        </Box>
-                    }
-                    <Typography variant="caption" sx={{ color: '#aaa', display: 'block', mt: 1 }}>{info_1.professor}</Typography>
-                    <Box sx={{ borderBottom: '2px solid black', mt: 0.5, mb: 1 }} />
-                    <Typography variant="body2">{info_1.comment}</Typography>
-                </CardContent>
-            </Card>
-            <Card variant="outlined" sx={{
-                mb: 2,
-                flex: 1,
-                backgroundColor: info_2.color
-            }}>
-                <CardContent>
-                    <Typography variant="body2" sx={{ fontWeight: 500 }}>{info_2.state}</Typography>
-                    <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{info_2.course_name}</Typography>
-                    {
-                        !info_2.isNull &&
-                        <Box sx={{ display: 'flex', alignItems: 'baseline', mt: 0.5 }}>
-                            <Typography variant="body2" sx={{ color: '#888' }}>{formatTime(info_2.start)} ~ {formatTime(info_2.end, false)}</Typography>
-                            <Typography variant="body2" sx={{ fontWeight: 'bold', paddingLeft: 1 }}>({info_2.course_room})</Typography>
-                        </Box>
-                    }
-                    <Typography variant="caption" sx={{ color: '#aaa', display: 'block', mt: 1 }}>{info_2.professor}</Typography>
-                    <Box sx={{ borderBottom: '2px solid black', mt: 0.5, mb: 1 }} />
-                    <Typography variant="body2">{info_2.comment}</Typography>
-                </CardContent>
-            </Card>
-        </Box>
-    }
-}
-
-export function NowScheduleComponent({ prev, now, next }) {
-    const [state, setState] = useState(0);
+    }, [state, prev, now, next, isUsingPrev, isUsingNow, isUsingNext]);
+    const info2 = useMemo(() => {
+        const defaultInfo = {
+            'state': "수업 없음",
+            'course_name': "공강",
+            'course_room': "없음",
+            'professor': "없음",
+            'start': 0,
+            'end': 0,
+            'isUsing': false,
+            'color': "rgba(220, 220, 220, 1)",
+            'comment': "오늘은 공강이에요",
+            'isNull': true
+        };
+        switch (state) {
+            case 0:
+                return null;
+            case 1:
+                return null;
+            case 2:
+                return nextInfo(next, { ...defaultInfo }, isUsingNext);
+            case 3:
+                return nextInfo(next, { ...defaultInfo }, isUsingNext);
+        }
+    }, [state, prev, now, next, isUsingPrev, isUsingNow, isUsingNext]);
 
     useEffect(() => {
-        makeState(prev, now, next, setState);
+        makeState(prev, now, next, setState, isUsingPrev, isUsingNow, isUsingNext);
     }, [prev, now, next]);
 
-    // state 체크용. 의미X
-    useEffect(() => {
-        console.log("state: ", state);
-    }, [state]);
 
-    return (makeCard(prev, now, next, state));
+
+    return (makeCard(info1, info2));
 }

@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { fetchClassList } from '../api';
 import { BottomSheetManager } from "./BottomSheetManager";
+import { Box, TextField, InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import "../styles/BottomSheet.css"; // CSS 별도 정의
 
-export default function BottomSheet({ courseList, setCourseList }) {
+export default function BottomSheet({ courseList, setCourseList, isReset, setIsReset }) {
 
     const [classname, setClassname] = useState('');
     const [classList, setClassList] = useState(null);
@@ -76,7 +78,7 @@ export default function BottomSheet({ courseList, setCourseList }) {
             return <p style={{ color: 'red' }}>{error}</p>;
         }
         if (classList && classList.length > 0) {
-            return <BottomSheetManager courseList={courseList} setCourseList={setCourseList} classList={classList}></BottomSheetManager>;
+            return <BottomSheetManager courseList={courseList} setCourseList={setCourseList} classList={classList} isReset={isReset} setIsReset={setIsReset}></BottomSheetManager>;
         }
         if (classname.trim()) {
             return <p>검색 결과가 없습니다.</p>;
@@ -89,8 +91,41 @@ export default function BottomSheet({ courseList, setCourseList }) {
             <div className="sheet-header" onClick={toggleSheet}>
                 <p>과목 검색하기</p>
             </div>
+            <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                <TextField
+                    variant="outlined"
+                    placeholder="과목명을 입력하세요"
+                    value={classname}
+                    onChange={(e) => setClassname(e.target.value)}
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <SearchIcon style={{ color: '#555' }} />
+                            </InputAdornment>
+                        ),
+                        sx: {
+                            backgroundColor: '#f2f2f2',
+                            borderRadius: '24px',
+                            paddingY: '2px',
+                            paddingX: '8px',
+                        },
+                    }}
+                    sx={{
+                        width: '90%',
+                        '& .MuiOutlinedInput-root': {
+                            borderRadius: '24px',
+                        },
+                        '& .MuiOutlinedInput-notchedOutline': {
+                            border: 'none',
+                        },
+                        input: {
+                            fontFamily: 'NanumSquare, Roboto, sans-serif',
+                            fontWeight: 500,
+                        },
+                    }}
+                />
+            </Box>
             <div className="sheet-content">
-                <input type="text" placeholder="강의 이름 입력" value={classname} onChange={(e) => { setClassname(e.target.value); }} />
                 <ul>
                     {renderContent()}
                 </ul>

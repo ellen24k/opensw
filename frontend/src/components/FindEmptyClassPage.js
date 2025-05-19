@@ -170,22 +170,27 @@ function FindEmptyClassPage() {
                                     />
                                 ))}
                             </ListGroup>
-                            <Alert variant="secondary" className={styles.Center}>
-                                <Alert.Heading as="h6">
-                                    마음에 드는 강의실이 없으시나요?
-                                </Alert.Heading>
-                                <Button
-                                    onClick={() =>
-                                        setSelectedStartTime((selectedStartTime) =>
-                                            minutesToTime(
-                                                timeToMinutes(selectedStartTime) + 30
+                            {selectedStartTime < '23:30' && (
+                                <Alert variant="secondary" className={styles.Center}>
+                                    <Alert.Heading as="h6">
+                                        마음에 드는 강의실이 없으시나요?
+                                    </Alert.Heading>
+                                    <Button
+                                        onClick={() =>
+                                            setSelectedStartTime(
+                                                (selectedStartTime) =>
+                                                    minutesToTime(
+                                                        timeToMinutes(
+                                                            selectedStartTime
+                                                        ) + 30
+                                                    )
                                             )
-                                        )
-                                    }
-                                >
-                                    30분 뒤 사용 가능한 강의실 보기
-                                </Button>
-                            </Alert>
+                                        }
+                                    >
+                                        30분 뒤 사용 가능한 강의실 보기
+                                    </Button>
+                                </Alert>
+                            )}
                         </>
                     ) : (
                         <Alert className={styles.Center}>

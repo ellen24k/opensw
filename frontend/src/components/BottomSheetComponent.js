@@ -31,9 +31,8 @@ function removeCourseList(group, setCourseList) {
     setCourseList(prevList => prevList.filter(course => course.org_time !== group.org_time));
 }
 
-export function BottomSheetComponent({ courseList, setCourseList, group, index }) {
+export function BottomSheetComponent({ courseList, setCourseList, group, index, courseGroups, setCourseGroups }) {
     const course = group.courses[0];
-    const [isSelected, setIsSelected] = useState(group.isSelected);
 
     return (
         <Card key={index} variant="outlined" sx={{ mb: 2 }}>
@@ -53,19 +52,22 @@ export function BottomSheetComponent({ courseList, setCourseList, group, index }
 
                 <IconButton // 상황에 맞게 추가/제거 버튼 활성화
                     onClick={() => {
-                        if (isSelected) {
-                            removeCourseList(group, setCourseList);
-                            setIsSelected(false);
-                        }
-                        else {
-                            const success = addCourseList(group, courseList, setCourseList);
-                            if (success) setIsSelected(true);
+                        const success = group.isSelected
+                            ? (removeCourseList(group, setCourseList), true)
+                            : addCourseList(group, courseList, setCourseList);
+
+                        if (success) {
+                            setCourseGroups(prev =>
+                                prev.map((g, i) =>
+                                    i === index ? { ...g, isSelected: !g.isSelected } : g
+                                )
+                            );
                         }
                     }}
                     sx={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)' }}
                     color="primary"
                 >
-                    {isSelected ? <RemoveCircleIcon sx={{ color: 'rgba(245, 35, 35, 0.7)' }} fontSize="large" /> : <AddCircleIcon fontSize="large" />}
+                    {group.isSelected ? <RemoveCircleIcon sx={{ color: 'rgba(245, 35, 35, 0.7)' }} fontSize="large" /> : <AddCircleIcon fontSize="large" />}
                 </IconButton>
             </CardContent>
         </Card>

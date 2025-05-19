@@ -148,6 +148,11 @@ export function NowScheduleState({ courseList }) {
         console.log('[🟠 isUsingPrev]:', isUsingPrev);
         console.log('[🟢 isUsingNow]:', isUsingNow);
         console.log('[🔵 isUsingNext]:', isUsingNext);
+
+        console.log("courseList");
+
+        console.log(courseList);
+
     }, [prevCourse, nowCourse, nextCourse, clock, todayCourseList, isUsingPrev, isUsingNow, isUsingNext]);
 
     //00분, 30분마다 updateIsUsing 실행

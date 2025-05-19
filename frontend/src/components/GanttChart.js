@@ -128,7 +128,7 @@ function GanttChart({ courses }) {
             // forEach는 배열을 반환하지 않고, 콜백 함수만 처리한다. courseObj는 레퍼런스이므로 원본 배열을 변경할 수 있다.
             uniqueCourseCodes.map((code, idx) => {
                 normCourses.filter(courseObj => courseObj["course_code"] == code).forEach(courseObj => {
-                    if (courseObj["start"] <= nowHour && courseObj["end"] + 0.5 >= nowHour) {
+                    if (courseObj["start"] <= nowHour && courseObj["end"] + 0.5 >= nowHour && DAY_LUT[courseObj["day"]] + 1 == now.getDay()) {
                         courseObj["color"] = "#FF0000"
                         return;
                     }
@@ -172,44 +172,44 @@ function GanttChart({ courses }) {
                     })}
                 </TableRow>
             </TableHead>
-                
-            <TableBody>
-            {TableMap.map((row, idx_row) => {
-                return (
-                    <TableRow key={idx_row}>
-                        {/* 우선 헤더로 월~토까지 표시한다. */}
-                        {(idx_row % 2 == 0) && <TableCell rowSpan={2} sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>{hourHeader[idx_row / 2]}</TableCell>}
 
-                        {/* 각 시간대에 해당하는 강의 시간표를 그린다. */}
-                        {Object.values(row)[0].map((course, index) => {
-                            {/* course가 빈 문자열이면 강의가 없다는 것이므로 빈 셀을 생성한다. */ }
-                            if (course == "") {
-                                return <TableCell key={index} sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} />
-                            }
-                            else if (typeof (course) == "object") {
-                                {/* course가 object이면 end-start+0.5만큼 rowspan을 가지는 셀을 생성한다. */ }
-                                return <TableCell
-                                    key={index}
-                                    sx={{
-                                        backgroundColor: course.color,
-                                        padding: "4px",
-                                        color: "white",
-                                        fontSize: "12px",
-                                        fontFamily: "NanumSquare",
-                                        width: "14%",
-                                        borderRight: '1px solid rgba(224, 224, 224, 1)',
-                                        verticalAlign: "top"
-                                    }} rowSpan={2 * (course.end - course.start + 0.5)}>
-                                    {course.course_name}<br />
-                                    P:{course.professor}
-                                </TableCell>
-                            } else if (typeof (course) == "number") {
-                                {/* course가 number이면 위 course obj에 종속되어 span되었으므로 무시한다. */ }
-                            }
-                        })}
-                    </TableRow>
-                )
-            })}
+            <TableBody>
+                {TableMap.map((row, idx_row) => {
+                    return (
+                        <TableRow key={idx_row}>
+                            {/* 우선 헤더로 월~토까지 표시한다. */}
+                            {(idx_row % 2 == 0) && <TableCell rowSpan={2} sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }}>{hourHeader[idx_row / 2]}</TableCell>}
+
+                            {/* 각 시간대에 해당하는 강의 시간표를 그린다. */}
+                            {Object.values(row)[0].map((course, index) => {
+                                {/* course가 빈 문자열이면 강의가 없다는 것이므로 빈 셀을 생성한다. */ }
+                                if (course == "") {
+                                    return <TableCell key={index} sx={{ borderRight: '1px solid rgba(224, 224, 224, 1)' }} />
+                                }
+                                else if (typeof (course) == "object") {
+                                    {/* course가 object이면 end-start+0.5만큼 rowspan을 가지는 셀을 생성한다. */ }
+                                    return <TableCell
+                                        key={index}
+                                        sx={{
+                                            backgroundColor: course.color,
+                                            padding: "4px",
+                                            color: "white",
+                                            fontSize: "12px",
+                                            fontFamily: "NanumSquare",
+                                            width: "14%",
+                                            borderRight: '1px solid rgba(224, 224, 224, 1)',
+                                            verticalAlign: "top"
+                                        }} rowSpan={2 * (course.end - course.start + 0.5)}>
+                                        {course.course_name}<br />
+                                        P:{course.professor}
+                                    </TableCell>
+                                } else if (typeof (course) == "number") {
+                                    {/* course가 number이면 위 course obj에 종속되어 span되었으므로 무시한다. */ }
+                                }
+                            })}
+                        </TableRow>
+                    )
+                })}
             </TableBody>
         </Table>
     )

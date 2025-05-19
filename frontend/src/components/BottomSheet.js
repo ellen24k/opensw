@@ -12,6 +12,7 @@ export default function BottomSheet({ courseList, setCourseList, isReset, setIsR
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
+    const [classnameState, setClassnameState] = useState(0);
 
     const sheetRef = useRef(null);
 
@@ -46,45 +47,29 @@ export default function BottomSheet({ courseList, setCourseList, isReset, setIsR
         const fetchData = async () => {
             if (!classname.trim()) {
                 setClassList(null);  // 검색어가 비어있으면 결과 초기화
+                setClassnameState(0);
                 return;
             }
 
             setLoading(true);
             setError(null);
+            setClassnameState(1);
 
             try {
                 const data = await fetchClassList(classname.replace(/\s+/g, '')); // 공백은 없는셈 친다.
                 setClassList(data);
+                setClassnameState(3);
             } catch (err) {
                 setError("강의 정보를 불러오는 중 오류가 발생했습니다.");
+                setClassnameState(2);
             } finally {
                 setLoading(false);
             }
         };
-
         fetchData();
+
     }, [classname]); // classname이 변경될 때마다 실행
 
-
-
-    function renderContent() { // 절차에 따른 렌더링
-        if (!classname.trim()) {
-            return <p>강의 이름을 입력하세요.</p>;
-        }
-        if (loading) {
-            return <p>로딩 중...</p>;
-        }
-        if (error) {
-            return <p style={{ color: 'red' }}>{error}</p>;
-        }
-        if (classList && classList.length > 0) {
-            return <BottomSheetManager courseList={courseList} setCourseList={setCourseList} classList={classList} isReset={isReset} setIsReset={setIsReset}></BottomSheetManager>;
-        }
-        if (classname.trim()) {
-            return <p>검색 결과가 없습니다.</p>;
-        }
-        return null;
-    }
 
     return (
         <div ref={sheetRef} className={`bottom-sheet ${isOpen ? "open" : ""}`}>
@@ -127,7 +112,7 @@ export default function BottomSheet({ courseList, setCourseList, isReset, setIsR
             </Box>
             <div className="sheet-content">
                 <ul>
-                    {renderContent()}
+                    <BottomSheetManager courseList={courseList} setCourseList={setCourseList} classList={classList ?? []} isReset={isReset} setIsReset={setIsReset} classnameState={classnameState} state={classnameState} error={error}></BottomSheetManager>
                 </ul>
             </div>
         </div>

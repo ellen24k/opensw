@@ -27,13 +27,10 @@ function renderContent(courseList, setCourseList, courseGroups, setCourseGroups,
     switch (state) {
         case 0:
             return <p>강의 이름을 입력하세요.</p>;
-            break;
         case 1:
             return <p>로딩 중...</p>;
-            break;
         case 2:
             return <p style={{ color: 'red' }}>{error}</p>;
-            break;
         case 3:
             return (
                 <Box

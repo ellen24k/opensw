@@ -86,7 +86,21 @@ function parseCourseList(rawText) {
 
     return result;
 }
+//TextField에 올바르지 않은 형식이 들어왔을 경우 false를 리턴하는 함수
+function isValidCourseText(rawText) {
+    const lines = rawText.trim().split('\n');
+    if (lines.length === 0) return false;
 
+    const timePattern = /^([가-힣]+[\d,]+(\([\w\d가-힣]+\))?)(\/[가-힣]+[\d,]+(\([\w\d가-힣]+\))?)*$/;
+
+    for (const line of lines) {
+        const fields = line.trim().split('\t');
+        if (fields.length < 9) return false;
+        const raw_time = fields[8].replace(/【.*?】/g, '');
+        if (!timePattern.test(raw_time)) return false;
+    }
+    return true;
+}
 function handleParse(inputText, setCourseList) {
     const result = parseCourseList(inputText);
     setCourseList(result);
@@ -160,29 +174,27 @@ function renderContentFalse(sheetRef, isOpen, toggleSheet, inputText, setInputTe
                     variant="outlined"
                     sx={{ mb: 2 }}
                 />
-                {inputText ? <Button
-                    variant="contained"
-                    onClick={() => {
-                        handleParse(inputText, setCourseList);
-                        setIsOpen(false);
-                    }}
-                    sx={{ mb: 2 }}
-                >
-                    제출
-                </Button> :
+                <Box display={"flex"} gap={2}>
                     <Button
                         variant="contained"
+                        disabled={!isValidCourseText(inputText)}
+                        onClick={() => {
+                            handleParse(inputText, setCourseList);
+                            setIsOpen(false);
+                        }}
                         sx={{ mb: 2 }}
-                        disabled
                     >
                         제출
-                    </Button>}
-
+                    </Button>
+                    {!isValidCourseText(inputText) && <Typography variant="h6" gutterBottom>
+                        제출 형식이 올바르지 않습니다!
+                    </Typography>}
+                </Box>
                 <Typography variant="h6" gutterBottom>
                     팝업창 상단의 링크 클릭 후, 표의 헤더(속성) 부분을 제외하고 복사 후 붙여넣기.
                 </Typography>
                 <Typography variant="h6" gutterBottom>
-                    {"예시)"}
+                    {"예시) 각 속성 사이는 탭으로 띄워져 있습니다."}
                 </Typography>
                 <Typography variant="h6" gutterBottom>
                     1	죽전	540640	3	SW아카데믹영작	2	범용이수7	스튜어트존스	월19,20(인문403)【영어】	원격수업
@@ -203,7 +215,7 @@ function renderContentFalse(sheetRef, isOpen, toggleSheet, inputText, setInputTe
                     6	죽전	418520	5	컴퓨터구조	3	전공필수	강필성	화12,13,14(소프트305)/목12,13,14(소프트332)	대면수업
                 </Typography>
             </Box>
-        </div>
+        </div >
     )
 }
 

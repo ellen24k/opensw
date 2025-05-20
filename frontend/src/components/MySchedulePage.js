@@ -10,6 +10,7 @@ import { Box, Button } from '@mui/material';
 function MySchedulePage() {
 
     const [isReset, setIsReset] = useState(false);
+    const [isChecked, setIsChecked] = useState(true);
     /*페이지 새로고침 시, courseList가 초기화 되는 부분을 방지하기 위해 localStorage 사용*/
     const [courseList, setCoursesList] = useState(() => {
         try {
@@ -22,6 +23,7 @@ function MySchedulePage() {
     });
     useEffect(() => {
         localStorage.setItem('courseList', JSON.stringify(courseList));
+        if (courseList.length) setIsChecked(true);
     }, [courseList]);
 
 
@@ -49,18 +51,36 @@ function MySchedulePage() {
                     >
                         초기화
                     </Button>}
-                <Button
-                    variant="contained"
-                    fullWidth
-                    sx={{ width: '50%', borderRadius: 1 }}
-                >
-                    {isReset ? "true" : "false"}
-                </Button>
+                {isChecked ? courseList.length ?
+                    <Button
+                        variant="contained"
+                        fullWidth
+                        sx={{ width: '50%', borderRadius: 1 }}
+                        disabled
+                    >
+                        시간표 한번에 등록
+                    </Button> :
+                    <Button
+                        variant="contained"
+                        fullWidth
+                        sx={{ width: '50%', borderRadius: 1 }}
+                        onClick={() => setIsChecked(false)}
+                    >
+                        시간표 한번에 등록
+                    </Button> :
+                    <Button
+                        variant="contained"
+                        fullWidth
+                        sx={{ width: '50%', borderRadius: 1 }}
+                        onClick={() => setIsChecked(true)}
+                    >
+                        과목 직접 선택하기
+                    </Button>}
             </Box>
             <NowScheduleState courseList={courseList}></NowScheduleState>
             <GanttChart courses={courseList}></GanttChart>
             <div style={{ height: "60px" }} />
-            <BottomSheet courseList={courseList} setCourseList={setCoursesList} isReset={isReset} setIsReset={setIsReset} />
+            <BottomSheet courseList={courseList} setCourseList={setCoursesList} isReset={isReset} setIsReset={setIsReset} isChecked={isChecked} />
         </MainFrame >
     );
 }

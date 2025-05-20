@@ -78,7 +78,6 @@ function splitRoom(course_room) {
 async function checkIsUsing(course, now) {
     if (course == null) return false;
     const id = splitRoom(course.course_room);
-    console.log(id);
     try {
         const data = await fetchCoursesFromClassroom(id.building, id.room);
         const todayCourseListInRoom = data.filter(data => data.day == course.day).sort((a, b) => a.start - b.start);
@@ -139,21 +138,6 @@ export function NowScheduleState({ courseList }) {
         setTodayCourseList(makeTodayCourseList(courseList, day));
 
     }, [day, courseList]);
-
-    // 디버깅용 함수. 프로그램에 영향 X
-    useEffect(() => {
-        console.log('[🟠 prevCourse]:', prevCourse);
-        console.log('[🟢 nowCourse]:', nowCourse);
-        console.log('[🔵 nextCourse]:', nextCourse);
-        console.log('[🟠 isUsingPrev]:', isUsingPrev);
-        console.log('[🟢 isUsingNow]:', isUsingNow);
-        console.log('[🔵 isUsingNext]:', isUsingNext);
-
-        console.log("courseList");
-
-        console.log(courseList);
-
-    }, [prevCourse, nowCourse, nextCourse, clock, todayCourseList, isUsingPrev, isUsingNow, isUsingNext]);
 
     //00분, 30분마다 updateIsUsing 실행
     useEffect(() => {

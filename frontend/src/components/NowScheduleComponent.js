@@ -87,9 +87,6 @@ function formatTime(timeFloat, state = true) {
 
 // 이전/현재/다음 수업 카드를 생성하는 함수
 function makeCard(info1, info2) {
-    console.log(info1);
-    console.log(info2);
-
     return (
         <Box sx={{ display: 'flex', gap: 2, width: '100%', pt: 2 }}>
             {info1 && (

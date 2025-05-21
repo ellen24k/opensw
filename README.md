@@ -108,7 +108,7 @@
 | **프론트엔드 개발**   | `React`, `Npm`<br>`HTML`, `CSS`<br>`Axios` (API 호출)<br>`Bootstrap` (스타일링)<br>`Material UI` (스타일링)<br>`Figma` (UI 디자인)         |
 | **CI/CD 및 배포 환경**| `Oracle Cloud Infrastructure (OCI)`<br>`OCIR` (Oracle Container Registry)<br>`GitHub`, `Jenkins`<br>`k3s`, `Docker` |
 | **버전 관리 및 보안** | `Git`<br>`CORS`, `HTTPS`                                                                                            |
-| **테스트 및 모니터링**| `K6` (성능/부하 테스트)<br>`InfluxDB` (성능 데이터 저장)<br>`Grafana` (모니터링)<br>`Postman` (API 테스트)                               |
+| **테스트 및 모니터링**| `K6` (성능/부하 테스트)<br>`InfluxDB` (성능 데이터 저장)<br>`Grafana` (모니터링)<br>`Apidog` (API 테스트)                               |
 
 
 ---

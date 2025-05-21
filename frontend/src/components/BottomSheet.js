@@ -7,15 +7,36 @@ import "../styles/BottomSheet.css";
 
 //org_time 형식에 맞게 수정하는 함수
 function normalizeOrgTime(rawTime) {
-    return rawTime.split('/').map(part => {
-        const match = part.match(/([가-힣]+)([\d,]+)\(([^)]+)\)/);
-        if (!match) return part;
-        const day = match[1];
-        const times = match[2].split(',').map(Number);
-        const room = match[3];
-        const start = Math.min(...times);
-        const end = Math.max(...times);
-        return `${day}${start}~${end}(${room})`;
+    const blocks = rawTime.split('/');
+    const lastBlockHasRoom = /\(([^)]+)\)$/.test(blocks[blocks.length - 1]);
+    let sharedRoom = null;
+
+    if (blocks.length > 1 && lastBlockHasRoom) {
+        const sharedRoomMatch = blocks[blocks.length - 1].match(/\(([^)]+)\)$/);
+        sharedRoom = sharedRoomMatch ? sharedRoomMatch[1] : null;
+    }
+
+    return blocks.map(part => {
+        let match = part.match(/([가-힣]+)([\d,]+)\(([^)]+)\)/);
+        if (match) {
+            const day = match[1];
+            const times = match[2].split(',').map(Number);
+            const room = match[3];
+            const start = Math.min(...times);
+            const end = Math.max(...times);
+            return `${day}${start}~${end}(${room})`;
+        }
+
+        match = part.match(/([가-힣]+)([\d,]+)/);
+        if (match && sharedRoom) {
+            const day = match[1];
+            const times = match[2].split(',').map(Number);
+            const start = Math.min(...times);
+            const end = Math.max(...times);
+            return `${day}${start}~${end}(${sharedRoom})`;
+        }
+
+        return part;
     }).join(', ');
 }
 // 복사된 웹정보 시간표를 courseList 형식에 맞게 수정하여 courseList를 반환하는 함수

@@ -185,7 +185,7 @@
 - **CI/CD**: Continuous Integration/Continuous Deployment의 약자로, 코드 변경 사항을 자동으로 빌드하고 배포하는 프로세스.
 - **Jenkins**: CI/CD 도구로, 자동화된 빌드 및 배포 프로세스를 지원.
 - **Swagger**: API 문서화를 위한 도구로, FastAPI와 함께 사용하여 API 엔드포인트를 문서화.
-- **Postman**: API 테스트 및 문서화를 위한 도구로, API 요청을 시뮬레이션하고 응답을 확인하는 데 사용.
+- **Apidog**: API 테스트 및 문서화를 위한 도구로, API 요청을 시뮬레이션하고 응답을 확인하는 데 사용.
 
 ---
 

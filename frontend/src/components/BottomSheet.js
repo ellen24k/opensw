@@ -27,6 +27,7 @@ function normalizeOrgTime(rawTime) {
             return `${day}${start}~${end}(${room})`;
         }
 
+
         match = part.match(/([가-힣]+)([\d,]+)/);
         if (match && sharedRoom) {
             const day = match[1];
@@ -110,17 +111,28 @@ function parseCourseList(rawText) {
 //TextField에 올바르지 않은 형식이 들어왔을 경우 false를 리턴하는 함수
 function isValidCourseText(rawText) {
     const lines = rawText.trim().split('\n');
-    if (lines.length === 0) return false;
+    if (!rawText.trim()) {
+        return { valid: false, line: 0, reason: '시간표를 입력해 주세요.' };
+    }
 
     const timePattern = /^([가-힣]+[\d,]+(\([\w\d가-힣]+\))?)(\/[가-힣]+[\d,]+(\([\w\d가-힣]+\))?)*$/;
 
-    for (const line of lines) {
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
         const fields = line.trim().split('\t');
-        if (fields.length < 9) return false;
+
+        if (fields.length < 9) {
+            return { valid: false, line: i + 1, reason: '시간표 형식이 올바르지 않습니다.(속성 개수 부족)' };
+        }
+
         const raw_time = fields[8].replace(/【.*?】/g, '');
-        if (!timePattern.test(raw_time)) return false;
+
+        if (!timePattern.test(raw_time)) {
+            return { valid: false, line: i + 1, reason: '시간표 형식이 올바르지 않습니다.(옳지 않은 형식)' };
+        }
     }
-    return true;
+
+    return { valid: true };
 }
 function handleParse(inputText, setCourseList) {
     const result = parseCourseList(inputText);
@@ -198,7 +210,7 @@ function renderContentFalse(sheetRef, isOpen, toggleSheet, inputText, setInputTe
                 <Box display={"flex"} gap={2}>
                     <Button
                         variant="contained"
-                        disabled={!isValidCourseText(inputText)}
+                        disabled={!isValidCourseText(inputText).valid}
                         onClick={() => {
                             handleParse(inputText, setCourseList);
                             setIsOpen(false);
@@ -207,9 +219,13 @@ function renderContentFalse(sheetRef, isOpen, toggleSheet, inputText, setInputTe
                     >
                         제출
                     </Button>
-                    {!isValidCourseText(inputText) && <Typography variant="h6" gutterBottom>
-                        제출 형식이 올바르지 않습니다!
-                    </Typography>}
+                    {!isValidCourseText(inputText).valid && isValidCourseText(inputText).line ?
+                        <Typography variant="h6" gutterBottom>
+                            {isValidCourseText(inputText).line + "번째 줄의 " + isValidCourseText(inputText).reason}
+                        </Typography> :
+                        <Typography variant="h6" gutterBottom>
+                            {isValidCourseText(inputText).reason}
+                        </Typography>}
                 </Box>
                 <Typography variant="h6" gutterBottom>
                     팝업창 상단의 링크 클릭 후, 표의 헤더(속성) 부분을 제외하고 복사 후 붙여넣기.

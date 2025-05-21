@@ -66,15 +66,15 @@
 ## 🖼️ UX/UI 설계 및 사용법
  - 빈 강의실
 
-![tab1](https://raw.githubusercontent.com/ellen24k/opensw/master/backend/front1.png)
+![tab1](https://raw.githubusercontent.com/ellen24k/opensw/master/frontend/front1.png)
 
  - 강의실 시간표
 
-![tab2](https://raw.githubusercontent.com/ellen24k/opensw/master/backend/front2.png)
+![tab2](https://raw.githubusercontent.com/ellen24k/opensw/master/frontend/front2.png)
 
  - 내 시간표
 
-![tab3](https://raw.githubusercontent.com/ellen24k/opensw/master/backend/front3.png)
+![tab3](https://raw.githubusercontent.com/ellen24k/opensw/master/frontend/front3.png)
 
 ---
 

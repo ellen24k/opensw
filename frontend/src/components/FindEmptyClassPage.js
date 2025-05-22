@@ -17,6 +17,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Stack from 'react-bootstrap/Stack';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import MainFrame from './MainFrame.js';
 import NaviBar from './NaviBar.js';
 import ClassroomButton from './ClassroomButton.js';
@@ -91,7 +92,7 @@ function FindEmptyClassPage() {
                         onEndChange={(end) => setSelectedEndTime(end)}
                     />
                     <Suspense
-                        fallback={<div className={styles.Center}>로딩 중...</div>}
+                        fallback={<div className={styles.Center}><Spinner size="sm" variant="primary" /> 로딩 중...</div>}
                     >
                         <BuildingFilter
                             selected={selectedBuildings}

@@ -13,7 +13,6 @@ from func.mysql import import_csv_to_mysql, make_json, make_json_type1
 from func.redis import save_json_to_redis, get_json_from_redis, get_all_classroom_list, set_cache_ttl
 
 is_production = os.getenv("MODE") == "production"
-
 app = FastAPI(
     title="OpenSW API",
     description="강의실 정보 제공 API",
@@ -21,24 +20,28 @@ app = FastAPI(
     redoc_url=None if is_production else "/redoc",
 )
 
-# CORS 설정
-cors_options = {
-    "allow_origins": [
-        "https://opensw.ellen24k.kro.kr"
-    ] if is_production else [
-        "https://opensw.ellen24k.kro.kr",
-        "https://opensw-dev.ellen24k.kro.kr",
-    ],
-    "allow_credentials": True,
-    "allow_methods": ["*"],
-    "allow_headers": ["*"],
-}
-
-# 개발 환경일 때 localhost 허용
-if not is_production:
-    cors_options["allow_origin_regex"] = r"http://(localhost|127\.0\.0\.1)(:\d+)?"
-
-app.add_middleware(CORSMiddleware, **cors_options)
+# CORS 미들웨어 추가
+if is_production:
+    app.add_middleware(
+        CORSMiddleware,  # type: ignore
+        allow_origins=[
+            "https://opensw.ellen24k.kro.kr",
+        ],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+else:
+    app.add_middleware(
+        CORSMiddleware,  # type: ignore
+        allow_origins=[
+            "https://opensw-dev.ellen24k.kro.kr",
+        ],
+        allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?",  # for local
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 security = HTTPBearer()
 

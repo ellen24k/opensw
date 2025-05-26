@@ -19,7 +19,7 @@ function ViewClassSchedulePage() {
             <ClassFilterArea setCourses={setCourses} classroomName={classroomName}></ClassFilterArea>
             <Stack direction="row" alignItems="center">
                 <ErrorIcon />
-                <Typography variant="body1">진행 중인 수업은 <span style={{ color: "#FF0000" }}>빨간색</span>으로 표시됩니다.</Typography>
+                <Typography sx={{ fontFamily: "NanumSquare" }} variant="body1">진행 중인 수업은 <span style={{ color: "#FF0000" }}>빨간색</span>으로 표시됩니다.</Typography>
             </Stack>
             <GanttChart courses={courses}></GanttChart>
         </MainFrame>

@@ -18,7 +18,7 @@
 
 ---
 ## 🚀 Live Demo
-- **[Live Demo](https://your-project-domain.com)**
+- **[https://opensw.ellen24k.kro.kr](https://opensw.ellen24k.kro.kr)**
 
 ---
 

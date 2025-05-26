@@ -92,8 +92,8 @@ async def run_crawler(background_tasks: BackgroundTasks,
     if isinstance(result, list):  # CSV 파일들이 생성되었으면
         first_insert = True
         for csv_file in result:
-            # background_tasks.add_task(import_csv_to_mysql, csv_file, first_insert)
-            import_csv_to_mysql(csv_file, first_insert)
+            background_tasks.add_task(import_csv_to_mysql, csv_file, first_insert)
+            # import_csv_to_mysql(csv_file, first_insert)
             first_insert = False  # 첫 번째 파일 이후에는 first_insert를 False로 설정
         return {"message": "Data fetched and inserted into MySQL."}
     else:

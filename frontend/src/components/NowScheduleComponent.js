@@ -92,8 +92,8 @@ function makeCard(info1, info2) {
             {info1 && (
                 <Card variant="outlined" sx={{ mb: 2, flex: 1, backgroundColor: info1.color }}>
                     <CardContent>
-                        <Typography variant="body2" sx={{ fontWeight: 500 }}>{info1.state}</Typography>
-                        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{info1.course_name}</Typography>
+                        <Typography variant="body2" sx={{ fontWeight: 500, fontFamily: "NanumSquare" }}>{info1.state}</Typography>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', fontFamily: "NanumSquare" }}>{info1.course_name}</Typography>
                         {!info1.isNull &&
                             <Box sx={{ display: 'flex', alignItems: 'baseline', mt: 0.5 }}>
                                 <Typography variant="body2" sx={{ color: '#888', fontFamily: "NanumSquare" }}>{formatTime(info1.start)} ~ {formatTime(info1.end, false)}</Typography>

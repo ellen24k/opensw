@@ -17,7 +17,8 @@
 - **기간**: 2025. 03. ~ 2025. 06.
 
 ---
-## 🚀 [Live Demo](https://your-project-domain.com)
+## 🚀 Live Demo
+- **[Live Demo](https://your-project-domain.com)**
 
 ---
 

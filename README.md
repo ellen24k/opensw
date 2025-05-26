@@ -77,6 +77,7 @@
 |강의실(필수) 콤보박스 클릭|![image (1)](https://github.com/user-attachments/assets/548e7b63-92c2-44a2-af3a-5f2d4f942b70)|필터링을 원하지 않을 경우 강의실(필수) 콤보박스에서 원하는 강의실 선택|
 |건물 및 층수 콤보박스 클릭|![image (2)](https://github.com/user-attachments/assets/b50974d4-ffd8-46a4-af99-53acd6005943)![image (3)](https://github.com/user-attachments/assets/5982a4d3-c211-42f0-bd18-8645dbfddc42)|조회하고자 하는 건물과 층수 선택 후 필터링 된 강의실을 강의실(필수) 콤보박스에서 확인|
 |검색 클릭                |![image (4)](https://github.com/user-attachments/assets/9839a955-d54c-43a7-a409-36eeba035b18)|검색 버튼을 눌러 강의실 시간표 조회                          |
+|초기화 버튼 클릭         |![image (5)](https://github.com/user-attachments/assets/050bf25f-01c0-498c-9b68-e3d438aadfbb)|초기화 버튼 누를 시 선택된 필터 조건 모두 초기화              |
 
 
 

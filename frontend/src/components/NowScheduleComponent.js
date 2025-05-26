@@ -96,28 +96,28 @@ function makeCard(info1, info2) {
                         <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{info1.course_name}</Typography>
                         {!info1.isNull &&
                             <Box sx={{ display: 'flex', alignItems: 'baseline', mt: 0.5 }}>
-                                <Typography variant="body2" sx={{ color: '#888' }}>{formatTime(info1.start)} ~ {formatTime(info1.end, false)}</Typography>
-                                <Typography variant="body2" sx={{ fontWeight: 'bold', paddingLeft: 1 }}>({info1.course_room})</Typography>
+                                <Typography variant="body2" sx={{ color: '#888', fontFamily: "NanumSquare" }}>{formatTime(info1.start)} ~ {formatTime(info1.end, false)}</Typography>
+                                <Typography variant="body2" sx={{ fontWeight: 'bold', paddingLeft: 1, fontFamily: "NanumSquare" }}>({info1.course_room})</Typography>
                             </Box>}
-                        <Typography variant="caption" sx={{ color: '#aaa', display: 'block', mt: 1 }}>{info1.professor}</Typography>
+                        <Typography variant="caption" sx={{ color: '#aaa', display: 'block', mt: 1, fontFamily: "NanumSquare" }}>{info1.professor}</Typography>
                         <Box sx={{ borderBottom: '2px solid black', mt: 0.5, mb: 1 }} />
-                        <Typography variant="body2">{info1.comment}</Typography>
+                        <Typography variant="body2" sx={{ fontFamily: "NanumSquare" }}>{info1.comment}</Typography>
                     </CardContent>
                 </Card>
             )}
             {info2 && (
                 <Card variant="outlined" sx={{ mb: 2, flex: 1, backgroundColor: info2.color }}>
                     <CardContent>
-                        <Typography variant="body2" sx={{ fontWeight: 500 }}>{info2.state}</Typography>
-                        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>{info2.course_name}</Typography>
+                        <Typography variant="body2" sx={{ fontWeight: 500, fontFamily: "NanumSquare" }}>{info2.state}</Typography>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold', fontFamily: "NanumSquare" }}>{info2.course_name}</Typography>
                         {!info2.isNull &&
                             <Box sx={{ display: 'flex', alignItems: 'baseline', mt: 0.5 }}>
-                                <Typography variant="body2" sx={{ color: '#888' }}>{formatTime(info2.start)} ~ {formatTime(info2.end, false)}</Typography>
-                                <Typography variant="body2" sx={{ fontWeight: 'bold', paddingLeft: 1 }}>({info2.course_room})</Typography>
+                                <Typography variant="body2" sx={{ color: '#888', fontFamily: "NanumSquare" }}>{formatTime(info2.start)} ~ {formatTime(info2.end, false)}</Typography>
+                                <Typography variant="body2" sx={{ fontWeight: 'bold', paddingLeft: 1, fontFamily: "NanumSquare" }}>({info2.course_room})</Typography>
                             </Box>}
-                        <Typography variant="caption" sx={{ color: '#aaa', display: 'block', mt: 1 }}>{info2.professor}</Typography>
+                        <Typography variant="caption" sx={{ color: '#aaa', display: 'block', mt: 1, fontFamily: "NanumSquare" }}>{info2.professor}</Typography>
                         <Box sx={{ borderBottom: '2px solid black', mt: 0.5, mb: 1 }} />
-                        <Typography variant="body2">{info2.comment}</Typography>
+                        <Typography variant="body2" sx={{ fontFamily: "NanumSquare" }}>{info2.comment}</Typography>
                     </CardContent>
                 </Card>
             )}

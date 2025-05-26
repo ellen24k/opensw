@@ -35,7 +35,7 @@ function MySchedulePage() {
                     <Button
                         variant="contained"
                         fullWidth
-                        sx={{ width: '50%', borderRadius: 1 }}
+                        sx={{ width: '50%', borderRadius: 1, fontFamily: "NanumSquare" }}
                         disabled
                     >
                         초기화
@@ -43,7 +43,7 @@ function MySchedulePage() {
                     <Button
                         variant="contained"
                         fullWidth
-                        sx={{ width: '50%', borderRadius: 1 }}
+                        sx={{ width: '50%', borderRadius: 1, fontFamily: "NanumSquare" }}
                         onClick={() => {
                             setIsReset(true);
                             setCoursesList([]);
@@ -55,7 +55,7 @@ function MySchedulePage() {
                     <Button
                         variant="contained"
                         fullWidth
-                        sx={{ width: '50%', borderRadius: 1 }}
+                        sx={{ width: '50%', borderRadius: 1, fontFamily: "NanumSquare" }}
                         disabled
                     >
                         시간표 한번에 등록
@@ -63,7 +63,7 @@ function MySchedulePage() {
                     <Button
                         variant="contained"
                         fullWidth
-                        sx={{ width: '50%', borderRadius: 1 }}
+                        sx={{ width: '50%', borderRadius: 1, fontFamily: "NanumSquare" }}
                         onClick={() => setIsChecked(false)}
                     >
                         시간표 한번에 등록
@@ -71,7 +71,7 @@ function MySchedulePage() {
                     <Button
                         variant="contained"
                         fullWidth
-                        sx={{ width: '50%', borderRadius: 1 }}
+                        sx={{ width: '50%', borderRadius: 1, fontFamily: "NanumSquare" }}
                         onClick={() => setIsChecked(true)}
                     >
                         과목 직접 선택하기

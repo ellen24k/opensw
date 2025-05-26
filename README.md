@@ -179,6 +179,7 @@
 - **Figma**: UI/UX 디자인 도구로, 프로토타입 및 디자인을 작성하는 데 사용.
 - **FastAPI**: Python 기반의 웹 프레임워크로, API 서버를 구축하는 데 사용.
 - **Bootstrap**: HTML, CSS, JavaScript로 작성된 프론트엔드 프레임워크로, 반응형 웹 디자인을 지원.
+- **MUI**: Bootstrap과 마찬가지로 미리 만들어진 프론트엔드 프레임워크. 구글의 디자인 철학이 반영된 Material UI를 사용할 수 있음.
 - **Docker**: 애플리케이션을 컨테이너화하여 배포하는 플랫폼.
 - **k3s**: 경량화된 Kubernetes 배포판으로, 리소스가 제한된 환경에서 Kubernetes 클러스터를 운영하는 데 사용.
 - **Replica**: 동일한 애플리케이션 인스턴스를 여러 개 실행하여 부하를 분산시키는 방식. Kubernetes의 ReplicaSet을 통해 관리.
@@ -205,6 +206,7 @@
 - React 공식 문서: [https://reactjs.org/](https://reactjs.org/)
 - Figma 공식 문서: [https://www.figma.com/](https://www.figma.com/)
 - Bootstrap 공식 문서: [https://getbootstrap.com/](https://getbootstrap.com/)
+- MUI 공식 문서: [https://mui.com/](https://mui.com/)
 - FastAPI 공식 문서: [https://fastapi.tiangolo.com/](https://fastapi.tiangolo.com/)
 - Docker 공식 문서: [https://docs.docker.com/](https://docs.docker.com/)
 - Kubernetes 공식 문서: [https://kubernetes.io/](https://kubernetes.io/)

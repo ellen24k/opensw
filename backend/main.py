@@ -58,7 +58,10 @@ def verify_api_key(credentials: HTTPAuthorizationCredentials):
 
 @app.get("/")
 async def root():
-    return {"message": "/docs, /redoc 에서 API 문서를 확인하세요."}
+    if is_production:
+        return {"message": "production mode"}
+    else:
+        return {"message": "/docs, /redoc 에서 API 문서를 확인하세요."}
 
 
 @app.post(

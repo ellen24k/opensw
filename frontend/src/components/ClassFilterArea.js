@@ -184,14 +184,14 @@ function ClassFilterArea({ setCourses, classroomName = null }) {
             <Stack direction="row" sx={{ justifyContent: "space-between" }}>
                 <Autocomplete
                     options={buildingList}
-                    sx={{ width: "47%", fontFamily: "NanumSquare" }}
-                    renderInput={(params) => <TextField {...params} label="건물 선택" slotProps={{ ...params.slotProps, inputLabel: { style: {fontFamily: "NanumSquare"}} }} />}
+                    sx={{ width: "47%" }}
+                    renderInput={(params) => <TextField {...params} label="건물 선택" slotProps={{ ...params.slotProps, inputLabel: { style: { fontFamily: "NanumSquare" } }, InputValue: { style: { fontFamily: "NanumSquare" } } }} />}
                     value={selectBuilding}
                     onChange={(event, building) => { handleBuildingSelect(event, building) }} />
                 <Autocomplete
                     options={floorList}
                     sx={{ width: "32%", fontFamily: "NanumSquare" }}
-                    renderInput={(params) => <TextField {...params} label="층수" slotProps={{ ...params.slotProps, inputLabel: { style: { fontFamily: "NanumSquare" } } }} />}
+                    renderInput={(params) => <TextField {...params} label="층수" slotProps={{ ...params.slotProps, inputLabel: { style: { fontFamily: "NanumSquare" } }, InputValue: { style: { fontFamily: "NanumSquare" } } }} />}
                     value={selectFloor}
                     onChange={(event, floor) => { handleFloorSelect(event, floor) }} />
                 <Button variant="outlined" sx={{ width: "17%", fontFamily: "NanumSquare" }} onClick={handleClearButtonClick}>초기화</Button>
@@ -200,7 +200,7 @@ function ClassFilterArea({ setCourses, classroomName = null }) {
                 <Autocomplete
                     options={classroomList}
                     sx={{ width: "81%", fontFamily: "NanumSquare" }}
-                    renderInput={(params) => <TextField {...params} label="강의실(필수)" slotProps={{ ...params.slotProps, inputLabel: { style: { fontFamily: "NanumSquare" } } }} />}
+                    renderInput={(params) => <TextField {...params} label="강의실(필수)" slotProps={{ ...params.slotProps, inputLabel: { style: { fontFamily: "NanumSquare" } }, InputValue: { style: { fontFamily: "NanumSquare" } } }} />}
                     value={selectClassroom}
                     onChange={(event, classroom) => { handleClassroomSelect(event, classroom) }}
                 />

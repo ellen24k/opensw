@@ -67,7 +67,7 @@
 
 ---
 
-## 🖼️ 사용자 가이드 : UX/UI 설계 및 사용법
+## 🖼️ UX/UI 설계 및 사용법 / 사용자 가이드
  - 빈 강의실
 
 ![tab1](https://raw.githubusercontent.com/ellen24k/opensw/master/frontend/front1.png)
@@ -135,7 +135,7 @@
 
 ---
 
-## 📂 개발자 가이드 : 프로그램 설치 및 실행 방법
+## 📂 프로그램 설치 및 실행 방법 / 개발자 가이드
 
 ### 사전 준비 사항
 * Docker, Git, Python latest version

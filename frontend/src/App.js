@@ -13,7 +13,7 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<IntroPage />} />
+          <Route path="/" element={<MySchedulePage />} />
           <Route path="/FindEmptyClassPage" element={<FindEmptyClassPage />} />
           <Route path="/ViewClassSchedulePage" element={<ViewClassSchedulePage />} />
           <Route path="/ViewClassSchedulePage/:classroomName" element={<ViewClassSchedulePage />} />

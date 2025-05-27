@@ -1,7 +1,7 @@
 // src/App.js
 import React from 'react';
 import { useEffect, useReducer } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
 import IntroPage from './components/IntroPage.js';
 import FindEmptyClassPage from './components/FindEmptyClassPage.js';
@@ -13,7 +13,7 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<MySchedulePage />} />
+          <Route path="/" element={<Navigate replace to="/MySchedulePage"/>} />
           <Route path="/FindEmptyClassPage" element={<FindEmptyClassPage />} />
           <Route path="/ViewClassSchedulePage" element={<ViewClassSchedulePage />} />
           <Route path="/ViewClassSchedulePage/:classroomName" element={<ViewClassSchedulePage />} />

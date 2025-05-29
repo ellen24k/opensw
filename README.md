@@ -201,6 +201,7 @@
 - **Redis**: 메모리 기반의 데이터 저장소로, 빠른 데이터 접근을 위해 사용.
 - **CI/CD**: Continuous Integration/Continuous Deployment의 약자로, 코드 변경 사항을 자동으로 빌드하고 배포하는 프로세스.
 - **Jenkins**: CI/CD 도구로, 자동화된 빌드 및 배포 프로세스를 지원.
+- **HTTP Bearer**: 클라이언트가 인증 토큰(Bearer Token)을 HTTP 헤더에 담아 서버에 인증 정보를 전달하는 방식.
 - **Swagger**: API 문서화를 위한 도구로, FastAPI와 함께 사용하여 API 엔드포인트를 문서화.
 - **Apidog**: API 테스트 및 문서화를 위한 도구로, API 요청을 시뮬레이션하고 응답을 확인하는 데 사용.
 

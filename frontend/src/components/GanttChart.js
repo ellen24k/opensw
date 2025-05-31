@@ -7,7 +7,7 @@ const dayHeader = [" ", "월", "화", "수", "목", "금", "토"]
 const hourHeader = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
 const colorMap = [deepPurple[900], blue[900], deepPurple[700], blue[700], deepPurple[500], blue[500], cyan[800], green[900], green[700], green[500], lime[900], lime[700], lime[500]]
 const startTimeTalbe = [18, 19, 20, 20.5, 21.5, 22.5];
-const endTimeTable = [19, 20, 20.5, 21.5, 22.5, 23.5];
+const endTimeTable = [18.5, 19.5, 20, 21, 22, 23];
 /* 각 시간에 대응하는 key-value 배열 생성
    [
      {"9": [courseObject1, "", "", "", "", ""]},

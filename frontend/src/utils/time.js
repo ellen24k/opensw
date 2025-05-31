@@ -17,10 +17,11 @@ export function minutesToTime(minutes) {
  * @returns {string} 교시 시작 시간 (시:분)
  */
 export function periodStart(period) {
-    if(period <= 0 || period > 24)
-        throw new TypeError(`${period}교시는 존재하지 않습니다`);
+    if (period <= 0) period = 1;
+    if (period > 24) return "23:25";
+    //throw new TypeError(`${period}교시는 존재하지 않습니다`);
 
-    if(period <= 18) {
+    if (period <= 18) {
         return minutesToTime(9 * 60 + (period - 1) * 30);
     } else {
         return minutesToTime(18 * 60 + (period - 19) * 55);
@@ -33,10 +34,11 @@ export function periodStart(period) {
  * @returns {string} 교시 시작 시간 (시:분)
  */
 export function periodEnd(period) {
-    if(period <= 0 || period > 24)
-        throw new TypeError(`${period}교시는 존재하지 않습니다`);
+    if (period <= 0) period = 1;
+    if (period > 24) return "23:59";
+    //throw new TypeError(`${period}교시는 존재하지 않습니다`);
 
-    if(period <= 18) {
+    if (period <= 18) {
         return minutesToTime(9 * 60 + period * 30);
     } else {
         return minutesToTime(18 * 60 + (period - 18) * 55 - 5);
@@ -49,14 +51,14 @@ export function periodEnd(period) {
  * @returns {number} 교시 (실수) - 내림 시 시작한 마지막 교시, 올림 시 시작하지 않은 다음 교시
  */
 export function startTimeToPeriod(minutes) {
-    if(minutes < 0 || minutes > 24 * 60)
+    if (minutes < 0 || minutes > 24 * 60)
         throw new TypeError(
             `${minutes}(${minutesToTime(minutes)})는 유효하지 않은 시각입니다`
         );
 
-    if(minutes < 9 * 60) return 0.5;
-    else if(minutes < 18 * 60) return (minutes - 9 * 60) / 30 + 1;
-    else if(minutes < 23 * 60 + 25)
+    if (minutes < 9 * 60) return 0.5;
+    else if (minutes < 18 * 60) return (minutes - 9 * 60) / 30 + 1;
+    else if (minutes < 23 * 60 + 25)
         return (minutes - 18 * 60) / 55 + 19;
     else return 24.5;
 }
@@ -67,14 +69,14 @@ export function startTimeToPeriod(minutes) {
  * @returns {number} 교시 (실수) - 내림 시 끝난 마지막 교시, 올림 시 끝나지 않은 다음 교시
  */
 export function endTimeToPeriod(minutes) {
-    if(minutes < 0 || minutes > 24 * 60)
+    if (minutes < 0 || minutes > 24 * 60)
         throw new TypeError(
             `${minutes}(${minutesToTime(minutes)})는 유효하지 않은 시각입니다`
         );
 
-    if(minutes <= 9 * 60) return 0.5;
-    else if(minutes <= 18 * 60) return (minutes - 9 * 60) / 30;
-    else if(minutes <= 23 * 60 + 25)
+    if (minutes <= 9 * 60) return 0.5;
+    else if (minutes <= 18 * 60) return (minutes - 9 * 60) / 30;
+    else if (minutes <= 23 * 60 + 25)
         return (minutes - 18 * 60 + 5) / 55 + 18;
     else return 24.5;
 }
@@ -85,7 +87,7 @@ export function endTimeToPeriod(minutes) {
  * @returns {[string, string]} [시작 시간, 종료 시간] (시간=시:분)
  */
 export function periodRange(period) {
-    if(period <= 0 || period > 24)
+    if (period <= 0 || period > 24)
         throw new TypeError(`${period}교시는 존재하지 않습니다`);
 
     return [periodStart(period), periodEnd(period)];
@@ -121,9 +123,9 @@ export function periodsBetween(start, end) {
     const startMinutes = timeToMinutes(start);
     const endMinutes = timeToMinutes(end);
 
-    if(start < 0 || start > 24 * 60)
+    if (start < 0 || start > 24 * 60)
         throw new TypeError(`시작 시각(${start})이 유효하지 않습니다`);
-    if(end < 0 || end > 24 * 60)
+    if (end < 0 || end > 24 * 60)
         throw new TypeError(`끝 시각(${end})이 유효하지 않습니다`);
 
     const startPeriod =
@@ -132,7 +134,7 @@ export function periodsBetween(start, end) {
 
     const periods = [];
 
-    for(let i = Math.ceil(startPeriod);i <= endPeriod;i++) {
+    for (let i = Math.ceil(startPeriod); i <= endPeriod; i++) {
         periods.push(i);
     }
 
@@ -168,6 +170,6 @@ export function getTime() {
 export function getTimeAfter(minutes) {
     const date = new Date();
     let after = date.getHours() * 60 + date.getMinutes() + minutes;
-    if(after > 24 * 60) after -= 24 * 60;
+    if (after > 24 * 60) after -= 24 * 60;
     return minutesToTime(after);
 }

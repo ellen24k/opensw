@@ -1,5 +1,9 @@
 import { Box, Card, CardContent, Typography } from '@mui/material';
 import { useEffect, useState, useMemo } from 'react';
+import {
+    periodStart,
+    periodEnd,
+} from '../utils/time.js';
 
 function makeState(prev, now, next, setState) {
     if (prev == null && now == null && next == null) setState(0); // 공강 => 1블럭 - 공강표시
@@ -74,17 +78,6 @@ function nextInfo(next, info, isUsingNext) {
     return info;
 }
 
-// 시간표 시간을 정규 시간으로 바꿔주는 함수
-function formatTime(timeFloat, state = true) {
-    if (state) timeFloat = (timeFloat - 1) * 0.5 + 9;
-    else timeFloat = (timeFloat - 1) * 0.5 + 9.5;
-    const hour = Math.floor(timeFloat);
-    const minute = Math.round((timeFloat - hour) * 60);
-    const hourStr = hour.toString().padStart(2, '0');
-    const minuteStr = minute.toString().padStart(2, '0');
-    return `${hourStr}:${minuteStr}`;
-}
-
 // 이전/현재/다음 수업 카드를 생성하는 함수
 function makeCard(info1, info2) {
     return (
@@ -96,7 +89,7 @@ function makeCard(info1, info2) {
                         <Typography variant="h6" sx={{ fontWeight: 'bold', fontFamily: "NanumSquare" }}>{info1.course_name}</Typography>
                         {!info1.isNull &&
                             <Box sx={{ display: 'flex', alignItems: 'baseline', mt: 0.5 }}>
-                                <Typography variant="body2" sx={{ color: '#888', fontFamily: "NanumSquare" }}>{formatTime(info1.start)} ~ {formatTime(info1.end, false)}</Typography>
+                                <Typography variant="body2" sx={{ color: '#888', fontFamily: "NanumSquare" }}>{periodStart(info1.start)} ~ {periodEnd(info1.end)}</Typography>
                                 <Typography variant="body2" sx={{ fontWeight: 'bold', paddingLeft: 1, fontFamily: "NanumSquare" }}>({info1.course_room})</Typography>
                             </Box>}
                         <Typography variant="caption" sx={{ color: '#aaa', display: 'block', mt: 1, fontFamily: "NanumSquare" }}>{info1.professor}</Typography>
@@ -112,7 +105,7 @@ function makeCard(info1, info2) {
                         <Typography variant="h6" sx={{ fontWeight: 'bold', fontFamily: "NanumSquare" }}>{info2.course_name}</Typography>
                         {!info2.isNull &&
                             <Box sx={{ display: 'flex', alignItems: 'baseline', mt: 0.5 }}>
-                                <Typography variant="body2" sx={{ color: '#888', fontFamily: "NanumSquare" }}>{formatTime(info2.start)} ~ {formatTime(info2.end, false)}</Typography>
+                                <Typography variant="body2" sx={{ color: '#888', fontFamily: "NanumSquare" }}>{periodStart(info1.start)} ~ {periodEnd(info1.end)}</Typography>
                                 <Typography variant="body2" sx={{ fontWeight: 'bold', paddingLeft: 1, fontFamily: "NanumSquare" }}>({info2.course_room})</Typography>
                             </Box>}
                         <Typography variant="caption" sx={{ color: '#aaa', display: 'block', mt: 1, fontFamily: "NanumSquare" }}>{info2.professor}</Typography>

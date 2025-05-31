@@ -4,9 +4,10 @@ import { useState, useEffect } from 'react'
 import { purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, red, pink, grey, blueGrey } from '@mui/material/colors'
 
 const dayHeader = [" ", "월", "화", "수", "목", "금", "토"]
-const hourHeader = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
+const hourHeader = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
 const colorMap = [deepPurple[900], blue[900], deepPurple[700], blue[700], deepPurple[500], blue[500], cyan[800], green[900], green[700], green[500], lime[900], lime[700], lime[500]]
-
+const startTimeTalbe = [18, 19, 20, 20.5, 21.5, 22.5];
+const endTimeTable = [19, 20, 20.5, 21.5, 22.5, 23.5];
 /* 각 시간에 대응하는 key-value 배열 생성
    [
      {"9": [courseObject1, "", "", "", "", ""]},
@@ -66,8 +67,9 @@ const TableMap_ = [
     { 21.5: ["", "", "", "", "", ""] },
     { 22: ["", "", "", "", "", ""] },
     { 22.5: ["", "", "", "", "", ""] },
+    { 23: ["", "", "", "", "", ""] },
+    { 23.5: ["", "", "", "", "", ""] },
 ]
-
 function GanttChart({ courses }) {
     const [TableMap, setTableMap] = useState(TableMap_)
 
@@ -108,6 +110,8 @@ function GanttChart({ courses }) {
                 { 21.5: ["", "", "", "", "", ""] },
                 { 22: ["", "", "", "", "", ""] },
                 { 22.5: ["", "", "", "", "", ""] },
+                { 23: ["", "", "", "", "", ""] },
+                { 23.5: ["", "", "", "", "", ""] },
             ]
 
             var now = new Date()
@@ -117,7 +121,7 @@ function GanttChart({ courses }) {
             const normCourses = courses.map((courseObj, index) => {
                 const start = courseObj["start"]
                 const end = courseObj["end"]
-                return { ...courseObj, "course_code": parseInt(courseObj["course_code"]), "start": (start - 1) * 0.5 + 9, "end": (end - 1) * 0.5 + 9 }
+                return { ...courseObj, "course_code": parseInt(courseObj["course_code"]), "start": start >= 19 ? startTimeTalbe[start - 19] : (start - 1) * 0.5 + 9, "end": end >= 19 ? endTimeTable[end - 19] : (end - 1) * 0.5 + 9 }
             })
 
             // 과목코드가 같은 강의는 같은 색상으로 처리하기 위해 고유 코드를 추출한다.

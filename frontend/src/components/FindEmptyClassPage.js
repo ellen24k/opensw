@@ -38,8 +38,10 @@ function FindEmptyClassPage() {
     const [activeClassroom, setActiveClassroom] = useState(null);
 
     const [selectedStartTime, setSelectedStartTime] = useState(currentTime);
-    const [selectedEndTime, setSelectedEndTime] = useState(() =>
-        periodEnd(Math.ceil(endTimeToPeriod(timeToMinutes(currentTime)) + 0.5))
+    const [selectedEndTime, setSelectedEndTime] = useState(() => {
+        const currentPeriod = Math.ceil(endTimeToPeriod(timeToMinutes(currentTime)) + 0.5);
+        return currentPeriod > 24 ? '23:59' : periodEnd(currentPeriod);
+    }
     );
     const [selectedBuildings, setSelectedBuildings] = useState([]);
     const [selectedFloors, setSelectedFloors] = useState([]);

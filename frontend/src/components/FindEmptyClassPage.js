@@ -30,6 +30,14 @@ import styles from '../styles/FindEmptyClassPage.module.css';
 
 const weekdays = ['월', '화', '수', '목', '금'];
 
+function Loading() {
+    return (
+        <div className={styles.Center}>
+            <Spinner size="sm" variant="primary" /> 로딩중...
+        </div>
+    );
+}
+
 function FindEmptyClassPage() {
     const [today, setToday] = useState(() => {
         const day = getWeekday();
@@ -146,14 +154,7 @@ function FindEmptyClassPage() {
                             onStartChange={(start) => setSelectedStartTime(start)}
                             onEndChange={(end) => setSelectedEndTime(end)}
                         />
-                        <Suspense
-                            fallback={
-                                <div className={styles.Center}>
-                                    <Spinner size="sm" variant="primary" /> 로딩
-                                    중...
-                                </div>
-                            }
-                        >
+                        <Suspense fallback={<Loading />}>
                             <BuildingFilter
                                 selected={selectedBuildings}
                                 onChange={(selected) => {
@@ -176,7 +177,7 @@ function FindEmptyClassPage() {
                                 다시 확인해 주세요.
                             </Alert>
                         )}
-                        {isLoading && <div className={styles.Center}>로딩중...</div>}
+                        {isLoading && <Loading />}
                         {selectedBuildings.length > 0 ? (
                             <>
                                 <ListGroup

@@ -81,6 +81,21 @@
 ## 🖼️ UX/UI 설계 및 사용법 
  - 빈 강의실
 
+| **이벤트**               | **사진**                                                                                                                                                                        | **설명**                                             |
+|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------|
+|빈 강의실 페이지 접속       |<img width="400" alt="FindEmptyClassPage" src="https://github.com/user-attachments/assets/7fb094e3-afb3-4d49-b658-8ba99b88a8f8" />                                               |메인 페이지 접속 후 상단 네비게이션 바에서 "빈 강의실" 선택|
+|건물 드롭다운 클릭          |<img width="400" alt="FindEmptyClassPage(BuildingFilter Dropdown)" src="https://github.com/user-attachments/assets/e3a3dd05-ee97-4fd6-bf40-e4c0801202b7" />                      |건물 드롭다운 메뉴 선택                                   |
+|건물 1개 선택 (드롭다운 메뉴)|<img width="400" alt="FindEmptyClassPage(BuildingFilter Dropdown - 소프트 selected)" src="https://github.com/user-attachments/assets/86242c70-0b36-4ce6-afb3-c83dea9f2a32" />    |건물 드롭다운 메뉴에서 1개 항목 선택                      |
+|건물 1개 선택 (드롭다운 닫기)|<img width="400" alt="FindEmptyClassPage(소프트 selected)" src="https://github.com/user-attachments/assets/5b24470d-b558-4ba5-a95a-b9772a44db66" />                              |건물 1개 선택 시 필터링 결과                               |
+|건물 1개, 층 1개 선택       |<img width="400" alt="FindEmptyClassPage(소프트 5층 selected)" src="https://github.com/user-attachments/assets/02ed8f1c-2153-478d-80cc-72c495e49b8e" />                           |건물 1개, 층 1개 선택 시 필터링 결과                      |
+|건물 1개, 층 2개 선택       |<img width="400" alt="FindEmptyClassPage(소프트 3층, 5층 selected)" src="https://github.com/user-attachments/assets/a57e134b-667b-4b4f-a689-fba3989c45b5" />                      |건물 1개, 층 2개 선택 시 필터링 결과                      |
+|건물 2개 선택 (드롭다운 메뉴)|<img width="400" alt="FindEmptyClassPage(BuildingFilter Dropdown - 2공, 소프트 selected)" src="https://github.com/user-attachments/assets/3c2205f2-d8e5-4259-b9db-215c5022b9b4" />|건물 드롭다운 메뉴에서 2개 항목 선택                      |
+|건물 2개 선택 (드롭다운 닫기)|<img width="400" alt="FindEmptyClassPage(2공, 소프트 selected)" src="https://github.com/user-attachments/assets/ba742b3a-6d0f-4c5d-b047-e395dbe20703" />                          |건물 2개 선택 시 필터링 결과                              |
+|강의실 선택                 |<img width="400" alt="FindEmptyClassPage(소프트101 selected)" src="https://github.com/user-attachments/assets/6f29399d-d444-4c48-bf17-ec2fcddfa6aa" />                            |강의실 선택 시 표시되는 강의실 정보                      |
+|주간 시간표 보기 클릭        |<img width="400" alt="주간 시간표 보기 버튼" src="https://github.com/user-attachments/assets/ce487df7-38d3-4694-babc-a9a6f6114823" /><img width="400" alt="ViewClassSchedulePage/소프트101" src="https://github.com/user-attachments/assets/e33715a2-dc28-469d-8d8a-7a075ab5de22" />|강의실 정보에서 주간 시간표 보기 버튼 클릭시 강의실 시간표로 이동|
+|요일 변경                   |<img width="400" alt="WeekdayFilter" src="https://github.com/user-attachments/assets/62549b69-0ddd-4127-9b48-f5ca086631a5" />                                                    |요일 선택 시 다른 요일의 빈 강의실 조회 가능 (오늘 요일은 미선택 시 파란 테두리로 표시)|
+|30분 뒤 사용 가능한 강의실 보기 클릭|<img width="400" alt="30분 뒤 사용 가능한 강의실 보기 버튼" src="https://github.com/user-attachments/assets/0a7bfbc5-f5fd-451a-8620-83a7c9504143" />                         |하단의 "30분 뒤 사용 가능한 강의실 보기" 버튼 클릭 시 선택된 시작 시간이 30분 증가|
+
 ![tab1](https://raw.githubusercontent.com/ellen24k/opensw/master/frontend/front1.png)
 
  - 강의실 시간표

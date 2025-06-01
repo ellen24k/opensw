@@ -18,6 +18,8 @@
 
 ---
 ## 🚀 Live Demo
+<img src='https://raw.githubusercontent.com/ellen24k/opensw/master/backend/resources/QR_opensw.png' width='240'>
+
 - **[https://opensw.ellen24k.kro.kr](https://opensw.ellen24k.kro.kr)**
 
 ---

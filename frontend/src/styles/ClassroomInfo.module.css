@@ -69,3 +69,7 @@
 .MinHeight18 {
 	min-height: 18rem;
 }
+
+.StretchItems {
+	align-items: stretch;
+}

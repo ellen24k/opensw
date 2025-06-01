@@ -93,6 +93,7 @@ function ClassroomInfo({ building, classroom, today = getWeekday(), onHide }) {
                                         styles.FlexGrow1,
                                         styles.PaddingX1,
                                         styles.NoMarginBottom,
+                                        styles.StretchItems
                                     ]}
                                 >
                                     {todayClasses.map((cls) => (

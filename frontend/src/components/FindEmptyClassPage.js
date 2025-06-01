@@ -204,6 +204,17 @@ function FindEmptyClassPage() {
                                         />
                                     ))}
                                 </ListGroup>
+                                {(selectedStartTime >= '23:25' ||
+                                    selectedEndTime <= '09:00') && (
+                                        <Alert className={styles.Center}>
+                                            너무 {
+                                                (selectedStartTime >= '23:25' && '늦은') ||
+                                                (selectedEndTime <= '09:00' && '이른')
+                                            } 시간을 선택했습니다.
+                                            다른 시간으로
+                                            바꿔보세요.
+                                        </Alert>
+                                    )}
                                 {selectedStartTime < '23:30' && (
                                     <Alert
                                         variant="secondary"

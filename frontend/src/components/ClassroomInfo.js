@@ -1,6 +1,12 @@
 import { useEffect, useState, useTransition, useMemo } from 'react';
 import { fetchCoursesFromClassroom } from '../api.js';
-import { getWeekday } from '../utils/time.js';
+import {
+    endTimeToPeriod,
+    getTime,
+    getWeekday,
+    startTimeToPeriod,
+    timeToMinutes,
+} from '../utils/time.js';
 
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Stack from 'react-bootstrap/Stack';
@@ -10,13 +16,30 @@ import ClassCard from './ClassCard.js';
 
 import styles from '../styles/ClassroomInfo.module.css';
 
-function ClassroomInfo({ building, classroom, today = getWeekday(), onHide }) {
+function ClassroomInfo({ building, classroom, weekday = getWeekday(), onHide }) {
     const [isLoading, startTransition] = useTransition();
     const [classes, setClasses] = useState([]);
-    const todayClasses = useMemo(
-        () => classes?.filter((cls) => cls.day === today && cls.course_room === classroom).sort((a, b) => a.start - b.start),
-        [classroom, classes, today]
+    const dayClasses = useMemo(
+        () =>
+            classes
+                ?.filter(
+                    (cls) => cls.day === weekday && cls.course_room === classroom
+                )
+                .sort((a, b) => a.start - b.start),
+        [classroom, classes, weekday]
     );
+    const currentTime = getTime();
+    const { currentPeriod, nextPeriod } = useMemo(() => {
+        const currentMinutes = timeToMinutes(currentTime);
+        const unended = Math.ceil(endTimeToPeriod(currentMinutes));
+        const started = Math.floor(startTimeToPeriod(currentMinutes));
+
+        if(unended === started) {
+            return { currentPeriod: started };
+        } else {
+            return { nextPeriod: unended };
+        }
+    }, [currentTime]);
 
     useEffect(() => {
         if(!classroom || !building) {
@@ -83,7 +106,7 @@ function ClassroomInfo({ building, classroom, today = getWeekday(), onHide }) {
                                 >
                                     잠시만 기다려 주세요...
                                 </div>
-                            ) : todayClasses && todayClasses.length > 0 ? (
+                            ) : dayClasses && dayClasses.length > 0 ? (
                                 <Stack
                                     direction="horizontal"
                                     gap={2}
@@ -97,8 +120,21 @@ function ClassroomInfo({ building, classroom, today = getWeekday(), onHide }) {
                                         styles.StretchItems
                                     ]}
                                 >
-                                    {todayClasses.map((cls) => (
-                                        <ClassCard key={cls.start} classInfo={cls} />
+                                        {dayClasses.map((cls) => (
+                                            <ClassCard
+                                                key={cls.start}
+                                                classInfo={cls}
+                                                currentClass={
+                                                    currentPeriod &&
+                                                    cls.start <= currentPeriod &&
+                                                    currentPeriod <= cls.end
+                                                }
+                                                nextClass={
+                                                    nextPeriod &&
+                                                    cls.start <= nextPeriod &&
+                                                    nextPeriod <= cls.end
+                                                }
+                                            />
                                     ))}
                                 </Stack>
                             ) : (

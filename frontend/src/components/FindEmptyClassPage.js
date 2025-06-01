@@ -262,7 +262,7 @@ function FindEmptyClassPage() {
 
                                 })
                             }
-                            today={today}
+                            weekday={today}
                             onHide={() => setActiveClassroom(null)}
                         />
                     </>

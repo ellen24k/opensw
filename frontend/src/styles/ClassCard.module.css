@@ -1,3 +1,15 @@
 .ClassCard {
 	min-width: 10em;
 }
+
+.SubtitleMargin {
+	margin-bottom: var(--bs-card-title-spacer-y);
+}
+
+.CurrentClass {
+	color: var(--bs-orange, orange);
+}
+
+.NextClass {
+	color: var(--bs-blue, blue);
+}

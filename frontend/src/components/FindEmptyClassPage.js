@@ -180,7 +180,7 @@ function FindEmptyClassPage() {
                         {isLoading && <Loading />}
                         {selectedStartTime >= '23:25' ||
                             selectedEndTime <= '09:00' ? (
-                            <Alert variant='warning' className={styles.Center}>
+                            <Alert variant="warning">
                                 너무{' '}
                                 {(selectedStartTime >= '23:25' && '늦은') ||
                                     (selectedEndTime <= '09:00' && '이른')}{' '}
@@ -211,7 +211,7 @@ function FindEmptyClassPage() {
                                             }}
                                         />
                                     ))}
-                                    </ListGroup>
+                                </ListGroup>
                                 {selectedStartTime < '23:30' && (
                                     <Alert
                                         variant="secondary"

@@ -96,8 +96,6 @@
 |요일 변경                   |<img width="400" alt="WeekdayFilter" src="https://github.com/user-attachments/assets/62549b69-0ddd-4127-9b48-f5ca086631a5" />                                                    |요일 선택 시 다른 요일의 빈 강의실 조회 가능 (오늘 요일은 미선택 시 파란 테두리로 표시)|
 |30분 뒤 사용 가능한 강의실 보기 클릭|<img width="400" alt="30분 뒤 사용 가능한 강의실 보기 버튼" src="https://github.com/user-attachments/assets/0a7bfbc5-f5fd-451a-8620-83a7c9504143" />                         |하단의 "30분 뒤 사용 가능한 강의실 보기" 버튼 클릭 시 선택된 시작 시간이 30분 증가|
 
-![tab1](https://raw.githubusercontent.com/ellen24k/opensw/master/frontend/front1.png)
-
  - 강의실 시간표
 
 

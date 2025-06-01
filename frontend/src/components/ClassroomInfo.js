@@ -50,6 +50,7 @@ function ClassroomInfo({ building, classroom, today = getWeekday(), onHide }) {
             show={classroom && building}
             placement="bottom"
             backdrop={false}
+            scroll={true}
             onHide={onHide}
             className={[styles.HeightFitContent, styles.MinHeight18]}
         >

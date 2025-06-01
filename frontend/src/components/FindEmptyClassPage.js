@@ -136,7 +136,7 @@ function FindEmptyClassPage() {
     }, [today]);
 
     return (
-        <MainFrame>
+        <MainFrame className={activeClassroom && styles.PaddingBottomForOffscreen}>
             <NaviBar />
             <Stack gap={2} className={styles.MarginTop05}>
                 <WeekdayFilter

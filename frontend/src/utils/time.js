@@ -28,7 +28,7 @@ export function periodStart(period) {
     }
     if(period > 24) {
         console.error(new TypeError(`${period}교시는 존재하지 않습니다`));
-        return '23:59';
+        return '23:30';
     }
 
     if(period <= 18) {
@@ -46,7 +46,7 @@ export function periodStart(period) {
 export function periodEnd(period) {
     if(period <= 0) {
         console.error(new TypeError(`${period}교시는 존재하지 않습니다`));
-        return '00:00';
+        return '09:00';
     }
     if(period > 24) {
         console.error(new TypeError(`${period}교시는 존재하지 않습니다`));
@@ -63,7 +63,7 @@ export function periodEnd(period) {
 /**
  * 시작 시각을 교시로 환산
  * @param {number} minutes 누적 분
- * @returns {number} 교시 (실수) - 내림 시 시작한 마지막 교시, 올림 시 시작하지 않은 다음 교시
+ * @returns {number} 교시 (실수) - 내림 시 마지막으로 시작한 교시, 올림 시 시작하지 않은 다음 교시
  */
 export function startTimeToPeriod(minutes) {
     if(minutes < 0 || minutes > 24 * 60)
@@ -80,7 +80,7 @@ export function startTimeToPeriod(minutes) {
 /**
  * 끝 시각을 교시로 환산
  * @param {number} minutes 누적 분
- * @returns {number} 교시 (실수) - 내림 시 끝난 마지막 교시, 올림 시 끝나지 않은 다음 교시
+ * @returns {number} 교시 (실수) - 내림 시 마지막으로 끝난 교시, 올림 시 곧 끝날 예정인 교시
  */
 export function endTimeToPeriod(minutes) {
     if(minutes < 0 || minutes > 24 * 60)

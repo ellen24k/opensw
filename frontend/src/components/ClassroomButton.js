@@ -7,10 +7,14 @@ import ListGroupItem from 'react-bootstrap/ListGroupItem';
 
 import styles from '../styles/ClassroomButton.module.css';
 
-function ClassroomButton({ active, classroom, building, onClick, startTime }) {
-    if(!startTime) startTime = getTime();
-
-    const today = getWeekday();
+function ClassroomButton({
+    active,
+    classroom,
+    building,
+    today = getWeekday(),
+    onClick,
+    startTime = getTime(),
+}) {
     const [isLoading, startTransition] = useTransition();
     const [classes, setClasses] = useState([]);
     const todayClasses = useMemo(
@@ -19,7 +23,8 @@ function ClassroomButton({ active, classroom, building, onClick, startTime }) {
     );
     const nextClass = useMemo(
         () =>
-            !isLoading && todayClasses
+            !isLoading &&
+            todayClasses
                 ?.filter((cls) => periodStart(cls.start) > startTime)
                 .sort((a, b) => a.start - b.start)[0],
         [isLoading, startTime, todayClasses]
@@ -28,7 +33,7 @@ function ClassroomButton({ active, classroom, building, onClick, startTime }) {
     useEffect(() => {
         if(!classroom || !building) {
             return;
-        };
+        }
 
         let dismiss = false;
         const { promise: dismissPromise, resolve: dismissPromiseResolve } =

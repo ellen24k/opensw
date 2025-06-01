@@ -10,13 +10,12 @@ import ClassCard from './ClassCard.js';
 
 import styles from '../styles/ClassroomInfo.module.css';
 
-function ClassroomInfo({ building, classroom, onHide }) {
-    const today = getWeekday();
+function ClassroomInfo({ building, classroom, today = getWeekday(), onHide }) {
     const [isLoading, startTransition] = useTransition();
     const [classes, setClasses] = useState([]);
     const todayClasses = useMemo(
         () => classes?.filter((cls) => cls.day === today && cls.course_room === classroom).sort((a, b) => a.start - b.start),
-        [classes, today]
+        [classroom, classes, today]
     );
 
     useEffect(() => {

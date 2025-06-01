@@ -1,6 +1,6 @@
 /* 기능: 빈 강의실 */
 
-import { useState, useMemo, Suspense, useTransition } from 'react';
+import { useState, useMemo, Suspense, useTransition, useEffect } from 'react';
 import {
     endTimeToPeriod,
     getTime,
@@ -27,9 +27,15 @@ import FloorFilter from './FloorFilter.js';
 import TimeFilter from './TimeFilter.js';
 
 import styles from '../styles/FindEmptyClassPage.module.css';
+import WeekdayFilter from './WeekdayFilter.js';
+
+const weekdays = ['월', '화', '수', '목', '금'];
 
 function FindEmptyClassPage() {
-    const today = getWeekday();
+    const [today, setToday] = useState(() => {
+        const day = getWeekday();
+        return weekdays.includes(day) ? day : null;
+    });
     const currentTime = getTime();
 
     const [isLoading, startTransition] = useTransition();
@@ -39,10 +45,11 @@ function FindEmptyClassPage() {
 
     const [selectedStartTime, setSelectedStartTime] = useState(currentTime);
     const [selectedEndTime, setSelectedEndTime] = useState(() => {
-        const currentPeriod = Math.ceil(endTimeToPeriod(timeToMinutes(currentTime)) + 0.5);
+        const currentPeriod = Math.ceil(
+            endTimeToPeriod(timeToMinutes(currentTime)) + 0.5
+        );
         return currentPeriod > 24 ? '23:59' : periodEnd(currentPeriod);
-    }
-    );
+    });
     const [selectedBuildings, setSelectedBuildings] = useState([]);
     const [selectedFloors, setSelectedFloors] = useState([]);
 
@@ -78,140 +85,173 @@ function FindEmptyClassPage() {
         }
     }, [periodFilteredClassrooms, selectedBuildings, selectedFloors]);
 
+    useEffect(() => {
+        let aborted = false;
+        const abortionPromise = Promise.withResolvers();
+        startTransition(async () => {
+            console.log('startTransition');
+            const result = await Promise.race([
+                abortionPromise.promise,
+                Promise.all(
+                    selectedBuildings
+                        .filter((building) => !emptyClassrooms[building])
+                        .map((building) =>
+                            (async () => {
+                                const buildingClassrooms =
+                                    await fetchEmptyClassroomInBuilding(
+                                        building,
+                                        today
+                                    );
+                                if(aborted) return;
+                                setEmptyClassrooms((emptyClassrooms) => ({
+                                    ...emptyClassrooms,
+                                    [building]: buildingClassrooms['period_results'],
+                                }));
+                                console.log(building, buildingClassrooms);
+                            })()
+                        )
+                ),
+            ]);
+            console.log('endTransition', result.length);
+        });
+        return () => {
+            aborted = true;
+            abortionPromise.resolve('aborted');
+        };
+    }, [today, selectedBuildings, emptyClassrooms]);
+
+    useEffect(() => {
+        setSelectedFloors([]);
+    }, [selectedBuildings]);
+
+    useEffect(() => {
+        setEmptyClassrooms({});
+    }, [today]);
+
     return (
         <MainFrame>
             <NaviBar />
-            {today === '토' || today === '일' ? (
-                <Alert className={[styles.MarginTop05, styles.Center]}>
-                    평일에만 이용할 수 있습니다.
-                </Alert>
-            ) : (
-                <Stack gap={2} className={styles.MarginTop05}>
-                    <TimeFilter
-                        start={selectedStartTime}
-                        end={selectedEndTime}
-                        onStartChange={(start) => setSelectedStartTime(start)}
-                        onEndChange={(end) => setSelectedEndTime(end)}
-                    />
-                    <Suspense
-                        fallback={<div className={styles.Center}><Spinner size="sm" variant="primary" /> 로딩 중...</div>}
-                    >
-                        <BuildingFilter
-                            selected={selectedBuildings}
-                            onChange={(selected) => {
-                                setSelectedBuildings(selected);
-                                setSelectedFloors([]);
-                                startTransition(async () => {
-                                    console.log('startTransition');
-                                    const result = await Promise.all(
-                                        selected
-                                            .filter(
+            <Stack gap={2} className={styles.MarginTop05}>
+                <WeekdayFilter
+                    selected={today}
+                    onChange={(selected) => {
+                        setToday(selected);
+                        setEmptyClassrooms({});
+                    }}
+                />
+                {today ? (
+                    <>
+                        <TimeFilter
+                            start={selectedStartTime}
+                            end={selectedEndTime}
+                            onStartChange={(start) => setSelectedStartTime(start)}
+                            onEndChange={(end) => setSelectedEndTime(end)}
+                        />
+                        <Suspense
+                            fallback={
+                                <div className={styles.Center}>
+                                    <Spinner size="sm" variant="primary" /> 로딩
+                                    중...
+                                </div>
+                            }
+                        >
+                            <BuildingFilter
+                                selected={selectedBuildings}
+                                onChange={(selected) => {
+                                    setSelectedBuildings(selected);
+                                    setSelectedFloors([]);
+                                }}
+                            />
+                        </Suspense>
+                        {selectedBuildings.length === 1 && (
+                            <FloorFilter
+                                building={selectedBuildings[0]}
+                                classrooms={periodFilteredClassrooms}
+                                selected={selectedFloors}
+                                onChange={(selected) => setSelectedFloors(selected)}
+                            />
+                        )}
+                        {selectedStartTime > selectedEndTime && (
+                            <Alert variant="danger">
+                                종료 시간이 시작 시간보다 빠릅니다. 선택한 시간을
+                                다시 확인해 주세요.
+                            </Alert>
+                        )}
+                        {isLoading && <div className={styles.Center}>로딩중...</div>}
+                        {selectedBuildings.length > 0 ? (
+                            <>
+                                <ListGroup
+                                    className={[styles.Gap05, styles.Grid2Col]}
+                                >
+                                    {floorFilteredClassrooms.map((classroom) => (
+                                        <ClassroomButton
+                                            key={classroom}
+                                            building={selectedBuildings.find(
                                                 (building) =>
-                                                    !emptyClassrooms[building]
-                                            )
-                                            .map((building) =>
-                                                (async () => {
-                                                    const buildingClassrooms =
-                                                        await fetchEmptyClassroomInBuilding(
-                                                            building,
-                                                            today
-                                                        );
-                                                    setEmptyClassrooms({
-                                                        ...emptyClassrooms,
-                                                        [building]:
-                                                            buildingClassrooms[
-                                                            'period_results'
-                                                            ],
-                                                    });
-                                                    console.log(
-                                                        building,
-                                                        buildingClassrooms
-                                                    );
-                                                })()
-                                            )
-                                    );
-                                    console.log('endTransition', result.length);
-                                });
-                            }}
-                        />
-                    </Suspense>
-                    {selectedBuildings.length === 1 && (
-                        <FloorFilter
-                            building={selectedBuildings[0]}
-                            classrooms={periodFilteredClassrooms}
-                            selected={selectedFloors}
-                            onChange={(selected) => setSelectedFloors(selected)}
-                        />
-                    )}
-                    {selectedStartTime > selectedEndTime && (
-                        <Alert variant="danger">
-                            종료 시간이 시작 시간보다 빠릅니다. 선택한 시간을 다시
-                            확인해 주세요.
-                        </Alert>
-                    )}
-                    {isLoading && <div className={styles.Center}>로딩중...</div>}
-                    {selectedBuildings.length > 0 ? (
-                        <>
-                            <ListGroup className={[styles.Gap05, styles.Grid2Col]}>
-                                {floorFilteredClassrooms.map((classroom) => (
-                                    <ClassroomButton
-                                        key={classroom}
-                                        building={selectedBuildings.find(
-                                            (building) =>
-                                                classroom.startsWith(building)
-                                        )}
-                                        classroom={classroom}
-                                        startTime={selectedStartTime}
-                                        active={activeClassroom === classroom}
-                                        onClick={(classroom) => {
-                                            setActiveClassroom(
-                                                activeClassroom === classroom
-                                                    ? null
-                                                    : classroom
-                                            );
-                                        }}
-                                    />
-                                ))}
-                            </ListGroup>
-                            {selectedStartTime < '23:30' && (
-                                <Alert variant="secondary" className={styles.Center}>
-                                    <Alert.Heading as="h6">
-                                        마음에 드는 강의실이 없으시나요?
-                                    </Alert.Heading>
-                                    <Button
-                                        onClick={() =>
-                                            setSelectedStartTime(
-                                                (selectedStartTime) =>
-                                                    minutesToTime(
-                                                        timeToMinutes(
-                                                            selectedStartTime
-                                                        ) + 30
-                                                    )
-                                            )
-                                        }
+                                                    classroom.startsWith(building)
+                                            )}
+                                            classroom={classroom}
+                                            startTime={selectedStartTime}
+                                            today={today}
+                                            active={activeClassroom === classroom}
+                                            onClick={(classroom) => {
+                                                setActiveClassroom(
+                                                    activeClassroom === classroom
+                                                        ? null
+                                                        : classroom
+                                                );
+                                            }}
+                                        />
+                                    ))}
+                                </ListGroup>
+                                {selectedStartTime < '23:30' && (
+                                    <Alert
+                                        variant="secondary"
+                                        className={styles.Center}
                                     >
-                                        30분 뒤 사용 가능한 강의실 보기
-                                    </Button>
-                                </Alert>
-                            )}
-                        </>
-                    ) : (
-                        <Alert className={styles.Center}>
-                            건물을 먼저 선택해 주세요.
-                        </Alert>
-                    )}
-                    <ClassroomInfo
-                        classroom={activeClassroom}
-                        building={
-                            activeClassroom &&
-                            selectedBuildings.find((building) =>
-                                activeClassroom.startsWith(building)
-                            )
-                        }
-                        onHide={() => setActiveClassroom(null)}
-                    />
-                </Stack>
-            )}
+                                        <Alert.Heading as="h6">
+                                            마음에 드는 강의실이 없으시나요?
+                                        </Alert.Heading>
+                                        <Button
+                                            onClick={() =>
+                                                setSelectedStartTime(
+                                                    (selectedStartTime) =>
+                                                        minutesToTime(
+                                                            timeToMinutes(
+                                                                selectedStartTime
+                                                            ) + 30
+                                                        )
+                                                )
+                                            }
+                                        >
+                                            30분 뒤 사용 가능한 강의실 보기
+                                        </Button>
+                                    </Alert>
+                                )}
+                            </>
+                        ) : (
+                            <Alert className={styles.Center}>
+                                건물을 먼저 선택해 주세요.
+                            </Alert>
+                        )}
+                        <ClassroomInfo
+                            classroom={activeClassroom}
+                            building={
+                                activeClassroom &&
+                                selectedBuildings.find((building) =>
+                                    activeClassroom.startsWith(building)
+                                )
+                            }
+                            today={today}
+                            onHide={() => setActiveClassroom(null)}
+                        />
+                    </>
+                ) : (
+                    <Alert className={styles.Center}>
+                        확인할 요일을 선택해 주세요.
+                    </Alert>
+                )}
+            </Stack>
         </MainFrame>
     );
 }

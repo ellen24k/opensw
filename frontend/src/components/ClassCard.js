@@ -11,7 +11,7 @@ function ClassCard({ classInfo }) {
         <Card as="li" className={styles.ClassCard}>
             <Card.Body>
                 <Card.Title>{classInfo.course_name}</Card.Title>
-                <Card.Text>
+                <Card.Text as="div">
                     <div><time>{start}</time> ~ <time>{end}</time></div>
                     <div>{classInfo.professor}</div>
                 </Card.Text>

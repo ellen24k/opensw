@@ -35,6 +35,7 @@
   - 최준성
     - 아이디어 구체화 및 UI/UX 설계
     - React 프론트엔드 개발: 내 시간표 Page 구현
+    - 코드 검수
   
 - 백엔드 
   - 김태영
@@ -98,7 +99,20 @@
 
  - 내 시간표
 
-![tab3](https://raw.githubusercontent.com/ellen24k/opensw/master/frontend/front3.png)
+| **이벤트**     | **사진**                                                                                             | **설명**|
+|-------------------------|---------------------------------------------------------------------------------------------|-----------------------------------------------------------|
+|메인 페이지 접속          |![image](https://github.com/user-attachments/assets/5a043e4d-063d-4207-8b64-c0f9c0b4bd71)    |메인 페이지 접속                                            |
+|과목 직접 선택하기 모드    |![image](https://github.com/user-attachments/assets/11beff11-2d8c-433d-ac5e-dde2db4a6ab0)    |아래는 과목 직접 선택하기 모드에서의 설명이다.                |
+|아래쪽 과목 검색하기 클릭  |![image](https://github.com/user-attachments/assets/1daf3e27-6410-4327-9231-52efec49331a)![image](https://github.com/user-attachments/assets/7345dcde-5e06-4747-8fc7-2f15914717de)|BottomSheet 활성화|
+|검색어 입력               |![image](https://github.com/user-attachments/assets/90807e99-9b94-4804-9f73-78a4fe2ea901)    |검색하고자 하는 과목 입력 시 추가/제거 가능한 과목 리스트 출력 |
+|추가/제거 버튼 클릭       |![image](https://github.com/user-attachments/assets/3aed4884-a83e-42a2-ad0d-6a30f3d50dc5)![image](https://github.com/user-attachments/assets/5614c2b7-5c16-421c-a046-6b3a253a2313)|추가/제거 버튼을 눌러 내 시간표에 추가/제거|
+|시간표 한번에 등록 모드   |![image](https://github.com/user-attachments/assets/ff26fa9c-5d70-413b-9365-792a9fe93660)    |아래는 시간표 한번에 등록 모드에서의 설명이다.                 |
+|시간표 한번에 등록 버튼 클릭|![image](https://github.com/user-attachments/assets/2188811c-7fb2-41c5-ac2e-bbcd4213e7cf)    |BottomSheet가 자동으로 활성화되며 활성화 상태로 고정         |
+|BottomSheet 상단 하이퍼링크 클릭|![image](https://github.com/user-attachments/assets/3bcd5494-1106-4626-9b3b-611984be7e84)![image](https://github.com/user-attachments/assets/a2611e4f-5475-420a-8d8c-5f50f4ce9c82)|단국대학교 웹정보 수강신청 정보 페이지가 새 창에서 열림|
+|제출 버튼 클릭           |![image](https://github.com/user-attachments/assets/61164e9b-342c-4ade-8958-7faf95d92e58)![image](https://github.com/user-attachments/assets/22f24b56-dd6c-4f3f-af49-6869ff2b5f23)|자동으로 과목 직접 선택하기 모드로 변경되며, 내 시간표에 붙여넣은 내용이 등록됨|
+|없음           |![image](https://github.com/user-attachments/assets/298874cd-832f-4e96-92d0-c52d85b2a892)![image](https://github.com/user-attachments/assets/4ebd905a-56c4-4d2e-9c8a-862823b0e4e7)![image](https://github.com/user-attachments/assets/a935c7b2-ae3a-4eb5-acf1-432a0866ccd5)|내 시간표와 현재 시간에 따라 이전/현재/다음 수업 정보를 표시|
+|초기화 버튼 클릭         |![image](https://github.com/user-attachments/assets/fe2511ba-efc2-4f9a-ba29-81f4582208cd)|내 시간표에 저장된 과목들을 초기화              |
+
 
 
 <br/>

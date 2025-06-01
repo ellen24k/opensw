@@ -1,5 +1,3 @@
-import { useMemo } from 'react';
-
 import Selection from './Selection';
 import { getWeekday } from '../utils/time';
 

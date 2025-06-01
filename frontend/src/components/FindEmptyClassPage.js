@@ -4,7 +4,6 @@ import { useState, useMemo, Suspense, useTransition, useEffect } from 'react';
 import {
     endTimeToPeriod,
     getTime,
-    getTimeAfter,
     getWeekday,
     minutesToTime,
     periodEnd,
@@ -25,9 +24,9 @@ import ClassroomInfo from './ClassroomInfo.js';
 import BuildingFilter from './BuildingFilter.js';
 import FloorFilter from './FloorFilter.js';
 import TimeFilter from './TimeFilter.js';
+import WeekdayFilter from './WeekdayFilter.js';
 
 import styles from '../styles/FindEmptyClassPage.module.css';
-import WeekdayFilter from './WeekdayFilter.js';
 
 const weekdays = ['월', '화', '수', '목', '금'];
 

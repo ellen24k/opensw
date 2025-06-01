@@ -25,7 +25,6 @@ function FloorFilter({ building, classrooms, selected, onChange }) {
             items={floors}
             itemPostfix="층"
             selected={selected}
-            /*pinned={floors}*/
             dropdown={false}
             onChange={onChange}
         />

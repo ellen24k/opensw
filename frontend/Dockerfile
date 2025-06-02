@@ -8,14 +8,17 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm ci
 
 # Copy the rest of the application code
 COPY . .
+
+# Build the application
+RUN npm run build
 
 # Expose port
 EXPOSE 3000
 
 # Start the development server
-CMD ["npm", "start"]
+CMD ["npm", "run", "serve", "--", "--port", "3000"]
 

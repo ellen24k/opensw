@@ -5,7 +5,7 @@ import redis
 
 # Redis 클라이언트 설정
 # client = redis.StrictRedis(host='172.22.22.23', port=6379, decode_responses=True)
-client = redis.StrictRedis(host='10.43.147.228', port=6379, decode_responses=True)
+client = redis.StrictRedis(host=os.getenv("REDIS_HOST"), port=6379, decode_responses=True)
 
 # 캐시 저장소
 _cache = {}

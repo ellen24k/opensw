@@ -65,6 +65,8 @@ function FindEmptyClassPage() {
         [selectedStartTime, selectedEndTime]
     );
 
+    const sortedSelectedBuildings = useMemo(() => selectedBuildings.sort((a, b) => a.length - b.length).reverse(), [selectedBuildings]);
+
     const periodFilteredClassrooms = useMemo(() => {
         if(selectedPeriods.length === 0) return [];
         else {
@@ -197,7 +199,7 @@ function FindEmptyClassPage() {
                                     {floorFilteredClassrooms.map((classroom) => (
                                         <ClassroomButton
                                             key={classroom}
-                                            building={selectedBuildings.find(
+                                            building={sortedSelectedBuildings.find(
                                                 (building) =>
                                                     classroom.startsWith(building)
                                             )}
@@ -248,8 +250,8 @@ function FindEmptyClassPage() {
                         <ClassroomInfo
                             classroom={activeClassroom}
                             building={
-                                activeClassroom &&
-                                selectedBuildings.find((building) =>
+                                floorFilteredClassrooms.includes(activeClassroom) &&
+                                sortedSelectedBuildings.find((building) =>
                                     activeClassroom.startsWith(building)
                                 )
                             }

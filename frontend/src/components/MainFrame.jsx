@@ -1,6 +1,6 @@
-import Header from "./Header.js";
-import Main from "./Main.js";
-import Footer from "./Footer.js";
+import Header from "./Header.jsx";
+import Main from "./Main.jsx";
+import Footer from "./Footer.jsx";
 import styles from "../styles/MainFrame.module.css";
 import { Stack } from "@mui/material";
 

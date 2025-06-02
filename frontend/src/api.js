@@ -8,7 +8,7 @@ export const fetchBuildingList = async () => {
 
     try {
         const response = await axios.get(
-            `${process.env.REACT_APP_API_BASE_URL}/query-building-list/`
+            `${import.meta.env.VITE_API_BASE_URL}/query-building-list/`
         );
         buildingListCache = response.data;
         return response.data;
@@ -24,7 +24,7 @@ export const fetchClassroomList = async () => {
 
     try {
         const response = await axios.get(
-            `${process.env.REACT_APP_API_BASE_URL}/query-classroom-list/`
+            `${import.meta.env.VITE_API_BASE_URL}/query-classroom-list/`
         );
         classroomList = response.data;
         return response.data;
@@ -36,7 +36,7 @@ export const fetchClassroomList = async () => {
 export const fetchFilteredClassroom = async (filter) => {
     try {
         const response = await axios.get(
-            `${process.env.REACT_APP_API_BASE_URL}/query-classroom-list/${filter}`
+            `${import.meta.env.VITE_API_BASE_URL}/query-classroom-list/${filter}`
         );
         return response.data;
     } catch(error) {
@@ -47,7 +47,7 @@ export const fetchFilteredClassroom = async (filter) => {
 export const fetchCoursesFromClassroom = async (buildingId, classroomId) => {
     try {
         const response = await axios.get(
-            `${process.env.REACT_APP_API_BASE_URL}/query-classroom-table/${buildingId}/${classroomId}`
+            `${import.meta.env.VITE_API_BASE_URL}/query-classroom-table/${buildingId}/${classroomId}`
         );
         return response.data;
     } catch(error) {
@@ -58,7 +58,7 @@ export const fetchCoursesFromClassroom = async (buildingId, classroomId) => {
 export const fetchClassList = async (classname) => {
     try {
         const response = await axios.get(
-            `${process.env.REACT_APP_API_BASE_URL}/query-course-table/${classname}`
+            `${import.meta.env.VITE_API_BASE_URL}/query-course-table/${classname}`
         );
         return response.data;
     } catch(error) {
@@ -69,7 +69,7 @@ export const fetchClassList = async (classname) => {
 export const fetchEmptyClassroomInBuilding = async (building, day) => {
     try {
         const response = await axios.get(
-            `${process.env.REACT_APP_API_BASE_URL}/query-classroom-period-ext/${building}/${day}`
+            `${import.meta.env.VITE_API_BASE_URL}/query-classroom-period-ext/${building}/${day}`
         );
         return response.data;
     } catch(error) {

@@ -35,6 +35,7 @@ function NaviBar() {
                         id={item.id}
                         to={item.link}
                         className={({ isActive }) => isActive ? LinkSelectedClass : LinkNotSelectedClass}
+                        replace
                     >
                         {item.name}
                     </NavLink>

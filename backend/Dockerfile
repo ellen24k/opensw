@@ -1,6 +1,10 @@
 # 베이스 이미지로 최신 Python 이미지를 사용합니다.
 FROM python:3.13-slim-bullseye
 
+ENV PYTHONDONTWRITEBYTECODE=1
+
+ENV PYTHONUNBUFFERED=1
+
 # 작성자 정보를 추가합니다.
 LABEL authors="ellen24k"
 

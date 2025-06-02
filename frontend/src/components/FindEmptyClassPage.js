@@ -186,6 +186,10 @@ function FindEmptyClassPage() {
                                     (selectedEndTime <= '09:00' && '이른')}{' '}
                                 시간을 선택했습니다. 다른 시간으로 바꿔보세요.
                             </Alert>
+                        ) : selectedPeriods.length === 0 ? (
+                            <Alert>
+                                선택한 시간은 쉬는 시간으로, 수업이 없는 시간대입니다.
+                            </Alert>
                         ) : selectedBuildings.length > 0 ? (
                             <>
                                 <ListGroup

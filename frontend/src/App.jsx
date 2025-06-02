@@ -3,10 +3,10 @@ import React from 'react';
 import { useEffect, useReducer } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
-import IntroPage from './components/IntroPage.js';
-import FindEmptyClassPage from './components/FindEmptyClassPage.js';
-import ViewClassSchedulePage from "./components/ViewClassSchedulePage.js";
-import MySchedulePage from "./components/MySchedulePage.js";
+import IntroPage from './components/IntroPage.jsx';
+import FindEmptyClassPage from './components/FindEmptyClassPage.jsx';
+import ViewClassSchedulePage from "./components/ViewClassSchedulePage.jsx";
+import MySchedulePage from "./components/MySchedulePage.jsx";
 
 function App() {
   return (

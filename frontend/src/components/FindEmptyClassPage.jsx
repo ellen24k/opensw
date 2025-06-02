@@ -17,14 +17,14 @@ import Stack from 'react-bootstrap/Stack';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
-import MainFrame from './MainFrame.js';
-import NaviBar from './NaviBar.js';
-import ClassroomButton from './ClassroomButton.js';
-import ClassroomInfo from './ClassroomInfo.js';
-import BuildingFilter from './BuildingFilter.js';
-import FloorFilter from './FloorFilter.js';
-import TimeFilter from './TimeFilter.js';
-import WeekdayFilter from './WeekdayFilter.js';
+import MainFrame from './MainFrame.jsx';
+import NaviBar from './NaviBar.jsx';
+import ClassroomButton from './ClassroomButton.jsx';
+import ClassroomInfo from './ClassroomInfo.jsx';
+import BuildingFilter from './BuildingFilter.jsx';
+import FloorFilter from './FloorFilter.jsx';
+import TimeFilter from './TimeFilter.jsx';
+import WeekdayFilter from './WeekdayFilter.jsx';
 
 import styles from '../styles/FindEmptyClassPage.module.css';
 

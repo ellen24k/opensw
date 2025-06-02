@@ -1,5 +1,5 @@
-import MainFrame from "./MainFrame.js";
-import NaviBar from "./NaviBar.js";
+import MainFrame from "./MainFrame.jsx";
+import NaviBar from "./NaviBar.jsx";
 
 function IntroPage() {
     return (

@@ -6,7 +6,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import Stack from 'react-bootstrap/Stack';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
-import ClassCard from './ClassCard.js';
+import ClassCard from './ClassCard.jsx';
 
 import styles from '../styles/ClassroomInfo.module.css';
 

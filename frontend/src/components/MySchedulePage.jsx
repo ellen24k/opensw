@@ -1,10 +1,10 @@
 /* 기능: 내 시간표 */
-import BottomSheet from './BottomSheet.js';
-import MainFrame from "./MainFrame.js";
-import NaviBar from "./NaviBar.js";
-import GanttChart from './GanttChart.js';
-import { useState, useEffect } from "react";
-import { NowScheduleState } from './NowScheduleState.js';
+import BottomSheet from './BottomSheet.jsx';
+import MainFrame from './MainFrame.jsx';
+import NaviBar from './NaviBar.jsx';
+import GanttChart from './GanttChart.jsx';
+import { useState, useEffect } from 'react';
+import { NowScheduleState } from './NowScheduleState.jsx';
 import { Box, Button } from '@mui/material';
 
 function MySchedulePage() {

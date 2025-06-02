@@ -26,6 +26,7 @@ if is_production:
         CORSMiddleware,  # type: ignore
         allow_origins=[
             "https://opensw.ellen24k.kro.kr",
+            "https://opensw-dev.ellen24k.kro.kr",
         ],
         allow_credentials=True,
         allow_methods=["*"],
@@ -36,6 +37,7 @@ else:
         CORSMiddleware,  # type: ignore
         allow_origins=[
             "https://opensw-dev.ellen24k.kro.kr",
+            "https://opensw.ellen24k.kro.kr",
         ],
         allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?",  # for local
         allow_credentials=True,

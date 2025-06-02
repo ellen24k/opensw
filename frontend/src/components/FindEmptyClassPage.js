@@ -66,11 +66,11 @@ function FindEmptyClassPage() {
     );
 
     const periodFilteredClassrooms = useMemo(() => {
-        if (selectedPeriods.length === 0) return [];
+        if(selectedPeriods.length === 0) return [];
         else {
             return selectedBuildings.flatMap((building) => {
                 const periodResults = emptyClassrooms[building];
-                if (periodResults)
+                if(periodResults)
                     return selectedPeriods
                         .map((period) => periodResults[period]['empty_classrooms'])
                         .reduce((a, b) => [...new Set(a).intersection(new Set(b))]);
@@ -80,7 +80,7 @@ function FindEmptyClassPage() {
     }, [emptyClassrooms, selectedPeriods, selectedBuildings]);
 
     const floorFilteredClassrooms = useMemo(() => {
-        if (selectedBuildings.length !== 1 || selectedFloors.length === 0)
+        if(selectedBuildings.length !== 1 || selectedFloors.length === 0)
             return periodFilteredClassrooms;
         else {
             const selectedBuilding = selectedBuildings[0];
@@ -109,7 +109,7 @@ function FindEmptyClassPage() {
                                         building,
                                         today
                                     );
-                                if (aborted) return;
+                                if(aborted) return;
                                 setEmptyClassrooms((emptyClassrooms) => ({
                                     ...emptyClassrooms,
                                     [building]: buildingClassrooms['period_results'],
@@ -198,12 +198,8 @@ function FindEmptyClassPage() {
                                         <ClassroomButton
                                             key={classroom}
                                             building={selectedBuildings.find(
-                                                (building) => {
-                                                    if (building === '체') {
-                                                        if (classroom.startsWith(building) !== classroom.startsWith('체육')) return classroom.startsWith(building)
-                                                    }
-                                                    else return classroom.startsWith(building)
-                                                }
+                                                (building) =>
+                                                    classroom.startsWith(building)
                                             )}
                                             classroom={classroom}
                                             startTime={selectedStartTime}
@@ -253,13 +249,9 @@ function FindEmptyClassPage() {
                             classroom={activeClassroom}
                             building={
                                 activeClassroom &&
-                                selectedBuildings.find((building) => {
-                                    if (building === '체') {
-                                        if (activeClassroom.startsWith(building) !== activeClassroom.startsWith('체육')) return activeClassroom.startsWith(building)
-                                    }
-                                    else return activeClassroom.startsWith(building)
-
-                                })
+                                selectedBuildings.find((building) =>
+                                    activeClassroom.startsWith(building)
+                                )
                             }
                             today={today}
                             onHide={() => setActiveClassroom(null)}

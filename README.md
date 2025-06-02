@@ -176,7 +176,7 @@
 
 ## 🖥️ 배치 다이어그램
 
-![Deployment Diagram](https://raw.githubusercontent.com/ellen24k/opensw/master/backend/resources/deployment_diagram.png)
+<img src='https://raw.githubusercontent.com/ellen24k/opensw/master/backend/resources/deployment_diagram.png' width='500'>
 
 ---
 

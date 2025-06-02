@@ -154,7 +154,7 @@ function FindEmptyClassPage() {
                             onStartChange={(start) => setSelectedStartTime(start)}
                             onEndChange={(end) => setSelectedEndTime(end)}
                         />
-                        <Suspense fallback={<Loading />}>
+                        <Suspense fallback={!isLoading && <Loading />}>
                             <BuildingFilter
                                 selected={selectedBuildings}
                                 onChange={(selected) => {

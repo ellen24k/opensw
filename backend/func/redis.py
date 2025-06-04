@@ -4,7 +4,6 @@ import time
 import redis
 
 # Redis 클라이언트 설정
-# client = redis.StrictRedis(host='172.22.22.23', port=6379, decode_responses=True)
 client = redis.StrictRedis(host=os.getenv("REDIS_HOST"), port=6379, decode_responses=True)
 
 # 캐시 저장소
@@ -82,7 +81,7 @@ def get_json_from_redis(key):
             _cache_expiry[key] = current_time + ttl
 
     end_time = time.time() * 1000  # 밀리초 단위
-    execution_time = (end_time - start_time) * 1000  # 밀리초 단위로 변환
+    execution_time = end_time - start_time  # 밀리초 단위로 변환
 
     # 결과 출력
     cache_status = "HIT" if cache_hit else "MISS"

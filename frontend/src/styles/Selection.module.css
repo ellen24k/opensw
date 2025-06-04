@@ -7,6 +7,10 @@
 	overflow-x: clip;
 }
 
+.SelectionXScroll::-webkit-scrollbar {
+	display: none;
+}
+
 .Item {
 	white-space: nowrap;
 }

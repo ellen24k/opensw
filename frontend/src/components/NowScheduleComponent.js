@@ -105,7 +105,7 @@ function makeCard(info1, info2) {
                         <Typography variant="h6" sx={{ fontWeight: 'bold', fontFamily: "NanumSquare" }}>{info2.course_name}</Typography>
                         {!info2.isNull &&
                             <Box sx={{ display: 'flex', alignItems: 'baseline', mt: 0.5 }}>
-                                <Typography variant="body2" sx={{ color: '#888', fontFamily: "NanumSquare" }}>{periodStart(info1.start)} ~ {periodEnd(info1.end)}</Typography>
+                                <Typography variant="body2" sx={{ color: '#888', fontFamily: "NanumSquare" }}>{periodStart(info2.start)} ~ {periodEnd(info2.end)}</Typography>
                                 <Typography variant="body2" sx={{ fontWeight: 'bold', paddingLeft: 1, fontFamily: "NanumSquare" }}>({info2.course_room})</Typography>
                             </Box>}
                         <Typography variant="caption" sx={{ color: '#aaa', display: 'block', mt: 1, fontFamily: "NanumSquare" }}>{info2.professor}</Typography>

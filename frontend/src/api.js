@@ -8,7 +8,7 @@ export const fetchBuildingList = async () => {
 
     try {
         const response = await axios.get(
-            `${process.env.REACT_APP_API_BASE_URL}/query-building-list/`
+            `${process.env.REACT_APP_API_BASE_URL}/query-building-list`
         );
         buildingListCache = response.data;
         return response.data;
@@ -24,7 +24,7 @@ export const fetchClassroomList = async () => {
 
     try {
         const response = await axios.get(
-            `${process.env.REACT_APP_API_BASE_URL}/query-classroom-list/`
+            `${process.env.REACT_APP_API_BASE_URL}/query-classroom-list`
         );
         classroomList = response.data;
         return response.data;

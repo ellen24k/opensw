@@ -1,0 +1,127 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: dku-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: opensw
+      MYSQL_USER: opensw
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      dku_net:
+        ipv4_address: 172.22.22.22
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u$$MYSQL_USER",
+          "-p$$MYSQL_PASSWORD",
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
+
+  redis:
+    image: redis:latest
+    container_name: dku-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      dku_net:
+        ipv4_address: 172.22.22.228
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+
+  backend:
+    build:
+      context: ./backend
+    container_name: dku-backend
+    links:
+      - mysql:mysql
+      - redis:redis
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - CRAWLER_API_KEY=${CRAWLER_API_KEY}
+      - RDS_GET_ALL_CLASSROOM_LIST=$.*.*.*.*.parse_rooms..*
+      - CRAWLER_YEAR=${CRAWLER_YEAR}
+      - CRAWLER_SEMESTER=${CRAWLER_SEMESTER}
+      - REDIS_HOST=redis
+    ports:
+      - "8000:8000"
+    networks:
+      dku_net:
+        ipv4_address: 172.22.22.106
+    restart: on-failure
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    env_file: ./frontend/.env.development
+    container_name: dku-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    develop:
+      watch:
+        - action: sync
+          path: src
+          target: src
+          ignore:
+            - .vscode
+        - action: sync
+          path: public
+          target: public
+        - action: sync
+          path: index.html
+          target: index.html
+        - action: sync+restart
+          path: .env.development
+          target: .env.development
+        - action: sync+restart
+          path: vite.config.js
+          target: vite.config.js
+        - action: rebuild
+          path: package*.json
+    networks:
+      dku_net:
+        ipv4_address: 172.22.22.107
+    restart: unless-stopped
+
+  # 초기화는 호스트에서 직접 ./init-script.sh 명령을 실행하여 수행합니다
+
+networks:
+  dku_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.22.0/24
+          gateway: 172.22.22.1
+
+volumes:
+  mysql_data:
+  redis_data:

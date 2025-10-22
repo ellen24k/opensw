@@ -13,12 +13,9 @@ RUN npm ci
 # Copy the rest of the application code
 COPY . .
 
-# Build the application
-RUN npm run build
-
 # Expose port
 EXPOSE 3000
 
-# Start the development server
-CMD ["npm", "run", "serve", "--", "--port", "3000"]
+# Start vite dev server, bind to all interfaces for container access
+CMD ["npm", "run", "start", "--", "--host", "0.0.0.0", "--port", "3000"]
 

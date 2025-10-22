@@ -12,6 +12,27 @@ services:
     environment:
       TZ: Asia/Seoul
     restart: unless-stopped
+    develop:
+      watch:
+        - action: sync
+          path: src
+          target: src
+          ignore:
+            - .vscode
+        - action: sync
+          path: public
+          target: public
+        - action: sync
+          path: index.html
+          target: index.html
+        - action: sync+restart
+          path: .env.development
+          target: .env.development
+        - action: sync+restart
+          path: vite.config.js
+          target: vite.config.js
+        - action: rebuild
+          path: package*.json
     networks:
       net:
         ipv4_address: 172.22.22.107

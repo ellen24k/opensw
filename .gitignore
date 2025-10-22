@@ -45,3 +45,5 @@ backend/.venv
 /clean.sh
 
 *.pyc
+
+**/.env

@@ -1,8 +1,9 @@
 import pandas as pd
 import requests
+import os
 
 # yy: 2025, #년도
-# semCd: 1, #학기
+# semCd: 1, #학기 (1: 1학기, 2: 2학기)
 # qrySxn: 1, #1: 전공, 2: 교양, 3: 학문기초
 # lesnPlcCd: 1, #1: 죽전캠, 2: 천안캠
 #
@@ -36,8 +37,11 @@ def fetch_and_convert():
             'pfltNm': pfltNm
         }
 
-    yy = '2025'
-    semCd = '1'
+    # 환경 변수에서 년도와 학기 읽기 (기본값: 2025년 1학기)
+    yy = os.getenv('CRAWLER_YEAR')
+    semCd = os.getenv('CRAWLER_SEMESTER')
+    
+    print(f"크롤링 대상: {yy}년 {semCd}학기 (죽전캠퍼스)")
 
     params = [
         create_params(yy, semCd, '1', '', '1', '', '', '', ''),

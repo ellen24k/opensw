@@ -107,9 +107,6 @@ services:
           target: vite.config.js
         - action: rebuild
           path: package*.json
-    networks:
-      dku_net:
-        ipv4_address: 172.22.22.107
     restart: unless-stopped
 
   # 초기화는 호스트에서 직접 ./init-script.sh 명령을 실행하여 수행합니다
